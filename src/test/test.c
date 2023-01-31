@@ -6,13 +6,16 @@
 /*   By: alvjimen <alvjimen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/31 20:04:15 by alvjimen          #+#    #+#             */
-/*   Updated: 2023/01/31 20:09:58 by alvjimen         ###   ########.fr       */
+/*   Updated: 2023/01/31 20:52:00 by alvjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "tokenizer.h"
 
-int	main(void)
+int	main(int argc, char *argv[])
 {
-	ft_tokenizer("hola");
-	return (1);
+
+	if (argc == 1)
+		return (1);
+	ft_tokenizer(argv[1]);
+	return (0);
 }
