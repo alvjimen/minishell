@@ -6,7 +6,7 @@
 /*   By: alvjimen <alvjimen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/31 20:02:32 by alvjimen          #+#    #+#             */
-/*   Updated: 2023/01/31 20:56:50 by alvjimen         ###   ########.fr       */
+/*   Updated: 2023/02/01 18:10:53 by alvjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "tokenizer.h"
@@ -32,12 +32,12 @@ void	ft_tokenizer(char *str)
 		else if (str[pos] == '|' && str[pos + 1] == '|')
 		{
 			write(1, "OR\n", 3);
-			/*pos++;*/
+			pos++;
 		}
 		else if (str[pos] == '&' && str[pos + 1] == '&')
 		{
 			write(1, "AND\n", 4);
-			/*pos++;*/
+			pos++;
 		}
 		else if (str[pos] == '|')
 			write(1, "PIPE\n", 5);
@@ -46,7 +46,7 @@ void	ft_tokenizer(char *str)
 		else if (str[pos] == '>' && str[pos + 1] == '>')
 		{
 			write(1, "2GT\n", 4);
-			/*pos++;*/
+			pos++;
 		}
 		else if (str[pos] == '>')
 			write(1, "GT\n", 3);
