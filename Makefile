@@ -6,7 +6,7 @@
 #    By: alvjimen <alvjimen@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/01/31 19:37:18 by alvjimen          #+#    #+#              #
-#    Updated: 2023/02/01 18:10:11 by alvjimen         ###   ########.fr        #
+#    Updated: 2023/02/03 18:58:58 by alvjimen         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -40,27 +40,37 @@ RM					:=	rm -rf
 DIR_DUP				=	mkdir -p $(@D)
 
 # INGREDIENTS
-SRC-TKN				:=	ft_tokenizer\
+SRC-LXR				:=	ft_tokenizer\
+
+SRC-LIB_ADD			:=	ft_split\
+						ft_strnstr\
+						ft_calloc\
+						ft_strdup\
+						ft_strlen\
+						ft_substr\
 
 DIR-SRC				:=	./src/
-DIR-TKN				:=	tkn/
+DIR-LXR				:=	lxr/
+DIR-LIB_ADD			:=	lib_add/
 DIR-TST				:=	test/
 
-SRC-TKN				:=	$(SRC-TKN:%=$(DIR-TKN)%)
+SRC-LXR				:=	$(SRC-LXR:%=$(DIR-LXR)%)
+SRC-LIB_ADD			:=	$(SRC-LIB_ADD:%=$(DIR-LIB_ADD)%)
 
-SRC					:=	$(SRC-TKN)
+SRC					:=	$(SRC-LXR) $(SRC-LIB_ADD)
 
 INC					:=	./include/
 BUILD-DIR			:=	./.build/
 CC					:=	clang
-CFLAGS				:=	-Wall -Werror -Wextra -g3 -std=c89 -pedantic \
-	-fsanitize=undefined -fsanitize=address -O2
+CFLAGS				:=	-Wall -Werror -Wextra -g3 -std=c89 -pedantic -fsanitize=undefined -fsanitize=address -O2
 BUILD				:=	$(addprefix $(BUILD-DIR), $(addsuffix .o, $(SRC)))
 DEPS				:=	$(BUILD:.o=.d)
 PPFLAGS				:=	-MMD -MP -I $(INC) -I $(INCS)
-#LDFLAGS				:=	-L $(LIBFT-DIR)
+#LDFLAGS			:=	-L $(LIBFT-DIR)
 #LDLIBS				:=	-lft
-END-RULE				=	@echo "$(CSI)$(BLINK)$(END)🎉🎊$(CSI)$(UNBLINK)$(END)$(CSI)$(FOREGROUND)$(GREEN)$(END) $@ $(CSI)$(END)$(CSI)$(BLINK)$(END)🎊$(CSI)$(UNBLINK)$(END)"
+END-RULE				=	@echo "$(CSI)$(BLINK)$(END)🎉🎊$(CSI)$(UNBLINK)$(END)\
+	$(CSI)$(FOREGROUND)$(GREEN)$(END) $@ $(CSI)$(END)$(CSI)$(BLINK)$(END)🎊\
+	$(CSI)$(UNBLINK)$(END)"
 
 all:	$(NAME)
 
@@ -86,6 +96,8 @@ re:	fclean	all
 test:	$(NAME)
 	$(CC) $(CFLAGS) -o test -I $(INC) src/test/test.c $(NAME) 
 
+debug:
+	clang -MMD -MP -I ./include/ -I  -Wall -Werror -Wextra -g3 -std=c89 -pedantic -fsanitize=undefined -fsanitize=address -O2  -c src/lib_add/ft_strnstr.c -o .build/lib_add/ft_strnstr.
 info-%:
 	@$(MAKE) --dry-run --always-make $* | grep -v "info"
 
