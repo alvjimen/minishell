@@ -37,7 +37,7 @@ static size_t	ft_count_index(const char *s, char *delim)
 	return (index);
 }
 
-static size_t	ft_get_string_size(const char *s, char *delim, size_t nbr )
+static size_t	ft_get_string_size(const char *s, char *delim, size_t nbr)
 {
 	size_t	size;
 	size_t	len_delim;
@@ -46,10 +46,11 @@ static size_t	ft_get_string_size(const char *s, char *delim, size_t nbr )
 	if (!delim)
 		return (0);
 	len_delim = ft_strlen(delim);
-	while (s && s[size])
+	while (s && s[nbr])
 	{
-		if (ft_strnstr(&s[size], delim, ft_strlen(delim)))
+		if (ft_strnstr(&s[nbr], delim, ft_strlen(delim)))
 			return (size);
+		nbr++;
 		size++;
 	}
 	return (size);
@@ -80,16 +81,16 @@ char	**ft_split_chars(char const *s, char *delim)
 	if (!s)
 		return (NULL);
 	index = -1;
-	index_len = ft_count_index(s, c);
+	index_len = ft_count_index(s, delim);
 	count = 0;
 	words = (char **)ft_calloc(sizeof(char *), index_len + 1);
 	if (!words)
 		return (NULL);
 	while (++index < index_len)
 	{
-		while (s[count] == c)
-			count++;
-		wordsize = ft_get_string_size(s, c, count);
+		while (ft_strnstr(&s[count], delim, ft_strlen(delim)))
+			count+= ft_strlen(delim);
+		wordsize = ft_get_string_size(s, delim, count);
 		words[index] = ft_substr(s, count, wordsize);
 		if (words[index] == NULL)
 			return (ft_clear_words(words, index_len));

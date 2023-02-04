@@ -48,6 +48,7 @@ SRC-LIB_ADD			:=	ft_split\
 						ft_strdup\
 						ft_strlen\
 						ft_substr\
+						ft_split_chars\
 
 DIR-SRC				:=	./src/
 DIR-LXR				:=	lxr/
