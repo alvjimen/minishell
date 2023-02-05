@@ -40,7 +40,8 @@ RM					:=	rm -rf
 DIR_DUP				=	mkdir -p $(@D)
 
 # INGREDIENTS
-SRC-LXR				:=	ft_tokenizer\
+SRC-LXR				:=	ft_lexer\
+						ft_init_tkn\
 
 SRC-LIB_ADD			:=	ft_split\
 						ft_strnstr\
@@ -48,7 +49,9 @@ SRC-LIB_ADD			:=	ft_split\
 						ft_strdup\
 						ft_strlen\
 						ft_substr\
+						ft_memcpy\
 						ft_split_chars\
+						ft_is_space\
 
 DIR-SRC				:=	./src/
 DIR-LXR				:=	lxr/
@@ -63,7 +66,7 @@ SRC					:=	$(SRC-LXR) $(SRC-LIB_ADD)
 INC					:=	./include/
 BUILD-DIR			:=	./.build/
 CC					:=	clang
-CFLAGS				:=	-Wall -Werror -Wextra -g3 -std=c89 -pedantic -fsanitize=undefined -fsanitize=address -O2
+CFLAGS				:=	-Wall -Werror -Wextra -g3 -std=c89 -pedantic -fsanitize=undefined -fsanitize=address #-O2
 BUILD				:=	$(addprefix $(BUILD-DIR), $(addsuffix .o, $(SRC)))
 DEPS				:=	$(BUILD:.o=.d)
 PPFLAGS				:=	-MMD -MP -I $(INC) -I $(INCS)
@@ -97,8 +100,6 @@ re:	fclean	all
 test:	$(NAME)
 	$(CC) $(CFLAGS) -o test -I $(INC) src/test/test.c $(NAME) 
 
-debug:
-	clang -MMD -MP -I ./include/ -I  -Wall -Werror -Wextra -g3 -std=c89 -pedantic -fsanitize=undefined -fsanitize=address -O2  -c src/lib_add/ft_strnstr.c -o .build/lib_add/ft_strnstr.
 info-%:
 	@$(MAKE) --dry-run --always-make $* | grep -v "info"
 
