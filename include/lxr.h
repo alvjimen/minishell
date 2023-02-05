@@ -37,6 +37,9 @@ typedef struct s_tkn
 	t_token			type;
 	unsigned int	paren;
 	unsigned int	brace;
+	unsigned int	quote: 1;
+	unsigned int	dquote: 1;
+	unsigned int	par: 1;
 }	t_tkn;
 
 typedef struct s_lxr
@@ -50,4 +53,5 @@ t_lxr	*init_lxr(char *s);
 t_tkn	*ft_get_tkn_id(t_lxr *lexer);
 t_tkn	*ft_get_tkn_arg(t_lxr *lexer);
 t_tkn	*ft_get_token(t_lxr *lexer);
+t_tkn	*ft_get_tkn_dquotes(t_lxr *lexer);
 #endif

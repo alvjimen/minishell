@@ -40,6 +40,15 @@ int	main(int argc, char *argv[])
 	printf("the arg is: %s\n", tkn->value);
 	free(tkn->value);
 	free(tkn);
+	tkn = ft_get_tkn_dquotes(lxr);
+	if (!tkn)
+	{
+		free(lxr);
+		return (3);
+	}
+	printf("the double quote is: %s\n", tkn->value);
+	free(tkn->value);
+	free(tkn);
 	free(lxr);
 	return (0);
 }
