@@ -2,6 +2,8 @@
 # define LXR_H
 #include <string.h>
 #include <cmn.h>
+#include <readline/history.h>
+#include <readline/readline.h>
 
 typedef enum e_token
 {
