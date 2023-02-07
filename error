@@ -1,1 +1,2 @@
 (echo "hola" && (echo "que tal" || echo "adios");)
+> error cat
