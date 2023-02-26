@@ -31,8 +31,31 @@ typedef enum e_token
 	TOKEN_SEMICOLONS,
 	TOKEN_ARG
 }	t_token;
-/*SEMICOLONS == ';'*/
 
+typedef enum e_tokens
+{
+	WORD,
+	ASSIGNMENT_WORD,
+	NAME,
+	NEWLINE
+	IO_NUMBER
+}	t_tokens;
+
+typedef enum e_operators
+{
+	INITIAL_STATE,
+	AND_IF,
+	OR_IF,
+	DLESS,
+	DGREAT,
+	LESSAND,
+	GREATAND,
+	LESSGREAT,
+	DLESSDASH,
+	CLOBBER,
+	LBRACE,
+	RBRACE,
+}	t_operators;
 typedef struct s_tkn
 {
 	char			*value;

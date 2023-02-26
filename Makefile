@@ -6,7 +6,7 @@
 #    By: alvjimen <alvjimen@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/01/31 19:37:18 by alvjimen          #+#    #+#              #
-#    Updated: 2023/02/07 20:00:00 by alvjimen         ###   ########.fr        #
+#    Updated: 2023/02/26 10:34:47 by alvjimen         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -98,7 +98,7 @@ re:	fclean	all
 
 
 test:	$(NAME)
-	$(CC) $(CFLAGS) -o test -I $(INC) -lreadline src/test/test.c $(NAME) 
+	@$(CC) $(CFLAGS) -o test -I $(INC) -lreadline src/test/test.c $(NAME) 
 
 info-%:
 	@$(MAKE) --dry-run --always-make $* | grep -v "info"
