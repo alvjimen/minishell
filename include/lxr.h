@@ -37,9 +37,17 @@ typedef enum e_tokens
 	WORD,
 	ASSIGNMENT_WORD,
 	NAME,
-	NEWLINE
+	NEWLINE,
 	IO_NUMBER
 }	t_tokens;
+
+typedef	enum e_quotes
+{
+	INITIAL_STATE,
+	DQUOTES,
+	SQUOTES,
+	BQUOTES
+}t_quotes;
 
 typedef enum e_operators
 {
@@ -55,16 +63,20 @@ typedef enum e_operators
 	CLOBBER,
 	LBRACE,
 	RBRACE,
+	LPAREN,
+	RPAREN
 }	t_operators;
+
 typedef struct s_tkn
 {
 	char			*value;
 	t_token			type;
-	unsigned int	paren;
-	unsigned int	brace;
-	unsigned int	quote: 1;
-	unsigned int	dquote: 1;
-	unsigned int	par: 1;
+	t_operators		operators;
+	t_tokens		token_s;
+	t_quotes		quotes;
+	unsigned int	o_quotes;
+	unsigned int	o_paren;
+	unsigned int	o_brace;
 }	t_tkn;
 
 typedef struct s_lxr
@@ -73,10 +85,4 @@ typedef struct s_lxr
 	size_t	pos;
 }	t_lxr;
 
-t_tkn	*init_tkn(char *s, int type, unsigned int paren, unsigned int brace);
-t_lxr	*init_lxr(char *s);
-t_tkn	*ft_get_tkn_id(t_lxr *lexer);
-t_tkn	*ft_get_tkn_arg(t_lxr *lexer);
-t_tkn	*ft_get_token(t_lxr *lexer);
-t_tkn	*ft_get_tkn_dquotes(t_lxr *lexer);
 #endif

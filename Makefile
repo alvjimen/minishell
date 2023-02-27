@@ -6,7 +6,7 @@
 #    By: alvjimen <alvjimen@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/01/31 19:37:18 by alvjimen          #+#    #+#              #
-#    Updated: 2023/02/26 10:34:47 by alvjimen         ###   ########.fr        #
+#    Updated: 2023/02/27 17:48:54 by alvjimen         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -52,16 +52,29 @@ SRC-LIB_ADD			:=	ft_split\
 						ft_memcpy\
 						ft_split_chars\
 						ft_is_space\
+						
+SRC-TST				:=	test.c
+
+SRC-BTREE			:=	ft_btree_apply_by_level\
+						ft_btree_apply_infix\
+						ft_btree_apply_suffix\
+						ft_btree_apply_prefix\
+						ft_btree_insert_data\
+						ft_btree_new_node\
+						ft_btree_level_count\
 
 DIR-SRC				:=	./src/
 DIR-LXR				:=	lxr/
 DIR-LIB_ADD			:=	lib_add/
 DIR-TST				:=	test/
+DIR-BTREE			:=	btree/
 
 SRC-LXR				:=	$(SRC-LXR:%=$(DIR-LXR)%)
 SRC-LIB_ADD			:=	$(SRC-LIB_ADD:%=$(DIR-LIB_ADD)%)
+SRC-TST				:=	$(SRC-TST:%=$(DIR-TST)%)
+SRC-BTREE			:=	$(SRC-BTREE:%=$(DIR-BTREE)%)
 
-SRC					:=	$(SRC-LXR) $(SRC-LIB_ADD)
+SRC					:=	$(SRC-LXR) $(SRC-LIB_ADD) $(SRC-BTREE)
 
 INC					:=	./include/
 BUILD-DIR			:=	./.build/
