@@ -6,15 +6,16 @@
 /*   By: alvjimen <alvjimen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/01 19:00:50 by alvjimen          #+#    #+#             */
-/*   Updated: 2023/03/01 19:51:56 by alvjimen         ###   ########.fr       */
+/*   Updated: 2023/03/01 20:11:23 by alvjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "lxr.h"
 /*
-TODO return Status
-	1	Empty value.
-	O	ALL OK.
-	-1	Ignored TOKEN.
+TODO return value Status
+	1		Empty value.
+	O		ALL OK.
+	-1		Ignored TOKEN.
+	-255	Unexpeted Value.
 */
 
 static int	ft_valid_char(char ch)
@@ -32,6 +33,20 @@ int	ft_valid_name(t_lxr *lxr, size_t *counter)
 	return (0);
 }
 
+int	ft_empty_name(t_lxr *lxr, size_t counter)
+{
+	printf("Token %s:\n", "Empty Value of var");
+	lxr->pos += counter;
+	return (1);
+}
+
+int	ft_ignored_name(t_lxr *lxr, size_t counter)
+{
+	printf("Token %s:\n", "Ignored token");
+	lxr->pos += counter;
+	return (-1);
+}
+
 int	ft_token_name(t_lxr	*lxr)
 {
 	size_t	counter;
@@ -43,68 +58,35 @@ int	ft_token_name(t_lxr	*lxr)
 			counter++;
 		if (lxr->str[lxr->pos + counter] == '\n'
 			|| !lxr->str[lxr->pos + counter])
-		{
 			return (ft_valid_name(lxr, &counter));
-			/*
-			lxr->tokens.token_s = NAME;
-			printf("Token %s:\n", "VALUE OF VAR");
-			write(1, &lxr->str[lxr->pos], ++counter);
-			write(1, "\n", 1);
-			lxr->pos += counter;
-			return (0);
-			*/
-		}
 		else if (lxr->str[lxr->pos + counter] == ' ')
 		{
 			while (lxr->str[lxr->pos + counter] == ' ')
 				counter++;
 			if (lxr->str[lxr->pos + counter] == '\n'
-				|| lxr->str[lxr->pos + counter] == '\0')
-			{
-				lxr->tokens.token_s = NAME;
-				printf("Token %s:\n", "VALUE OF VAR");
-				write(1, &lxr->str[lxr->pos], ++counter);
-				write(1, "\n", 1);
-				lxr->pos += counter;
-				return (0);
-			}
+				|| !lxr->str[lxr->pos + counter])
+				return (ft_valid_name(lxr, &counter));
 			else
-			{
-				printf("Token %s:\n", "Ignored token");
-				lxr->pos += counter;
-				return (-1);
-			}
+				return (ft_ignored_name(lxr, counter));
 		}
 		else
 		{
 			printf("Unexpected value\n");
-			return (-1);
+			return (-255);
 		}
 	}
 	else if (lxr->str[lxr->pos] == '\n' || !lxr->str[lxr->pos])
-	{
-		printf("Token %s:\n", "Empty Value of var");
-		lxr->pos += counter;
-		return (1);
-	}
+		return (ft_empty_name(lxr, counter));
 	else if (lxr->str[lxr->pos] == ' ')
 	{
 		while (lxr->str[lxr->pos + counter] == ' ')
 			counter++;
 		if (lxr->str[lxr->pos + counter] == '\n'
 			|| lxr->str[lxr->pos + counter] == '\0')
-		{
-			printf("Token %s:\n", "Empty Value of var");
-			lxr->pos += counter;
-			return (1);
-		}
+			return (ft_empty_name(lxr, counter));
 		else
-		{
-			lxr->pos += counter;
-			printf("Token %s:\n", "Ignored token");
-			return (-1);
-		}
-		return (1);
+			return (ft_ignored_name(lxr, counter));
+		return (-255);
 	}
-	return (0);
+	return (-255);
 }
