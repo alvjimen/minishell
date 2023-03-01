@@ -6,7 +6,7 @@
 /*   By: alvjimen <alvjimen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/01 11:44:49 by alvjimen          #+#    #+#             */
-/*   Updated: 2023/03/01 19:01:26 by alvjimen         ###   ########.fr       */
+/*   Updated: 2023/03/01 19:20:13 by alvjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "lxr.h"
@@ -15,7 +15,7 @@
 	Maybe i should take off also the spaces for now on.
 */
 
-static	int	ft_valid_char(int (*f)(char), char ch)
+static	int	ft_valid_char(int (*f)(int), int ch)
 {
 	return (f(ch) || ch == '_');
 }

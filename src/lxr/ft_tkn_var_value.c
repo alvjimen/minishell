@@ -6,7 +6,7 @@
 /*   By: alvjimen <alvjimen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/01 19:00:50 by alvjimen          #+#    #+#             */
-/*   Updated: 2023/03/01 19:08:26 by alvjimen         ###   ########.fr       */
+/*   Updated: 2023/03/01 19:40:05 by alvjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "lxr.h"
@@ -17,18 +17,18 @@ TODO return Status
 	-1	Ignored TOKEN.
 */
 
-int	ft_valid_char(char ch)
+static int	ft_valid_char(char ch)
 {
-	return (ch || ch != '\n' || ch != ' ');
+	return (ch && ch != '\n' && ch != ' ');
 }
 
 int	ft_valid_name(t_lxr *lxr, size_t *counter)
 {
 	lxr->tokens.token_s = NAME;
 	printf("Token %s:\n", "VALUE OF VAR");
-	write(1, &lxr->str[lxr->pos], ++counter);
+	write(1, &lxr->str[lxr->pos], ++counter[0]);
 	write(1, "\n", 1);
-	lxr->pos += counter;
+	lxr->pos += *counter;
 	return (0);
 }
 
@@ -37,9 +37,9 @@ int	ft_token_name(t_lxr	*lxr)
 	size_t	counter;
 
 	counter = 0;
-	if (lxr->str[lxr->pos] != ' ' && lxr->str[lxr->pos])
+	if (lxr->str[lxr->pos] != ' ' && lxr->str[lxr->pos] != '\n' && lxr->str[lxr->pos])
 	{
-		while (ft_valid_char(lxr->str[lxr->pos + counter]))
+		while (lxr->str[lxr->pos + counter] && lxr->str[lxr->pos + counter] != '\n' && lxr->str[lxr->pos + counter] != ' ')
 			counter++;
 		if (lxr->str[lxr->pos + counter] == '\n' || !lxr->str[lxr->pos + counter])
 		{

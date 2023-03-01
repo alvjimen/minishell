@@ -6,7 +6,7 @@
 #    By: alvjimen <alvjimen@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/01/31 19:37:18 by alvjimen          #+#    #+#              #
-#    Updated: 2023/03/01 16:50:01 by alvjimen         ###   ########.fr        #
+#    Updated: 2023/03/01 19:21:14 by alvjimen         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -43,6 +43,7 @@ DIR_DUP				=	mkdir -p $(@D)
 SRC-LXR				:=	ft_lexer\
 						ft_init_tkn\
 						ft_tkn_var_name\
+						ft_tkn_var_value\
 
 SRC-LIB_ADD			:=	ft_split\
 						ft_strnstr\
