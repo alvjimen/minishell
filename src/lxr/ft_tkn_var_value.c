@@ -6,7 +6,7 @@
 /*   By: alvjimen <alvjimen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/01 19:00:50 by alvjimen          #+#    #+#             */
-/*   Updated: 2023/03/01 19:40:05 by alvjimen         ###   ########.fr       */
+/*   Updated: 2023/03/01 19:48:39 by alvjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "lxr.h"
@@ -37,11 +37,14 @@ int	ft_token_name(t_lxr	*lxr)
 	size_t	counter;
 
 	counter = 0;
-	if (lxr->str[lxr->pos] != ' ' && lxr->str[lxr->pos] != '\n' && lxr->str[lxr->pos])
+	if (ft_valid_char(lxr->str[lxr->pos]))
 	{
-		while (lxr->str[lxr->pos + counter] && lxr->str[lxr->pos + counter] != '\n' && lxr->str[lxr->pos + counter] != ' ')
+		while (lxr->str[lxr->pos + counter]
+			&& lxr->str[lxr->pos + counter] != '\n'
+			&& lxr->str[lxr->pos + counter] != ' ')
 			counter++;
-		if (lxr->str[lxr->pos + counter] == '\n' || !lxr->str[lxr->pos + counter])
+		if (lxr->str[lxr->pos + counter] == '\n'
+			|| !lxr->str[lxr->pos + counter])
 		{
 			lxr->tokens.token_s = NAME;
 			printf("Token %s:\n", "VALUE OF VAR");
@@ -82,7 +85,7 @@ int	ft_token_name(t_lxr	*lxr)
 		printf("Token %s:\n", "Empty Value of var");
 		lxr->pos += counter;
 		return (1);
-	} 
+	}
 	else if (lxr->str[lxr->pos] == ' ')
 	{
 		while (lxr->str[lxr->pos + counter] == ' ')

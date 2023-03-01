@@ -6,7 +6,7 @@
 /*   By: alvjimen <alvjimen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/28 18:46:16 by alvjimen          #+#    #+#             */
-/*   Updated: 2023/02/28 18:55:42 by alvjimen         ###   ########.fr       */
+/*   Updated: 2023/03/01 19:46:00 by alvjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "lxr.h"
@@ -26,7 +26,7 @@ void	ft_token_pipe(t_lxr	*lxr)
 	}
 }
 
-void	ft_token_AND(t_lxr	*lxr)
+void	ft_token_and(t_lxr	*lxr)
 {
 	if (lxr->str[lxr->pos] == '&')
 	{

@@ -6,7 +6,7 @@
 /*   By: alvjimen <alvjimen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/28 18:09:54 by alvjimen          #+#    #+#             */
-/*   Updated: 2023/03/01 11:31:33 by alvjimen         ###   ########.fr       */
+/*   Updated: 2023/03/01 19:46:41 by alvjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "lxr.h"
@@ -23,4 +23,3 @@ t_lxr	*ft_init_lxr(char *s)
 	lxr->str = s;
 	return (lxr);
 }
-

@@ -6,7 +6,7 @@
 /*   By: alvjimen <alvjimen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/28 18:34:26 by alvjimen          #+#    #+#             */
-/*   Updated: 2023/03/01 11:44:38 by alvjimen         ###   ########.fr       */
+/*   Updated: 2023/03/01 19:44:15 by alvjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "lxr.h"
@@ -28,7 +28,7 @@ void	ft_token_lparen(t_lxr *lxr)
 
 void	ft_token_rparen(t_lxr *lxr)
 {
-	if (lxr->str[lxr->pos] == ')' && tokens->quotes & DQUOTES | I_STATE))
+	if (lxr->str[lxr->pos] == ')' && tokens->quotes & DQUOTES | I_STATE)
 	{
 		if (lxr->str[lxr->pos + 1] == ')' && tokens->quotes & DQUOTES | I_STATE)
 		{
