@@ -6,7 +6,7 @@
 /*   By: alvjimen <alvjimen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/30 17:53:02 by alvjimen          #+#    #+#             */
-/*   Updated: 2023/01/30 17:53:04 by alvjimen         ###   ########.fr       */
+/*   Updated: 2023/03/01 19:00:06 by alvjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,16 +14,16 @@
 # define STR_H
 # include "string.h"
 
+int		ft_is_plus_or_minus(char chr1, char chr2);
+int		ft_is_space(char chr);
+int		ft_is_str_uniq(char *str);
+int		ft_is_str_uniq_exclude_rule(char *str, int (*rule)(char, char));
 int		ft_isalpha(int n);
 size_t	ft_strlen(const char *str);
 int		ft_isdigit(int n);
 int		ft_isalnum(int n);
 int		ft_isascii(int n);
 int		ft_isprint(int n);
-int		ft_is_plus_or_minus(char chr1, char chr2);
-int		ft_is_space(char chr);
-int		ft_is_str_uniq(char *str);
-int		ft_is_str_uniq_exclude_rule(char *str, int (*rule)(char, char));
 size_t	ft_strlcat(char *dst, const char *src, size_t dstsize);
 size_t	ft_strlcpy(char *dst, const char *src, size_t dstsize);
 int		ft_atoi(const char *str);

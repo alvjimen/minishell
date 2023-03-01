@@ -1,21 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_btree_apply_infix.c                             :+:      :+:    :+:   */
+/*   ft_tkn_brace.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: alvjimen <alvjimen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/02/24 13:17:56 by alvjimen          #+#    #+#             */
-/*   Updated: 2023/02/28 18:39:22 by alvjimen         ###   ########.fr       */
+/*   Created: 2023/03/01 11:31:17 by alvjimen          #+#    #+#             */
+/*   Updated: 2023/03/01 11:31:24 by alvjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-#include "btree.h"
+#include "lxr.h"
 
-void	ft_btree_apply_infix(t_btree *root, void (*applyf)(void *))
+void	ft_token_lbrace(t_lxr	*lxr)
 {
-	if (!root)
-		return ;
-	applyf(root->content);
-	ft_btree_apply_infix(root->left, applyf);
-	ft_btree_apply_infix(root->right, applyf);
+	if (lxr->str[lxr->pos] == '{')
+	{
+		printf("Close Parentesis find\n");
+		lxr->pos++;
+	}
+}
+
+void	ft_token_rbrace(t_lxr	*lxr)
+{
+	if (lxr->str[lxr->pos] == '}')
+	{
+		printf("Close Parentesis find\n");
+		lxr->pos++;
+	}
 }

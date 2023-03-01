@@ -1,21 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_btree_apply_infix.c                             :+:      :+:    :+:   */
+/*   ft_isalpha.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alvjimen <alvjimen@student.42.fr>          +#+  +:+       +#+        */
+/*   By: alvjimen <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/02/24 13:17:56 by alvjimen          #+#    #+#             */
-/*   Updated: 2023/02/28 18:39:22 by alvjimen         ###   ########.fr       */
+/*   Created: 2022/06/14 15:50:52 by alvjimen          #+#    #+#             */
+/*   Updated: 2023/03/01 12:40:26 by alvjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-#include "btree.h"
 
-void	ft_btree_apply_infix(t_btree *root, void (*applyf)(void *))
+#include "libft.h"
+
+int	ft_isalpha(int n)
 {
-	if (!root)
-		return ;
-	applyf(root->content);
-	ft_btree_apply_infix(root->left, applyf);
-	ft_btree_apply_infix(root->right, applyf);
+	return (((n >= 65 && n <= 90) || (n >= 97 && n <= 122)));
 }

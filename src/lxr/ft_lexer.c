@@ -1,8 +1,19 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_lexer.c                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: alvjimen <alvjimen@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/02/28 18:09:54 by alvjimen          #+#    #+#             */
+/*   Updated: 2023/03/01 11:31:33 by alvjimen         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 #include "lxr.h"
 #include "str.h"
 #include "cmn.h"
 
-t_lxr	*init_lxr(char *s)
+t_lxr	*ft_init_lxr(char *s)
 {
 	t_lxr	*lxr;
 
@@ -13,38 +24,3 @@ t_lxr	*init_lxr(char *s)
 	return (lxr);
 }
 
-void	ft_token_bquotes(t_lxr *lxr)
-{
-	if (lxr->str[lxr->pos] == '`')
-	{
-		printf("\` finded\n");
-		lxr->pos ++;
-	}
-}
-
-void	ft_token_squotes(t_lxr *lxr)
-{
-	if (lxr->str[lxr->pos] == '\'')
-	{
-		printf("' finded\n");
-		lxr->pos ++;
-	}
-}
-
-void	ft_token_dquotes(t_lxr *lxr)
-{
-	if (lxr->str[lxr->pos] == '"')
-	{
-		printf("\" finded\n");
-		lxr->pos ++;
-	}
-}
-
-void	ft_token_new_line(t_lxr *lxr)
-{
-	if (lxr->str[lxr->pos] == '\n')
-	{
-		printf("New line find\n");
-		lxr->pos ++;
-	}
-}

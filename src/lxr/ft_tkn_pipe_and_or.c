@@ -1,33 +1,42 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   test.c                                             :+:      :+:    :+:   */
+/*   ft_tkn_pipe_and_or.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: alvjimen <alvjimen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/01/31 20:04:15 by alvjimen          #+#    #+#             */
-/*   Updated: 2023/03/01 13:01:35 by alvjimen         ###   ########.fr       */
+/*   Created: 2023/02/28 18:46:16 by alvjimen          #+#    #+#             */
+/*   Updated: 2023/02/28 18:55:42 by alvjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "lxr.h"
-#include <stdio.h>
 
-int	main(void)
+void	ft_token_pipe(t_lxr	*lxr)
 {
-	char	*str;
-	t_lxr	*lxr;
-
-	lxr = NULL;
-	while (1)
+	if (lxr->str[lxr->pos] == '|')
 	{
-		str = readline("> ");
-		if (!str)
-			return (1);
-		lxr = ft_init_lxr(str);
-	/*	while (lxr->str[lxr->pos])*/
-		ft_token_varname(lxr);
-		free(str);
-		free(lxr);
+		if (lxr->str[lxr->pos + 1] == '|')
+		{
+			printf("OR Finded");
+			lxr->pos++;
+		}
+		else
+			printf("Pipe Finded");
+		lxr->pos ++;
 	}
-	return (0);
+}
+
+void	ft_token_AND(t_lxr	*lxr)
+{
+	if (lxr->str[lxr->pos] == '&')
+	{
+		if (lxr->str[lxr->pos + 1] == '&')
+		{
+			printf("AND Finded");
+			lxr->pos++;
+		}
+		else
+			printf("AMPERSAND Finded");
+		lxr->pos ++;
+	}
 }

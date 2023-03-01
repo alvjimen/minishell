@@ -1,21 +1,39 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_btree_apply_infix.c                             :+:      :+:    :+:   */
+/*   ft_tkn_quotes.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: alvjimen <alvjimen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/02/24 13:17:56 by alvjimen          #+#    #+#             */
-/*   Updated: 2023/02/28 18:39:22 by alvjimen         ###   ########.fr       */
+/*   Created: 2023/02/28 18:10:37 by alvjimen          #+#    #+#             */
+/*   Updated: 2023/02/28 18:35:34 by alvjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-#include "btree.h"
+#include "lxr.h"
 
-void	ft_btree_apply_infix(t_btree *root, void (*applyf)(void *))
+void	ft_token_bquotes(t_lxr *lxr)
 {
-	if (!root)
-		return ;
-	applyf(root->content);
-	ft_btree_apply_infix(root->left, applyf);
-	ft_btree_apply_infix(root->right, applyf);
+	if (lxr->str[lxr->pos] == '`')
+	{
+		printf("` finded\n");
+		lxr->pos++;
+	}
+}
+
+void	ft_token_squotes(t_lxr *lxr)
+{
+	if (lxr->str[lxr->pos] == '\'')
+	{
+		printf("' finded\n");
+		lxr->pos++;
+	}
+}
+
+void	ft_token_dquotes(t_lxr *lxr)
+{
+	if (lxr->str[lxr->pos] == '"')
+	{
+		printf("\" finded\n");
+		lxr->pos++;
+	}
 }

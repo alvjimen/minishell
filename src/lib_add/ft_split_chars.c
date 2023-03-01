@@ -6,7 +6,7 @@
 /*   By: alvjimen <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/03 18:59:48 by alvjimen          #+#    #+#             */
-/*   Updated: 2023/02/03 19:24:19 by alvjimen         ###   ########.fr       */
+/*   Updated: 2023/02/28 18:08:30 by alvjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "libft.h"
@@ -89,7 +89,7 @@ char	**ft_split_chars(char const *s, char *delim)
 	while (++index < index_len)
 	{
 		while (ft_strnstr(&s[count], delim, ft_strlen(delim)))
-			count+= ft_strlen(delim);
+			count += ft_strlen(delim);
 		wordsize = ft_get_string_size(s, delim, count);
 		words[index] = ft_substr(s, count, wordsize);
 		if (words[index] == NULL)

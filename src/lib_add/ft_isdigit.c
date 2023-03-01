@@ -1,21 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_btree_apply_infix.c                             :+:      :+:    :+:   */
+/*   ft_isdigit.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alvjimen <alvjimen@student.42.fr>          +#+  +:+       +#+        */
+/*   By: alvjimen <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/02/24 13:17:56 by alvjimen          #+#    #+#             */
-/*   Updated: 2023/02/28 18:39:22 by alvjimen         ###   ########.fr       */
+/*   Created: 2022/06/14 16:53:48 by alvjimen          #+#    #+#             */
+/*   Updated: 2023/02/28 17:57:34 by alvjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-#include "btree.h"
 
-void	ft_btree_apply_infix(t_btree *root, void (*applyf)(void *))
+#include "libft.h"
+
+int	ft_isdigit(int n)
 {
-	if (!root)
-		return ;
-	applyf(root->content);
-	ft_btree_apply_infix(root->left, applyf);
-	ft_btree_apply_infix(root->right, applyf);
+	if (n >= 48 && n <= 57)
+		return (1);
+	return (0);
 }

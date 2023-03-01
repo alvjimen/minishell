@@ -6,7 +6,7 @@
 #    By: alvjimen <alvjimen@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/01/31 19:37:18 by alvjimen          #+#    #+#              #
-#    Updated: 2023/02/27 17:48:54 by alvjimen         ###   ########.fr        #
+#    Updated: 2023/03/01 16:50:01 by alvjimen         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -42,6 +42,7 @@ DIR_DUP				=	mkdir -p $(@D)
 # INGREDIENTS
 SRC-LXR				:=	ft_lexer\
 						ft_init_tkn\
+						ft_tkn_var_name\
 
 SRC-LIB_ADD			:=	ft_split\
 						ft_strnstr\
@@ -52,8 +53,15 @@ SRC-LIB_ADD			:=	ft_split\
 						ft_memcpy\
 						ft_split_chars\
 						ft_is_space\
+						ft_isdigit\
+						ft_isalpha\
+						ft_isalnum\
+						ft_substr\
+						ft_strlen\
+						ft_strdup\
+						ft_memcpy\
 						
-SRC-TST				:=	test.c
+SRC-TST				:=	test
 
 SRC-BTREE			:=	ft_btree_apply_by_level\
 						ft_btree_apply_infix\
@@ -81,6 +89,7 @@ BUILD-DIR			:=	./.build/
 CC					:=	clang
 CFLAGS				:=	-Wall -Werror -Wextra -g3 -std=c89 -pedantic -fsanitize=undefined -fsanitize=address #-O2
 BUILD				:=	$(addprefix $(BUILD-DIR), $(addsuffix .o, $(SRC)))
+BUILD-TST			:=	$(addprefix $(BUILD-DIR), $(addsuffix .o, $(SRC-TST)))
 DEPS				:=	$(BUILD:.o=.d)
 PPFLAGS				:=	-MMD -MP -I $(INC) -I $(INCS)
 #LDFLAGS			:=	-L $(LIBFT-DIR)
@@ -110,8 +119,8 @@ fclean:
 re:	fclean	all
 
 
-test:	$(NAME)
-	@$(CC) $(CFLAGS) -o test -I $(INC) -lreadline src/test/test.c $(NAME) 
+test:	$(NAME) $(BUILD-TST)
+	@$(CC) $(CFLAGS) -o test -I $(INC) -lreadline $(BUILD-TST) $(NAME) 
 
 info-%:
 	@$(MAKE) --dry-run --always-make $* | grep -v "info"
