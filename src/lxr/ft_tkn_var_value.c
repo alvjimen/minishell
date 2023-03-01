@@ -6,7 +6,7 @@
 /*   By: alvjimen <alvjimen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/01 19:00:50 by alvjimen          #+#    #+#             */
-/*   Updated: 2023/03/01 19:48:39 by alvjimen         ###   ########.fr       */
+/*   Updated: 2023/03/01 19:51:56 by alvjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "lxr.h"
@@ -39,19 +39,20 @@ int	ft_token_name(t_lxr	*lxr)
 	counter = 0;
 	if (ft_valid_char(lxr->str[lxr->pos]))
 	{
-		while (lxr->str[lxr->pos + counter]
-			&& lxr->str[lxr->pos + counter] != '\n'
-			&& lxr->str[lxr->pos + counter] != ' ')
+		while (ft_valid_char(lxr->str[lxr->pos + counter]))
 			counter++;
 		if (lxr->str[lxr->pos + counter] == '\n'
 			|| !lxr->str[lxr->pos + counter])
 		{
+			return (ft_valid_name(lxr, &counter));
+			/*
 			lxr->tokens.token_s = NAME;
 			printf("Token %s:\n", "VALUE OF VAR");
 			write(1, &lxr->str[lxr->pos], ++counter);
 			write(1, "\n", 1);
 			lxr->pos += counter;
 			return (0);
+			*/
 		}
 		else if (lxr->str[lxr->pos + counter] == ' ')
 		{
