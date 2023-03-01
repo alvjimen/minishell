@@ -6,7 +6,7 @@
 /*   By: alvjimen <alvjimen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/01 19:00:50 by alvjimen          #+#    #+#             */
-/*   Updated: 2023/03/01 20:11:23 by alvjimen         ###   ########.fr       */
+/*   Updated: 2023/03/01 20:35:33 by alvjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "lxr.h"
@@ -47,34 +47,37 @@ int	ft_ignored_name(t_lxr *lxr, size_t counter)
 	return (-1);
 }
 
+static int	ft_token_name_first_char_valid(t_lxr *lxr, size_t counter)
+{
+	while (ft_valid_char(lxr->str[lxr->pos + counter]))
+		counter++;
+	if (lxr->str[lxr->pos + counter] == '\n'
+		|| !lxr->str[lxr->pos + counter])
+		return (ft_valid_name(lxr, &counter));
+	else if (lxr->str[lxr->pos + counter] == ' ')
+	{
+		while (lxr->str[lxr->pos + counter] == ' ')
+			counter++;
+		if (lxr->str[lxr->pos + counter] == '\n'
+			|| !lxr->str[lxr->pos + counter])
+			return (ft_valid_name(lxr, &counter));
+		else
+			return (ft_ignored_name(lxr, counter));
+	}
+	else
+	{
+		printf("Unexpected value\n");
+		return (-255);
+	}
+}
+
 int	ft_token_name(t_lxr	*lxr)
 {
 	size_t	counter;
 
 	counter = 0;
 	if (ft_valid_char(lxr->str[lxr->pos]))
-	{
-		while (ft_valid_char(lxr->str[lxr->pos + counter]))
-			counter++;
-		if (lxr->str[lxr->pos + counter] == '\n'
-			|| !lxr->str[lxr->pos + counter])
-			return (ft_valid_name(lxr, &counter));
-		else if (lxr->str[lxr->pos + counter] == ' ')
-		{
-			while (lxr->str[lxr->pos + counter] == ' ')
-				counter++;
-			if (lxr->str[lxr->pos + counter] == '\n'
-				|| !lxr->str[lxr->pos + counter])
-				return (ft_valid_name(lxr, &counter));
-			else
-				return (ft_ignored_name(lxr, counter));
-		}
-		else
-		{
-			printf("Unexpected value\n");
-			return (-255);
-		}
-	}
+		return (ft_token_name_first_char_valid(lxr, counter));
 	else if (lxr->str[lxr->pos] == '\n' || !lxr->str[lxr->pos])
 		return (ft_empty_name(lxr, counter));
 	else if (lxr->str[lxr->pos] == ' ')
