@@ -6,7 +6,7 @@
 /*   By: alvjimen <alvjimen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/28 18:10:37 by alvjimen          #+#    #+#             */
-/*   Updated: 2023/03/02 13:09:39 by alvjimen         ###   ########.fr       */
+/*   Updated: 2023/03/02 18:44:22 by alvjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "lxr.h"
@@ -47,6 +47,7 @@ void	ft_token_squotes(t_lxr *lxr)
 	if (lxr->str[lxr->pos] == '\'')
 	{
 		printf("' finded\n");
+		counter += ft_run_ifs(lxr);
 		while (lxr->str[lxr->pos + counter]
 			&& lxr->str[lxr->pos + counter] != '\''
 			&& lxr->str[lxr->pos + counter] != '\n')
@@ -85,7 +86,8 @@ void	ft_token_dquotes(t_lxr *lxr)
 			write(1, &lxr->str[lxr->pos], ++counter);
 			write(1, "\n", 1);
 		}
-		else
+		else if (lxr->str[lxr->pos] == '\0'
+			|| lxr->str[lxr->pos] == '\n')
 		{
 			printf("Token %s:\n", "Not ended Double Quote");
 			write(1, &lxr->str[lxr->pos], ++counter);

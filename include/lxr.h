@@ -6,7 +6,7 @@
 /*   By: alvjimen <alvjimen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/28 18:36:15 by alvjimen          #+#    #+#             */
-/*   Updated: 2023/03/02 12:11:19 by alvjimen         ###   ########.fr       */
+/*   Updated: 2023/03/02 18:43:29 by alvjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,6 +102,7 @@ typedef struct s_lxr
 	t_tkn	tokens;
 }	t_lxr;
 
+size_t	ft_run_ifs(t_lxr *lxr);
 void	ft_token_varname(t_lxr	*lxr);
 t_lxr	*ft_init_lxr(char *s);
 void	ft_token_lower(t_lxr *lxr);

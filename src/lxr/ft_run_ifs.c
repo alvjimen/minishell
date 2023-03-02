@@ -1,45 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_init_tkn.c                                      :+:      :+:    :+:   */
+/*   ft_run_ifs.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: alvjimen <alvjimen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/02/28 18:09:12 by alvjimen          #+#    #+#             */
-/*   Updated: 2023/03/02 19:26:53 by alvjimen         ###   ########.fr       */
+/*   Created: 2023/03/02 16:48:17 by alvjimen          #+#    #+#             */
+/*   Updated: 2023/03/02 16:51:12 by alvjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 #include "lxr.h"
-/*
-*TOKENS*
-word name newline
-*OPERATORS*
-AND_IF		&&
-OR_IF		||
-DSEM		;;
-DLESS		<<
-DGREAT		>>
-LESSAND		<&
-GREATAND	>&
-LESSGREAT	<>
-DLESSDASH	<<-
-CLOBBER		>|
-*RESERVED WORDS*
-If			if
-Then		then
-Else		else
-Elif		elif
-Fi			fi
-Do			do
-Done		done
-Case		case
-Esac		esac
-While		while
-Until		until
-For			for
-Lbrace		{
-Rbrace		}
-Bang		!
-IN			in
-*/
+
+size_t	ft_run_ifs(t_lxr *lxr)
+{
+	size_t	counter;
+
+	counter = 0;
+	while (lxr->str[lxr->pos + counter] == ' '
+		|| lxr->str[lxr->pos + counter] == '\t')
+		counter++;
+	return (counter);
+}
