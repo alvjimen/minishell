@@ -6,25 +6,40 @@
 /*   By: alvjimen <alvjimen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/31 20:04:15 by alvjimen          #+#    #+#             */
-/*   Updated: 2023/03/01 19:47:08 by alvjimen         ###   ########.fr       */
+/*   Updated: 2023/03/02 13:20:57 by alvjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "lxr.h"
 #include <stdio.h>
 
-int	main(void)
+/*
+	ft_token_varname(lxr);
+*/
+int	main(int argc, char *argv[])
 {
 	char	*str;
 	t_lxr	*lxr;
 
 	lxr = NULL;
+	if (argc >= 3)
+	{
+		if (argv[1][0] == '-' && argv[1][1] == 'c' && argv[1][2] == '\0')
+		{
+			lxr = ft_init_lxr(argv[2]);
+			ft_token_bquotes(lxr);
+			free(lxr);
+			return (0);
+		}
+		else
+			return (-1);
+	}
 	while (1)
 	{
 		str = readline("> ");
 		if (!str)
 			return (1);
 		lxr = ft_init_lxr(str);
-		ft_token_varname(lxr);
+		ft_token_squotes(lxr);
 		free(str);
 		free(lxr);
 	}
