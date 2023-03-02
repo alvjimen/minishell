@@ -6,7 +6,7 @@
 /*   By: alvjimen <alvjimen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/28 18:36:15 by alvjimen          #+#    #+#             */
-/*   Updated: 2023/03/01 19:04:34 by alvjimen         ###   ########.fr       */
+/*   Updated: 2023/03/02 12:11:19 by alvjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,7 +108,7 @@ void	ft_token_lower(t_lxr *lxr);
 void	ft_token_greater(t_lxr *lxr);
 void	ft_token_io_number(t_lxr *lxr);
 void	ft_token_squotes(t_lxr *lxr);
-void	ft_token_squotes(t_lxr *lxr);
+void	ft_token_dquotes(t_lxr *lxr);
 void	ft_token_bquotes(t_lxr *lxr);
 void	ft_token_rparen(t_lxr *lxr);
 void	ft_token_lparen(t_lxr *lxr);
