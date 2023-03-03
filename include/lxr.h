@@ -6,7 +6,7 @@
 /*   By: alvjimen <alvjimen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/28 18:36:15 by alvjimen          #+#    #+#             */
-/*   Updated: 2023/03/02 18:43:29 by alvjimen         ###   ########.fr       */
+/*   Updated: 2023/03/03 14:37:09 by alvjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,14 +103,17 @@ typedef struct s_lxr
 }	t_lxr;
 
 size_t	ft_run_ifs(t_lxr *lxr);
-void	ft_token_varname(t_lxr	*lxr);
+int		ft_char_quotes(char ch);
+int		ft_char_end_string(char ch);
+int		ft_char_ifs(char ch);
+int		ft_token_varname(t_lxr	*lxr);
 t_lxr	*ft_init_lxr(char *s);
 void	ft_token_lower(t_lxr *lxr);
 void	ft_token_greater(t_lxr *lxr);
 void	ft_token_io_number(t_lxr *lxr);
-void	ft_token_squotes(t_lxr *lxr);
-void	ft_token_dquotes(t_lxr *lxr);
-void	ft_token_bquotes(t_lxr *lxr);
+int		ft_token_squotes(t_lxr *lxr, size_t *counter);
+int		ft_token_dquotes(t_lxr *lxr, size_t *counter);
+int		ft_token_bquotes(t_lxr *lxr, size_t *counter);
 void	ft_token_rparen(t_lxr *lxr);
 void	ft_token_lparen(t_lxr *lxr);
 void	ft_token_end_string(t_lxr *lxr);
