@@ -6,7 +6,7 @@
 /*   By: alvjimen <alvjimen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/31 20:04:15 by alvjimen          #+#    #+#             */
-/*   Updated: 2023/03/03 13:10:04 by alvjimen         ###   ########.fr       */
+/*   Updated: 2023/03/04 20:05:01 by alvjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "lxr.h"
@@ -40,7 +40,7 @@ int	main(int argc, char *argv[])
 			return (1);
 		lxr = ft_init_lxr(str);
 		ft_token_varname(lxr);
-		free(str);
+		free(lxr->str);
 		free(lxr);
 	}
 	return (0);

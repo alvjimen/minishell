@@ -6,7 +6,7 @@
 /*   By: alvjimen <alvjimen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/01 19:00:50 by alvjimen          #+#    #+#             */
-/*   Updated: 2023/03/03 18:56:18 by alvjimen         ###   ########.fr       */
+/*   Updated: 2023/03/04 19:24:10 by alvjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "lxr.h"
@@ -16,6 +16,7 @@ TODO return value Status
 	1		Not complete value "'` Doesn't not end for now.
 */
 /*	the last function of this return below it could maybe be a parameter ;)*/
+
 static int	ft_valid_char_lxr(char ch, t_lxr *lxr)
 {
 	return (ch && (!ft_char_ifs(ch) || (ft_char_ifs(ch) && lxr->tokens.quotes))

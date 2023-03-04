@@ -6,7 +6,7 @@
 /*   By: alvjimen <alvjimen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/28 18:10:37 by alvjimen          #+#    #+#             */
-/*   Updated: 2023/03/04 18:54:54 by alvjimen         ###   ########.fr       */
+/*   Updated: 2023/03/04 20:03:20 by alvjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "lxr.h"
@@ -50,23 +50,34 @@ int	ft_token_bquotes(t_lxr *lxr, size_t *counter)
 
 int	ft_token_squotes(t_lxr *lxr, size_t *counter)
 {
+	char *str;
+	char *tmp;
+
 	if (lxr->str[lxr->pos + counter[0]] == '\'')
 	{
 		counter[0] += 1;
 		printf("' finded\n");
 		lxr->tokens.quotes |= SQUOTES;
-		while (lxr->str[lxr->pos + counter[0]]
-			&& lxr->str[lxr->pos + counter[0]] != '\''
-			&& lxr->str[lxr->pos + counter[0]] != '\n')
-			counter[0]++;
-		if (lxr->str[lxr->pos + counter[0]] == '\'')
+		while (lxr->tokens.quotes & SQUOTES)
 		{
-			printf("Ended %s:\n", "Single Quote");
-			lxr->tokens.quotes ^= SQUOTES;
-			return (1);
+			while (lxr->str[lxr->pos + counter[0]]
+				&& lxr->str[lxr->pos + counter[0]] != '\''
+				&& lxr->str[lxr->pos + counter[0]] != '\n')
+				counter[0]++;
+			if (lxr->str[lxr->pos + counter[0]] == '\'')
+			{
+				printf("Ended %s:\n", "Single Quote");
+				lxr->tokens.quotes ^= SQUOTES;
+				return (1);
+			}
+			tmp = readline("quote ");
+			if (!tmp)
+				break ;
+			str = ft_strjoin(lxr->str, tmp);
+			free(lxr->str);
+			free(tmp);
+			lxr->str = str;
 		}
-		else
-			printf("Not a token %s:\n", "Not ended Single Quote");
 	}
 	return (0);
 }
@@ -86,7 +97,8 @@ static int	ft_dquotes_aux_end(t_lxr *lxr, size_t *counter)
 		}
 		else if (ft_char_quotes(lxr->str[lxr->pos + counter[0]]))
 		{
-			ft_token_quotes(lxr, counter);
+			if (ft_token_quotes(lxr, counter))
+				return (1);
 			return (ft_dquotes_aux_end(lxr, counter));
 		}
 	return (0);

@@ -6,7 +6,7 @@
 /*   By: alvjimen <alvjimen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/28 18:36:15 by alvjimen          #+#    #+#             */
-/*   Updated: 2023/03/03 18:53:06 by alvjimen         ###   ########.fr       */
+/*   Updated: 2023/03/04 19:58:15 by alvjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,8 +42,7 @@ typedef enum e_token
 	TOKEN_AND,
 	TOKEN_PIPE,
 	TOKEN_OR,
-	TOKEN_SEMICOLONS,
-	TOKEN_ARG
+	TOKEN_SEMICOLONS
 }t_token;
 
 typedef enum e_tokens
@@ -60,7 +59,8 @@ typedef enum e_quotes
 	I_STATE,
 	DQUOTES,
 	SQUOTES,
-	BQUOTES
+	BQUOTES,
+	PAREN
 }t_quotes;
 
 typedef enum e_operators
