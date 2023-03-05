@@ -6,7 +6,7 @@
 /*   By: alvjimen <alvjimen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/28 18:10:37 by alvjimen          #+#    #+#             */
-/*   Updated: 2023/03/05 13:50:18 by alvjimen         ###   ########.fr       */
+/*   Updated: 2023/03/05 18:28:24 by alvjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "lxr.h"
@@ -17,7 +17,7 @@ int	ft_token_bquotes(t_lxr *lxr, size_t *counter)
 	{
 		counter[0] += 1;
 		lxr->tokens.quotes |= BQUOTES;
-		printf("` finded\n");
+		printf("` found\n");
 		while (lxr->tokens.quotes & BQUOTES)
 		{
 			while (lxr->str[lxr->pos + counter[0]]
@@ -41,7 +41,7 @@ int	ft_token_squotes(t_lxr *lxr, size_t *counter)
 	if (lxr->str[lxr->pos + counter[0]] == '\'')
 	{
 		counter[0] += 1;
-		printf("' finded\n");
+		printf("' found\n");
 		lxr->tokens.quotes |= SQUOTES;
 		while (lxr->tokens.quotes & SQUOTES)
 		{
@@ -91,7 +91,7 @@ int	ft_token_dquotes(t_lxr *lxr, size_t *counter)
 {
 	if (lxr->str[lxr->pos + counter[0]] == '"')
 	{
-		printf("\" finded\n");
+		printf("\" found\n");
 		counter[0]++;
 		lxr->tokens.quotes |= DQUOTES;
 		return (ft_dquotes_aux_end(lxr, counter));

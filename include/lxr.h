@@ -6,7 +6,7 @@
 /*   By: alvjimen <alvjimen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/28 18:36:15 by alvjimen          #+#    #+#             */
-/*   Updated: 2023/03/05 12:44:18 by alvjimen         ###   ########.fr       */
+/*   Updated: 2023/03/05 18:24:16 by alvjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,8 @@ typedef enum e_quotes
 	DQUOTES,
 	SQUOTES,
 	BQUOTES,
-	PAREN
+	PAREN,
+	BRACE
 }t_quotes;
 
 typedef enum e_mode
