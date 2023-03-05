@@ -6,7 +6,7 @@
 #    By: alvjimen <alvjimen@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/01/31 19:37:18 by alvjimen          #+#    #+#              #
-#    Updated: 2023/03/04 20:00:35 by alvjimen         ###   ########.fr        #
+#    Updated: 2023/03/05 12:32:35 by alvjimen         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -48,6 +48,8 @@ SRC-LXR				:=	ft_lexer\
 						ft_run_ifs\
 						ft_tkn_redirections\
 						ft_chars\
+						ft_quotes\
+						ft_get_more_input\
 
 SRC-LIB_ADD			:=	ft_split\
 						ft_strnstr\

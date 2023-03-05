@@ -6,7 +6,7 @@
 /*   By: alvjimen <alvjimen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/28 18:36:15 by alvjimen          #+#    #+#             */
-/*   Updated: 2023/03/04 19:58:15 by alvjimen         ###   ########.fr       */
+/*   Updated: 2023/03/05 12:44:18 by alvjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,12 @@ typedef enum e_quotes
 	PAREN
 }t_quotes;
 
+typedef enum e_mode
+{
+	INTERACTIVE,
+	NONINTERACTIVE
+}t_mode;
+
 typedef enum e_operators
 {
 	NONE,
@@ -99,6 +105,7 @@ typedef struct s_lxr
 	size_t	pos;
 	t_tkn	tokens;
 	size_t	num_tokens;
+	t_mode	mode;
 }	t_lxr;
 
 t_lxr	*ft_init_lxr(char *s);
@@ -123,5 +130,7 @@ void	ft_token_AND(t_lxr	*lxr);
 void	ft_token_lbrace(t_lxr	*lxr);
 void	ft_token_rbrace(t_lxr	*lxr);
 void	ft_token_dollar(t_lxr	*lxr);
+int		ft_get_more_input(t_lxr *lxr);
+int		ft_token_quotes(t_lxr *lxr, size_t *counter);
 
 #endif
