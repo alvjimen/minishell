@@ -6,7 +6,7 @@
 /*   By: alvjimen <alvjimen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/01 11:44:49 by alvjimen          #+#    #+#             */
-/*   Updated: 2023/03/06 12:54:38 by alvjimen         ###   ########.fr       */
+/*   Updated: 2023/03/06 16:46:06 by alvjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "lxr.h"
@@ -44,6 +44,6 @@ int	ft_token_varname(t_lxr	*lxr)
 			return (0);
 		}
 	}
-	ft_token_word(lxr, *counter);
+	ft_token_word(lxr, &counter);
 	return (1);
 }

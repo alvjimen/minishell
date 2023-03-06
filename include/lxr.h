@@ -6,7 +6,7 @@
 /*   By: alvjimen <alvjimen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/28 18:36:15 by alvjimen          #+#    #+#             */
-/*   Updated: 2023/03/05 18:24:16 by alvjimen         ###   ########.fr       */
+/*   Updated: 2023/03/06 17:25:14 by alvjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,39 +19,11 @@
 # include <readline/history.h>
 # include <readline/readline.h>
 
-typedef enum e_token
-{
-	TOKEN_ID,
-	TOKEN_LPAREN,
-	TOKEN_RPAREN,
-	TOKEN_DLPAREN,
-	TOKEN_DRPAREN,
-	TOKEN_LBRACE,
-	TOKEN_RBRACE,
-	TOKEN_LT,
-	TOKEN_HEREDOC,
-	TOKEN_HERESTRING,
-	TOKEN_HDELIM,
-	TOKEN_GT,
-	TOKEN_2GT,
-	TOKEN_DQUOTES,
-	TOKEN_SQUOTES,
-	TOKEN_BSLASH,
-	TOKEN_ASTERISK,
-	TOKEN_AMP,
-	TOKEN_AND,
-	TOKEN_PIPE,
-	TOKEN_OR,
-	TOKEN_SEMICOLONS
-}t_token;
-
 typedef enum e_tokens
 {
 	WORD,
 	ASSIGNMENT_WORD,
-	NAME,
-	T_NEWLINE,
-	IO_NUMBER
+	NAME
 }t_tokens;
 
 typedef enum e_quotes
@@ -60,8 +32,7 @@ typedef enum e_quotes
 	DQUOTES,
 	SQUOTES,
 	BQUOTES,
-	PAREN,
-	BRACE
+	PAREN
 }t_quotes;
 
 typedef enum e_mode
@@ -74,30 +45,15 @@ typedef enum e_operators
 {
 	NONE,
 	AND_IF,
-	OR_IF,
-	DLESS,
-	DGREAT,
-	LESSAND,
-	GREATAND,
-	LESSGREAT,
-	DLESSDASH,
-	CLOBBER,
-	LBRACE,
-	RBRACE,
-	LPAREN,
-	RPAREN
+	OR_IF
 }	t_operators;
 
 typedef struct s_tkn
 {
 	char			*value;
-	t_token			type;
 	t_operators		operators;
 	t_tokens		token_s;
 	t_quotes		quotes;
-	size_t			o_quotes;
-	size_t			o_paren;
-	size_t			o_brace;
 }	t_tkn;
 
 typedef struct s_lxr
@@ -133,5 +89,6 @@ void	ft_token_rbrace(t_lxr	*lxr);
 void	ft_token_dollar(t_lxr	*lxr);
 int		ft_get_more_input(t_lxr *lxr);
 int		ft_token_quotes(t_lxr *lxr, size_t *counter);
+void	ft_operators(t_lxr *lxr);
 
 #endif

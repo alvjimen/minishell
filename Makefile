@@ -6,7 +6,7 @@
 #    By: alvjimen <alvjimen@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/01/31 19:37:18 by alvjimen          #+#    #+#              #
-#    Updated: 2023/03/05 12:32:35 by alvjimen         ###   ########.fr        #
+#    Updated: 2023/03/06 17:28:45 by alvjimen         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -44,12 +44,17 @@ SRC-LXR				:=	ft_lexer\
 						ft_init_tkn\
 						ft_tkn_var_name\
 						ft_tkn_var_value\
-						ft_tkn_quotes\
-						ft_run_ifs\
-						ft_tkn_redirections\
-						ft_chars\
 						ft_quotes\
+						ft_run_ifs\
+						ft_operator_redirections\
+						ft_chars\
 						ft_get_more_input\
+						ft_dquotes\
+						ft_squotes\
+						ft_bquotes\
+						ft_tkn_word\
+						ft_char_operator\
+						ft_operators\
 
 SRC-LIB_ADD			:=	ft_split\
 						ft_strnstr\
