@@ -1,26 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_chars.c                                         :+:      :+:    :+:   */
+/*   ft_char_operator.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: alvjimen <alvjimen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/03/03 14:12:57 by alvjimen          #+#    #+#             */
-/*   Updated: 2023/03/06 13:00:06 by alvjimen         ###   ########.fr       */
+/*   Created: 2023/03/06 13:03:03 by alvjimen          #+#    #+#             */
+/*   Updated: 2023/03/06 13:11:05 by alvjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "lxr.h"
 
-int	ft_char_end_string(char ch)
+int	ft_char_operator(t_lxr *lxr)
 {
-	return (ch == '\0');
-
-int	ft_char_ifs(char ch)
-{
-	return (ch == ' ' || ch == '\t');
-}
-
-int	ft_char_quotes(char ch)
-{
-	return (ch && (ch == '\'' || ch == '"' || ch == '`'));
+	return (lxr->str[lxr->pos + *counter]  == '|'
+	|| (lxr->str[lxr->pos + *counter] == '&'
+		&& lxr->str[lxr->pos + *counter + 1]  == '&')
+	|| lxr->str[lxr->pos + *counter] == '<'
+	|| lxr->str[lxr->pos + *counter] == '>');
 }
