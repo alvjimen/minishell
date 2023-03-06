@@ -35,7 +35,7 @@ int	ft_token_varname(t_lxr	*lxr)
 			counter++;
 		if (ft_char_exit_loop(lxr, &counter))
 		{
-			lxr->tokens.token_s = ASSIGNMENT_WORD;
+			lxr->tokens.token = ASSIGNMENT_WORD;
 			ft_token_name(lxr, &counter);
 			printf("Token %s:\n", "ASSIGNMENT_WORD");
 			write(1, &lxr->str[lxr->pos], ++counter);

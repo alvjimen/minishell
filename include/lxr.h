@@ -6,7 +6,7 @@
 /*   By: alvjimen <alvjimen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/28 18:36:15 by alvjimen          #+#    #+#             */
-/*   Updated: 2023/03/06 17:25:14 by alvjimen         ###   ########.fr       */
+/*   Updated: 2023/03/06 19:53:29 by alvjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ typedef struct s_tkn
 {
 	char			*value;
 	t_operators		operators;
-	t_tokens		token_s;
+	t_tokens		token;
 	t_quotes		quotes;
 }	t_tkn;
 

@@ -29,7 +29,7 @@ int	ft_token_word(t_lxr	*lxr, size_t *counter)
 	}
 	if (ft_char_operator(lxr->str[lxr->pos + *counter]))
 	{
-		lxr->tokens.token_s = WORD;
+		lxr->tokens.token = WORD;
 		printf("Token %s:\n", "WORD");
 		write(1, &lxr->str[lxr->pos], ++counter[0]);
 		write(1, "\n", 1);
