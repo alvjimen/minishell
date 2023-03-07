@@ -26,14 +26,14 @@ typedef enum e_tokens
 	NAME
 }t_tokens;
 
-typedef enum e_quotes
+typedef enum e_states
 {
 	I_STATE,
 	DQUOTES,
 	SQUOTES,
 	BQUOTES,
 	PAREN
-}t_quotes;
+}t_states;
 
 typedef enum e_mode
 {
@@ -53,7 +53,7 @@ typedef struct s_tkn
 	char			*value;
 	t_operators		operators;
 	t_tokens		token;
-	t_quotes		quotes;
+	t_states		states;
 }	t_tkn;
 
 typedef struct s_lxr
@@ -67,17 +67,17 @@ typedef struct s_lxr
 
 t_lxr	*ft_init_lxr(char *s);
 size_t	ft_run_ifs(t_lxr *lxr);
-int		ft_char_quotes(char ch);
+int		ft_char_states(char ch);
 int		ft_char_end_string(char ch);
 int		ft_char_ifs(char ch);
 int		ft_token_varname(t_lxr	*lxr);
-int		ft_token_quotes(t_lxr *lxr, size_t *counter);
+int		ft_token_states(t_lxr *lxr, size_t *counter);
 void	ft_token_lower(t_lxr *lxr);
 void	ft_token_greater(t_lxr *lxr);
 void	ft_token_io_number(t_lxr *lxr);
-int		ft_token_squotes(t_lxr *lxr, size_t *counter);
-int		ft_token_dquotes(t_lxr *lxr, size_t *counter);
-int		ft_token_bquotes(t_lxr *lxr, size_t *counter);
+int		ft_token_sstates(t_lxr *lxr, size_t *counter);
+int		ft_token_dstates(t_lxr *lxr, size_t *counter);
+int		ft_token_bstates(t_lxr *lxr, size_t *counter);
 void	ft_token_rparen(t_lxr *lxr);
 void	ft_token_lparen(t_lxr *lxr);
 void	ft_token_end_string(t_lxr *lxr);
@@ -88,7 +88,7 @@ void	ft_token_lbrace(t_lxr	*lxr);
 void	ft_token_rbrace(t_lxr	*lxr);
 void	ft_token_dollar(t_lxr	*lxr);
 int		ft_get_more_input(t_lxr *lxr);
-int		ft_token_quotes(t_lxr *lxr, size_t *counter);
+int		ft_token_states(t_lxr *lxr, size_t *counter);
 void	ft_operators(t_lxr *lxr);
 
 #endif
