@@ -6,7 +6,7 @@
 /*   By: alvjimen <alvjimen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/01 19:00:50 by alvjimen          #+#    #+#             */
-/*   Updated: 2023/03/06 19:16:58 by alvjimen         ###   ########.fr       */
+/*   Updated: 2023/03/07 12:07:03 by alvjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "lxr.h"
@@ -19,7 +19,7 @@ TODO return value Status
 static int	ft_valid_char_lxr(char ch, t_lxr *lxr)
 {
 	return (ch && (!ft_char_ifs(ch)
-			|| (ft_char_ifs(ch) && lxr->tokens.quotes)));
+			|| (ft_char_ifs(ch) && lxr->tokens.states)));
 }
 
 static int	ft_token_name_first_char_valid(t_lxr *lxr, size_t *counter)
@@ -27,7 +27,7 @@ static int	ft_token_name_first_char_valid(t_lxr *lxr, size_t *counter)
 	while (ft_valid_char_lxr(lxr->str[lxr->pos + counter[0]], lxr))
 	{
 		if (ft_char_quotes(lxr->str[lxr->pos + counter[0]]))
-			ft_token_quotes(lxr, counter);
+			ft_quotes(lxr, counter);
 		counter[0]++;
 	}
 	return (0);

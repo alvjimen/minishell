@@ -1,27 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_chars.c                                         :+:      :+:    :+:   */
+/*   ft_states.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: alvjimen <alvjimen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/03/03 14:12:57 by alvjimen          #+#    #+#             */
-/*   Updated: 2023/03/07 12:41:33 by alvjimen         ###   ########.fr       */
+/*   Created: 2023/03/07 11:58:03 by alvjimen          #+#    #+#             */
+/*   Updated: 2023/03/07 12:04:06 by alvjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-#include "lxr.h"
+#include "lxr->str[lxr->pos + *counter].h"
 
-int	ft_char_end_string(char ch)
+/* return status 0 error 1 OK*/
+int	ft_states(t_lxr *lxr, size_t *counter)
 {
-	return (ch == '\0');
-}
+	size_t	aux;
 
-int	ft_char_ifs(char ch)
-{
-	return (ch == ' ' || ch == '\t');
-}
-
-int	ft_char_quotes(char ch)
-{
-	return (ch && (ch == '\'' || ch == '"'));
+	aux = 0;
+	if (!counter)
+		return (ft_states(lxr, &aux);
+	if (ft_char_quotes(lxr->str[lxr->pos + counter[0]]))
+		return (ft_quotes(lxr->str[lxr->pos + counter[0]]));
+	else if (lxr->str[lxr->pos + *counter] == '(')
+		return (ft_parenthesis(lxr, counter));
+	return (0);
 }

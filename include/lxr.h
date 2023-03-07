@@ -6,7 +6,7 @@
 /*   By: alvjimen <alvjimen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/28 18:36:15 by alvjimen          #+#    #+#             */
-/*   Updated: 2023/03/06 19:53:29 by alvjimen         ###   ########.fr       */
+/*   Updated: 2023/03/07 12:40:43 by alvjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,6 @@ typedef enum e_states
 	I_STATE,
 	DQUOTES,
 	SQUOTES,
-	BQUOTES,
 	PAREN
 }t_states;
 
@@ -75,20 +74,14 @@ int		ft_token_states(t_lxr *lxr, size_t *counter);
 void	ft_token_lower(t_lxr *lxr);
 void	ft_token_greater(t_lxr *lxr);
 void	ft_token_io_number(t_lxr *lxr);
-int		ft_token_sstates(t_lxr *lxr, size_t *counter);
-int		ft_token_dstates(t_lxr *lxr, size_t *counter);
-int		ft_token_bstates(t_lxr *lxr, size_t *counter);
-void	ft_token_rparen(t_lxr *lxr);
-void	ft_token_lparen(t_lxr *lxr);
-void	ft_token_end_string(t_lxr *lxr);
+int		ft_squotes(t_lxr *lxr, size_t *counter);
+int		ft_dquotes(t_lxr *lxr, size_t *counter);
 void	ft_token_new_line(t_lxr *lxr);
 void	ft_token_pipe(t_lxr	*lxr);
 void	ft_token_AND(t_lxr	*lxr);
-void	ft_token_lbrace(t_lxr	*lxr);
-void	ft_token_rbrace(t_lxr	*lxr);
-void	ft_token_dollar(t_lxr	*lxr);
 int		ft_get_more_input(t_lxr *lxr);
-int		ft_token_states(t_lxr *lxr, size_t *counter);
+int		ft_quotes(t_lxr *lxr, size_t *counter);
+int		ft_states(t_lxr *lxr, size_t *counter);
 void	ft_operators(t_lxr *lxr);
 
 #endif
