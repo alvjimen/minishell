@@ -6,7 +6,7 @@
 /*   By: alvjimen <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/05 19:25:52 by alvjimen          #+#    #+#             */
-/*   Updated: 2023/03/05 19:25:54 by alvjimen         ###   ########.fr       */
+/*   Updated: 2023/03/07 17:00:57 by alvjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "lxr.h"
@@ -17,11 +17,11 @@ void	ft_token_pipe(t_lxr	*lxr)
 	{
 		if (lxr->str[lxr->pos + 1] == '|')
 		{
-			printf("OR Finded");
+			printf("OR Finded\n");
 			lxr->pos++;
 		}
 		else
-			printf("Pipe Finded");
+			printf("Pipe Finded\n");
 		lxr->pos ++;
 	}
 }
@@ -32,11 +32,11 @@ void	ft_token_and(t_lxr	*lxr)
 	{
 		if (lxr->str[lxr->pos + 1] == '&')
 		{
-			printf("AND Finded");
+			printf("AND Finded\n");
 			lxr->pos++;
 		}
 		else
-			printf("AMPERSAND Finded");
+			printf("AMPERSAND Finded\n");
 		lxr->pos ++;
 	}
 }

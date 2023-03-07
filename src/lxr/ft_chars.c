@@ -6,14 +6,14 @@
 /*   By: alvjimen <alvjimen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/03 14:12:57 by alvjimen          #+#    #+#             */
-/*   Updated: 2023/03/07 12:41:33 by alvjimen         ###   ########.fr       */
+/*   Updated: 2023/03/07 19:13:24 by alvjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "lxr.h"
 
 int	ft_char_end_string(char ch)
 {
-	return (ch == '\0');
+	return (!ch);
 }
 
 int	ft_char_ifs(char ch)
@@ -23,5 +23,5 @@ int	ft_char_ifs(char ch)
 
 int	ft_char_quotes(char ch)
 {
-	return (ch && (ch == '\'' || ch == '"'));
+	return (ch == '\'' || ch == '"');
 }

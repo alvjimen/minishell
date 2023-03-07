@@ -1,30 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_operators.c                                     :+:      :+:    :+:   */
+/*   ft_get_tokens.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: alvjimen <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/03/06 17:07:31 by alvjimen          #+#    #+#             */
-/*   Updated: 2023/03/07 16:59:10 by alvjimen         ###   ########.fr       */
+/*   Created: 2023/03/07 17:17:24 by alvjimen          #+#    #+#             */
+/*   Updated: 2023/03/07 17:26:54 by alvjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "lxr.h"
+/*if return is != 0 an error happend*/
 
-void	ft_operators(t_lxr *lxr)
+int	ft_get_tokens(t_lxr *lxr)
 {
-	if (lxr->str[lxr->pos] == '|')
-		ft_token_pipe(lxr);
-	else if (lxr->str[lxr->pos] == '&' && lxr->str[lxr->pos + 1] == '&')
-		ft_token_and(lxr);
-}
-
-void	ft_redirections(t_lxr *lxr)
-{
-	if (lxr->str[lxr->pos] == '>')
-		ft_token_greater(lxr);
-	else if (lxr->str[lxr->pos] == '<' && lxr->str[lxr->pos + 1] == '>')
-		ft_redirections(lxr);
-	else if (lxr->str[lxr->pos] == '<')
-		ft_token_lower(lxr);
+	while (lxr->str[lxr->pos])
+	{
+		ft_run_ifs(lxr);
+		if (ft_token_varname(lxr))
+			return (1);
+	}
+	return (0);
 }

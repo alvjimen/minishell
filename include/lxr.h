@@ -6,7 +6,7 @@
 /*   By: alvjimen <alvjimen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/28 18:36:15 by alvjimen          #+#    #+#             */
-/*   Updated: 2023/03/07 12:40:43 by alvjimen         ###   ########.fr       */
+/*   Updated: 2023/03/07 17:25:14 by alvjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,5 +83,7 @@ int		ft_get_more_input(t_lxr *lxr);
 int		ft_quotes(t_lxr *lxr, size_t *counter);
 int		ft_states(t_lxr *lxr, size_t *counter);
 void	ft_operators(t_lxr *lxr);
+int		ft_char_operator(t_lxr *lxr, size_t *counter);
+int		ft_get_tokens(t_lxr *lxr);
 
 #endif

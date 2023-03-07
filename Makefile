@@ -6,7 +6,7 @@
 #    By: alvjimen <alvjimen@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/01/31 19:37:18 by alvjimen          #+#    #+#              #
-#    Updated: 2023/03/07 12:38:30 by alvjimen         ###   ########.fr        #
+#    Updated: 2023/03/07 18:57:35 by alvjimen         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -54,6 +54,9 @@ SRC-LXR				:=	ft_lexer\
 						ft_tkn_word\
 						ft_char_operator\
 						ft_operators\
+						ft_operator_pipe_and_or\
+						ft_operator_redirections\
+						ft_get_tokens\
 
 
 SRC-LIB_ADD			:=	ft_split\
@@ -128,13 +131,14 @@ clean:
 	@$(RM) $(BUILD-DIR)
 
 fclean:	
-	@$(RM) $(BUILD-DIR) $(NAME)
+	@$(RM) $(NAME)
 
 re:	fclean	all
 
 
 test:	$(NAME) $(BUILD-TST)
 	@$(CC) $(CFLAGS) -o test -I $(INC) -lreadline $(BUILD-TST) $(NAME) 
+	#@$(MAKE) fclean
 
 info-%:
 	@$(MAKE) --dry-run --always-make $* | grep -v "info"
@@ -142,4 +146,8 @@ info-%:
 print-%:
 	@$(info '$*'='$($*)')
 
-.PHONY: all clean fclean re info-% print-%
+tester: test
+	./test -c "a+=\"hola que tal  esta todo\"" | cat -e
+	./test -c "a\"hola que tal  esta todo\"a" 
+
+.PHONY: all clean fclean re testers info-% print-% 
