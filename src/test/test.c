@@ -6,7 +6,7 @@
 /*   By: alvjimen <alvjimen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/31 20:04:15 by alvjimen          #+#    #+#             */
-/*   Updated: 2023/03/08 10:09:17 by alvjimen         ###   ########.fr       */
+/*   Updated: 2023/03/08 20:17:17 by alvjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "lxr.h"
@@ -23,11 +23,18 @@ int	main(int argc, char *argv[])
 	lxr = NULL;
 	if (argc >= 3)
 	{
-		if (argv[1][0] == '-' && argv[1][1] == 'c' && argv[1][2] == '\0')
+		if (argv[1][0] == '-' && argv[1][1] && argv[1][1] == 'c'
+				&& argv[1][2] == '\0')
 		{
-			lxr = ft_init_lxr(argv[2]);
+			str = ft_strdup(argv[2]);
+			if (!str)
+				return (1);
+			lxr = ft_init_lxr(str);
 			if (!lxr)
+			{
+				free(str);
 				return (-1);
+			}
 			lxr->mode = NONINTERACTIVE;
 			ft_get_tokens(lxr);
 			/*ft_token_varname(lxr);*/

@@ -6,7 +6,7 @@
 /*   By: alvjimen <alvjimen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/28 18:36:15 by alvjimen          #+#    #+#             */
-/*   Updated: 2023/03/08 10:53:21 by alvjimen         ###   ########.fr       */
+/*   Updated: 2023/03/08 18:43:59 by alvjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,10 @@
 # define LXR_H
 # include <string.h>
 # include <unistd.h>
+/* My libft libs i can change it for libft.h and should be fine*/
 # include <cmn.h>
 # include <str.h>
+# include <out.h>
 # include <readline/history.h>
 # include <readline/readline.h>
 

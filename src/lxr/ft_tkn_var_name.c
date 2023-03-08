@@ -6,7 +6,7 @@
 /*   By: alvjimen <alvjimen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/01 11:44:49 by alvjimen          #+#    #+#             */
-/*   Updated: 2023/03/08 10:26:28 by alvjimen         ###   ########.fr       */
+/*   Updated: 2023/03/08 20:14:28 by alvjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "lxr.h"
@@ -36,8 +36,8 @@ int	ft_token_varname(t_lxr	*lxr)
 	{
 		lxr->tokens.token = ASSIGNMENT_WORD;
 		ft_token_value(lxr, &counter);
-		printf("Token %s:\n", "ASSIGNMENT_WORD");
-		write(1, &lxr->str[lxr->pos], ++counter);
+		ft_putstr_fd("Token ASSIGNMENT_WORD:\n", 1);
+		write(1, &lxr->str[lxr->pos], counter);
 		write(1, "\n", 1);
 		lxr->pos += counter;
 		return (0);

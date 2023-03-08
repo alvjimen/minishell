@@ -6,7 +6,7 @@
 /*   By: alvjimen <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/05 19:01:13 by alvjimen          #+#    #+#             */
-/*   Updated: 2023/03/08 09:43:39 by alvjimen         ###   ########.fr       */
+/*   Updated: 2023/03/08 20:08:30 by alvjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "lxr.h"
@@ -25,11 +25,11 @@ int	ft_dquotes(t_lxr *lxr, size_t *counter)
 			if (lxr->str[lxr->pos + counter[0]] == '\"')
 			{
 				lxr->tokens.states ^= DQUOTES;
-				return (1);
+				return (0);
 			}
-			else if (!ft_get_more_input(lxr))
+			else if (lxr->mode & NONINTERACTIVE || !ft_get_more_input(lxr))
 				break ;
 		}
 	}
-	return (0);
+	return (1);
 }
