@@ -6,7 +6,7 @@
 #    By: alvjimen <alvjimen@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/01/31 19:37:18 by alvjimen          #+#    #+#              #
-#    Updated: 2023/03/07 19:40:00 by alvjimen         ###   ########.fr        #
+#    Updated: 2023/03/08 10:23:32 by alvjimen         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -148,6 +148,7 @@ print-%:
 
 tester: test
 	./test -c "a+=\"hola que tal  esta todo\"" | cat -e
-	./test -c "a\"hola que tal  esta todo\"a" 
+	./test -c "a\"hola que tal  esta todo\"a"
+	#./test -c "A|B" 
 
 .PHONY: all clean fclean re testers info-% print-% 
