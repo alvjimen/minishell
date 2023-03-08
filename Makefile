@@ -6,7 +6,7 @@
 #    By: alvjimen <alvjimen@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/01/31 19:37:18 by alvjimen          #+#    #+#              #
-#    Updated: 2023/03/08 10:42:39 by alvjimen         ###   ########.fr        #
+#    Updated: 2023/03/08 10:55:51 by alvjimen         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -150,7 +150,6 @@ tester: test
 	./test -c "a+=\"hola que tal  esta todo\"" | cat -e
 	./test -c "a\"hola que tal  esta todo\"a"
 	./test -c "a\"hola que tal  esta todo\"a Bien Gracias por preguntar"
-	echo "Pending the use of operators on ft_get_tokens
-#	./test -c "A|B" 
+	./test -c "A|B" 
 
 .PHONY: all clean fclean re testers info-% print-% 

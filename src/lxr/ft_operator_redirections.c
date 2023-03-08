@@ -6,7 +6,7 @@
 /*   By: alvjimen <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/05 19:46:13 by alvjimen          #+#    #+#             */
-/*   Updated: 2023/03/05 19:46:16 by alvjimen         ###   ########.fr       */
+/*   Updated: 2023/03/08 10:53:57 by alvjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "lxr.h"
@@ -31,7 +31,7 @@ void	ft_token_io_number(t_lxr *lxr)
 	}
 }
 
-void	ft_token_greater(t_lxr *lxr)
+int	ft_token_greater(t_lxr *lxr)
 {
 	if (lxr->str[lxr->pos] == '>')
 	{
@@ -44,6 +44,7 @@ void	ft_token_greater(t_lxr *lxr)
 			printf("Greater find\n");
 		lxr->pos ++;
 	}
+	return (0);
 }
 /* not valid delimiter for heredoc"()\n>;&"
 void	ft_token_here_doc(t_lxr *lxr)
@@ -64,7 +65,7 @@ void	ft_token_here_doc(t_lxr *lxr)
 }
 */
 
-void	ft_token_lower(t_lxr *lxr)
+int	ft_token_lower(t_lxr *lxr)
 {
 	if (lxr->str[lxr->pos] == '<')
 	{
@@ -77,4 +78,5 @@ void	ft_token_lower(t_lxr *lxr)
 			printf("Lower find\n");
 		lxr->pos++;
 	}
+	return (0);
 }

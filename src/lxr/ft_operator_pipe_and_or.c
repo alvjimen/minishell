@@ -6,12 +6,12 @@
 /*   By: alvjimen <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/05 19:25:52 by alvjimen          #+#    #+#             */
-/*   Updated: 2023/03/07 17:00:57 by alvjimen         ###   ########.fr       */
+/*   Updated: 2023/03/08 10:50:33 by alvjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "lxr.h"
 
-void	ft_token_pipe(t_lxr	*lxr)
+int 	ft_token_pipe(t_lxr	*lxr)
 {
 	if (lxr->str[lxr->pos] == '|')
 	{
@@ -24,9 +24,10 @@ void	ft_token_pipe(t_lxr	*lxr)
 			printf("Pipe Finded\n");
 		lxr->pos ++;
 	}
+	return (0);
 }
 
-void	ft_token_and(t_lxr	*lxr)
+int	ft_token_and(t_lxr	*lxr)
 {
 	if (lxr->str[lxr->pos] == '&')
 	{
@@ -39,4 +40,5 @@ void	ft_token_and(t_lxr	*lxr)
 			printf("AMPERSAND Finded\n");
 		lxr->pos ++;
 	}
+	return (0);
 }
