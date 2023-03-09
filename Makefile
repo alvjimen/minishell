@@ -6,7 +6,7 @@
 #    By: alvjimen <alvjimen@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/01/31 19:37:18 by alvjimen          #+#    #+#              #
-#    Updated: 2023/03/08 20:15:35 by alvjimen         ###   ########.fr        #
+#    Updated: 2023/03/09 17:43:23 by alvjimen         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -155,12 +155,12 @@ tester: test
 	./test -c "a+=\"hola que tal  esta todo\""| cat -e
 	./test -c "a\"hola que tal  esta todo\"a"| cat -e
 	./test -c "a\"hola que tal  esta todo\"a Bien Gracias por preguntar" | cat -e
-#	./test -c "A|B" | cat -e
-#	./test -c "a+=\"hola que tal  esta todo\"	other        words" | cat -e
-#	./test -c "A|B" | cat -e
-#	./test -c "A	 |	 B" | cat -e
-#	./test -c "\"A		 |    B\"" | cat -e
-#	echo "Issue finded with var_value and end of quotes"
-#	./test -c "varname=\"this a normal var\"a\'quoted \'Unquoted Hola"
+	./test -c "a\"hola\"a Bien Gracias por preguntar" | cat -e
+	./test -c "A|B" | cat -e
+	./test -c "a+=\"hola que tal  esta todo\"	other        words" | cat -e
+	./test -c "A|B" | cat -e
+	./test -c "A	 |	 B" | cat -e
+	./test -c "\"A		 |    B\"" | cat -e
+	./test -c "varname=\"this a normal var\"a'quoted 'Unquoted Hola"
 
 .PHONY: all clean fclean re testers info-% print-% 

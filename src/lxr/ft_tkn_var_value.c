@@ -6,7 +6,7 @@
 /*   By: alvjimen <alvjimen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/01 19:00:50 by alvjimen          #+#    #+#             */
-/*   Updated: 2023/03/08 19:51:40 by alvjimen         ###   ########.fr       */
+/*   Updated: 2023/03/09 17:46:14 by alvjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "lxr.h"
@@ -38,8 +38,7 @@ int	ft_token_value(t_lxr *lxr, size_t *counter)
 			if (ft_quotes(lxr, counter))
 				return (1);
 		}
-		else
-			counter[0]++;
+		counter[0]++;
 	}
 	return (0);
 }
