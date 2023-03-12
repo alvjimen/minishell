@@ -6,12 +6,10 @@
 /*   By: alvjimen <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/07 17:17:24 by alvjimen          #+#    #+#             */
-/*   Updated: 2023/03/08 20:11:37 by alvjimen         ###   ########.fr       */
+/*   Updated: 2023/03/12 18:48:41 by alvjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "lxr.h"
-/*if return is != 0 an error happend*/
-	/*while (lxr->str[lxr->pos] && lxr->str[lxr->pos + 1])*/
 
 int	ft_get_tokens(t_lxr *lxr)
 {

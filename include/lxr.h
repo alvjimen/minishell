@@ -6,7 +6,7 @@
 /*   By: alvjimen <alvjimen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/28 18:36:15 by alvjimen          #+#    #+#             */
-/*   Updated: 2023/03/08 18:43:59 by alvjimen         ###   ########.fr       */
+/*   Updated: 2023/03/12 19:28:17 by alvjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,7 @@
 typedef enum e_tokens
 {
 	WORD,
-	ASSIGNMENT_WORD,
-	NAME
+	ASSIGNMENT_WORD
 }t_tokens;
 
 typedef enum e_states
@@ -88,5 +87,6 @@ int		ft_states(t_lxr *lxr, size_t *counter);
 int		ft_operators(t_lxr *lxr);
 int		ft_char_operator(t_lxr *lxr, size_t *counter);
 int		ft_get_tokens(t_lxr *lxr);
+int		ft_parenthesis(t_lxr *lxr);
 
 #endif

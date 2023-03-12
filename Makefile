@@ -6,7 +6,7 @@
 #    By: alvjimen <alvjimen@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/01/31 19:37:18 by alvjimen          #+#    #+#              #
-#    Updated: 2023/03/09 17:43:23 by alvjimen         ###   ########.fr        #
+#    Updated: 2023/03/12 20:46:34 by alvjimen         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -57,6 +57,7 @@ SRC-LXR				:=	ft_lexer\
 						ft_operator_pipe_and_or\
 						ft_operator_redirections\
 						ft_get_tokens\
+						ft_parenthesis\
 
 
 SRC-LIB_ADD			:=	ft_split\
@@ -162,5 +163,7 @@ tester: test
 	./test -c "A	 |	 B" | cat -e
 	./test -c "\"A		 |    B\"" | cat -e
 	./test -c "varname=\"this a normal var\"a'quoted 'Unquoted Hola"
+	./test -c "a=a b=b  c=c"| cat -e
+	./test -c "(hola (a))"
 
 .PHONY: all clean fclean re testers info-% print-% 

@@ -6,15 +6,15 @@
 /*   By: alvjimen <alvjimen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/05 12:29:03 by alvjimen          #+#    #+#             */
-/*   Updated: 2023/03/05 17:46:47 by alvjimen         ###   ########.fr       */
+/*   Updated: 2023/03/12 18:17:35 by alvjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "lxr.h"
 
 /*
 Return values.
-	0 some got wrong
-	1 all good
+	1 some got wrong
+	0 all good
 
 	TODO Change prompt depending of the missing character
 */
@@ -25,12 +25,12 @@ int	ft_get_more_input(t_lxr *lxr)
 
 	str = ft_strjoin(lxr->str, "\n");
 	if (!str)
-		return (0);
+		return (1);
 	free(lxr->str);
 	lxr->str = str;
 	tmp = readline("> ");
 	if (!tmp)
-		return (0);
+		return (1);
 	str = ft_strjoin(lxr->str, tmp);
 	free(lxr->str);
 	lxr->str = NULL;
@@ -38,6 +38,6 @@ int	ft_get_more_input(t_lxr *lxr)
 	tmp = NULL;
 	lxr->str = str;
 	if (!str)
-		return (0);
-	return (1);
+		return (1);
+	return (0);
 }
