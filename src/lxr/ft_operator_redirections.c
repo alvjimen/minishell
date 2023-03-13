@@ -6,44 +6,23 @@
 /*   By: alvjimen <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/05 19:46:13 by alvjimen          #+#    #+#             */
-/*   Updated: 2023/03/08 10:53:57 by alvjimen         ###   ########.fr       */
+/*   Updated: 2023/03/13 17:42:34 by alvjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "lxr.h"
 
-void	ft_token_io_number(t_lxr *lxr)
-{
-	if (ft_isdigit(lxr->str[lxr->pos]))
-	{
-		if (lxr->str[lxr->pos + 1] == '>')
-		{
-			lxr->pos++;
-			ft_token_greater(lxr);
-		}
-		else if (lxr->str[lxr->pos + 1] == '<')
-		{
-			printf("io number find %d\n", lxr->str[lxr->pos]);
-			lxr->pos++;
-			ft_token_lower(lxr);
-		}
-		else
-			lxr->pos ++;
-	}
-}
-
 int	ft_token_greater(t_lxr *lxr)
 {
-	if (lxr->str[lxr->pos] == '>')
+	if (lxr->str[lxr->pos] != '>')
+		return (NOT_TOKEN);
+	if (lxr->str[lxr->pos + 1] == '>')
 	{
-		if (lxr->str[lxr->pos + 1] == '>')
-		{
-			printf("DGreater find\n");
-			lxr->pos++;
-		}
-		else
-			printf("Greater find\n");
-		lxr->pos ++;
+		printf("DGreater find\n");
+		lxr->pos++;
 	}
+	else
+		printf("Greater find\n");
+	lxr->pos ++;
 	return (0);
 }
 /* not valid delimiter for heredoc"()\n>;&"
@@ -67,16 +46,15 @@ void	ft_token_here_doc(t_lxr *lxr)
 
 int	ft_token_lower(t_lxr *lxr)
 {
-	if (lxr->str[lxr->pos] == '<')
+	if (lxr->str[lxr->pos] != '<')
+		return (NOT_TOKEN);
+	if (lxr->str[lxr->pos + 1] == '<')
 	{
-		if (lxr->str[lxr->pos + 1] == '<')
-		{
-			printf("DLower find\n");
-			lxr->pos++;
-		}
-		else
-			printf("Lower find\n");
+		printf("DLower find\n");
 		lxr->pos++;
 	}
+	else
+		printf("Lower find\n");
+	lxr->pos++;
 	return (0);
 }

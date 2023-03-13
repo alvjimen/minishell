@@ -6,10 +6,16 @@
 /*   By: alvjimen <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/06 17:07:31 by alvjimen          #+#    #+#             */
-/*   Updated: 2023/03/12 18:51:10 by alvjimen         ###   ########.fr       */
+/*   Updated: 2023/03/13 17:50:53 by alvjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "lxr.h"
+/*
+	Return Value Status
+	O				ALL OK.
+	1				NOT A operator.
+	NOT_TOKEN		NOT Complete value "' doesn't not end.
+*/
 
 int	ft_operators(t_lxr *lxr)
 {

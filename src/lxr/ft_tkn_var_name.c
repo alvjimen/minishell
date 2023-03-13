@@ -6,7 +6,7 @@
 /*   By: alvjimen <alvjimen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/01 11:44:49 by alvjimen          #+#    #+#             */
-/*   Updated: 2023/03/08 20:14:28 by alvjimen         ###   ########.fr       */
+/*   Updated: 2023/03/13 15:33:57 by alvjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "lxr.h"
@@ -19,8 +19,8 @@ static int	ft_valid_char(int (*f)(int), int ch)
 static int	ft_char_exit_loop(t_lxr *lxr, size_t *counter)
 {
 	return (lxr->str[lxr->pos + *counter] == '='
-			|| (lxr->str[lxr->pos + *counter] == '+'
-				&& lxr->str[lxr->pos + ++counter[0]] == '='));
+		|| (lxr->str[lxr->pos + *counter] == '+'
+			&& lxr->str[lxr->pos + ++counter[0]] == '='));
 }
 
 int	ft_token_varname(t_lxr	*lxr)

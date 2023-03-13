@@ -6,47 +6,44 @@
 /*   By: alvjimen <alvjimen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/12 17:53:50 by alvjimen          #+#    #+#             */
-/*   Updated: 2023/03/12 20:51:21 by alvjimen         ###   ########.fr       */
+/*   Updated: 2023/03/13 17:59:18 by alvjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "lxr.h"
 /*
-	return 0 OK
-	return 1 NOK
+	Return Value Status
+	O				ALL OK.
+	1				NOT A operator.
+	NOT_TOKEN		NOT Complete value "' doesn't not end.
 */
-/*
- int	ft_parenthesis(t_lxr *lxr)
-{
-	size_t	counter;
 
-	counter = 0;
-	if (lxr->str[lxr->pos] != '(')
-		return (0);
-	lxr->tokens.states |= PAREN;
-	while (lxr->tokens.states & PAREN)
+static int	ft_search_close_parenthesis(t_lxr *lxr, size_t *counter,
+		size_t *counter_par)
+{
+	while (lxr->str[lxr->pos + *counter] && (*counter_par
+			|| (!*counter_par && lxr->str[lxr->pos + *counter] != ')')))
 	{
-		while (lxr->str[lxr->pos + counter] && lxr->str[lxr->pos + counter] != ')')
-		{
-			if (ft_char_quotes(lxr->str[lxr->pos + counter]))
-				if (ft_quotes(lxr, &counter))
-					return (1);
-			counter++;
-		}
-		if (lxr->str[lxr->pos + counter] == ')')
-		{
-			lxr->tokens.states ^= PAREN;
-			ft_putstr_fd("Token PAREN:\n", 1);
-			write(1, &lxr->str[lxr->pos], counter + 1);
-			write(1, "\n", 1);
-			lxr->pos += counter + 1;
-			return (0);
-		}
-		else if (lxr->mode & NONINTERACTIVE || ft_get_more_input(lxr))
-			break ;
+		if (lxr->str[lxr->pos + *counter] == '(')
+			counter_par[0]++;
+		else if (lxr->str[lxr->pos + *counter] == ')')
+			counter_par[0]--;
+		else if (ft_quotes(lxr, counter) == NOT_TOKEN)
+			return (NOT_TOKEN);
+		counter[0]++;
 	}
-	return (1);
+	return (0);
 }
-*/
+
+static int	ft_set_token(t_lxr *lxr, size_t counter)
+{
+	lxr->tokens.states ^= PAREN;
+	ft_putstr_fd("Token PAREN:\n", 1);
+	write(1, &lxr->str[lxr->pos], counter + 1);
+	write(1, "\n", 1);
+	lxr->pos += counter + 1;
+	return (0);
+}
+
 int	ft_parenthesis(t_lxr *lxr)
 {
 	size_t	counter;
@@ -60,29 +57,12 @@ int	ft_parenthesis(t_lxr *lxr)
 	lxr->tokens.states |= PAREN;
 	while (lxr->tokens.states & PAREN)
 	{
-		while (lxr->str[lxr->pos + counter] && (counter_par
-			|| !counter_par && lxr->str[lxr->pos + counter] != ')'))
-		{
-			if (lxr->str[lxr->pos + counter] == '(')
-				counter_par++;
-			else if (lxr->str[lxr->pos + counter] == ')')
-				counter_par--;
-			else if (ft_char_quotes(lxr->str[lxr->pos + counter]))
-				if (ft_quotes(lxr, &counter))
-					return (1);
-			counter++;
-		}
+		if (ft_search_close_parenthesis(lxr, &counter, &counter_par))
+			return (1);
 		if (lxr->str[lxr->pos + counter] == ')')
-		{
-			lxr->tokens.states ^= PAREN;
-			ft_putstr_fd("Token PAREN:\n", 1);
-			write(1, &lxr->str[lxr->pos], counter + 1);
-			write(1, "\n", 1);
-			lxr->pos += counter + 1;
-			return (0);
-		}
+			return (ft_set_token(lxr, counter));
 		else if (lxr->mode & NONINTERACTIVE || ft_get_more_input(lxr))
 			break ;
 	}
-	return (1);
+	return (NOT_TOKEN);
 }

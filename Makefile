@@ -1,12 +1,10 @@
 # **************************************************************************** #
-#                                                                              #
-#                                                         :::      ::::::::    #
-#    Makefile                                           :+:      :+:    :+:    #
+#                                                                              # #                                                         :::      ::::::::    # #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
 #    By: alvjimen <alvjimen@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/01/31 19:37:18 by alvjimen          #+#    #+#              #
-#    Updated: 2023/03/12 20:46:34 by alvjimen         ###   ########.fr        #
+#    Updated: 2023/03/13 15:29:55 by alvjimen         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -149,7 +147,6 @@ print-%:
 	@$(info '$*'='$($*)')
 
 tester: test
-	@echo "This should be an error but not a parse error an error on execution"
 	./test -c "a==a"
 	./test -c "a=a="
 	./test -c "a+=a="
@@ -164,6 +161,10 @@ tester: test
 	./test -c "\"A		 |    B\"" | cat -e
 	./test -c "varname=\"this a normal var\"a'quoted 'Unquoted Hola"
 	./test -c "a=a b=b  c=c"| cat -e
-	./test -c "(hola (a))"
+	./test -c "(hola (a))"| cat -e
+	./test -c "hola ñ"| cat -e
+	@echo "an operator isn't a invalid char in a var"
+	./test -c "a=|" | cat -e
+	./test -c "a=echo|cat"| cat -e
 
 .PHONY: all clean fclean re testers info-% print-% 

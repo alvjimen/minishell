@@ -6,12 +6,13 @@
 /*   By: alvjimen <alvjimen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/28 18:36:15 by alvjimen          #+#    #+#             */
-/*   Updated: 2023/03/12 19:28:17 by alvjimen         ###   ########.fr       */
+/*   Updated: 2023/03/13 16:23:20 by alvjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef LXR_H
 # define LXR_H
+# define NOT_TOKEN 255
 # include <string.h>
 # include <unistd.h>
 /* My libft libs i can change it for libft.h and should be fine*/
@@ -24,8 +25,9 @@
 typedef enum e_tokens
 {
 	WORD,
-	ASSIGNMENT_WORD
-}t_tokens;
+	ASSIGNMENT_WORD,
+	PARENTHESIS
+}	t_tokens;
 
 typedef enum e_states
 {
@@ -33,13 +35,13 @@ typedef enum e_states
 	DQUOTES,
 	SQUOTES,
 	PAREN
-}t_states;
+}	t_states;
 
 typedef enum e_mode
 {
 	INTERACTIVE,
 	NONINTERACTIVE
-}t_mode;
+}	t_mode;
 
 typedef enum e_operators
 {
@@ -83,7 +85,6 @@ int		ft_token_pipe(t_lxr	*lxr);
 int		ft_token_AND(t_lxr	*lxr);
 int		ft_get_more_input(t_lxr *lxr);
 int		ft_quotes(t_lxr *lxr, size_t *counter);
-int		ft_states(t_lxr *lxr, size_t *counter);
 int		ft_operators(t_lxr *lxr);
 int		ft_char_operator(t_lxr *lxr, size_t *counter);
 int		ft_get_tokens(t_lxr *lxr);
