@@ -130,7 +130,7 @@ $(BUILD-DIR)%.o: $(DIR-SRC)%.c
 clean:
 	@$(RM) $(BUILD-DIR)
 
-fclean:	
+fclean:	 clean
 	@$(RM) $(NAME)
 
 re:	fclean	all

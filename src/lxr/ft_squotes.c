@@ -6,13 +6,15 @@
 /*   By: alvjimen <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/05 18:58:26 by alvjimen          #+#    #+#             */
-/*   Updated: 2023/03/13 16:15:00 by alvjimen         ###   ########.fr       */
+/*   Updated: 2023/03/13 19:08:18 by alvjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "lxr.h"
 /*
-	return 0 OK
-	return 1 NOK
+	Return Value Status
+	O				ALL OK.
+	1				NOT a quote
+	NOT_TOKEN		NOT Complete value "' doesn't not end.
 */
 
 int	ft_squotes(t_lxr *lxr, size_t *counter)

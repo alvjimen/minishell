@@ -6,7 +6,7 @@
 /*   By: alvjimen <alvjimen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/05 12:29:03 by alvjimen          #+#    #+#             */
-/*   Updated: 2023/03/12 18:17:35 by alvjimen         ###   ########.fr       */
+/*   Updated: 2023/03/13 19:15:52 by alvjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "lxr.h"
@@ -15,8 +15,6 @@
 Return values.
 	1 some got wrong
 	0 all good
-
-	TODO Change prompt depending of the missing character
 */
 int	ft_get_more_input(t_lxr *lxr)
 {

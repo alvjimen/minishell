@@ -6,11 +6,17 @@
 /*   By: alvjimen <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/07 17:17:24 by alvjimen          #+#    #+#             */
-/*   Updated: 2023/03/13 18:01:12 by alvjimen         ###   ########.fr       */
+/*   Updated: 2023/03/13 19:08:34 by alvjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "lxr.h"
-/**/
+/*
+	Return Value Status
+	O				ALL OK.
+	1				NOT a quote
+	NOT_TOKEN		NOT Complete value "' doesn't not end.
+*/
+
 int	ft_get_tokens(t_lxr *lxr)
 {
 	int	result;
@@ -22,15 +28,8 @@ int	ft_get_tokens(t_lxr *lxr)
 		if (result == NOT_TOKEN)
 			return (1);
 		else if (result)
-		{
-			result = ft_token_varname(lxr);
-			if (result == NOT_TOKEN)
+			if (ft_token_varname(lxr) == NOT_TOKEN)
 				return (NOT_TOKEN);
-			/*
-			else if (result == 0)
-				return (NOT_TOKEN);
-			*/
-		}
 	}
 	return (0);
 }
