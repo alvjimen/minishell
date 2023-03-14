@@ -6,7 +6,7 @@
 /*   By: alvjimen <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/07 17:17:24 by alvjimen          #+#    #+#             */
-/*   Updated: 2023/03/13 19:08:34 by alvjimen         ###   ########.fr       */
+/*   Updated: 2023/03/14 15:51:31 by alvjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "lxr.h"
@@ -24,6 +24,8 @@ int	ft_get_tokens(t_lxr *lxr)
 	while (lxr->str[lxr->pos])
 	{
 		lxr->pos += ft_run_ifs(lxr);
+		if (!lxr->str[lxr->pos])
+			return (NOT_TOKEN);
 		result = ft_operators(lxr);
 		if (result == NOT_TOKEN)
 			return (1);
