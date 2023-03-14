@@ -146,35 +146,36 @@ info-%:
 print-%:
 	@$(info '$*'='$($*)')
 
+TEST-DIR	=	tests
 tester: test
-	./test -c "a==a"
+	./test -c "a==a" >> $(TEST-DIR)/test.0.new
+	diff tests/test.0 tests/test.0.new
+	if [[$? -eq 0]]
+	then
+		echo -e "test 0 OK"
+	else
+		echo -e "test 0 KO"
+	fi
 	./test -c "a=a="
 	./test -c "a+=a="
-	clear
 	./test -c "a+=\"hola que tal  esta todo\""| cat -e
 	./test -c "a\"hola que tal  esta todo\"a"| cat -e
 	./test -c "a\"hola que tal  esta todo\"a Bien Gracias por preguntar" | cat -e
-	clear
 	./test -c "a\"hola\"a Bien Gracias por preguntar" | cat -e
 	./test -c "A|B" | cat -e
 	./test -c "a+=\"hola que tal  esta todo\"	other        words" | cat -e
-	clear
 	./test -c "A|B" | cat -e
 	./test -c "A	 |	 B" | cat -e
 	./test -c "\"A		 |    B\"" | cat -e
-	clear
 	./test -c "varname=\"this a normal var\"a'quoted 'Unquoted Hola"
 	./test -c "a=a b=b  c=c"| cat -e
 	./test -c "(hola (a))"| cat -e
-	clear
 	./test -c "hola ñ"| cat -e
-	@echo "an operator isn't a invalid char in a var"
 	./test -c "a=|" | cat -e
 	./test -c "a=echo|cat"| cat -e
-	@echo 'this is an error hola (a=a && echo $a)'
 	./test -c "hola ()"| cat -e
-	@echo "and error happend with empty lines"
 	./test -c "a= "
 	./test -c " "| cat -e
+	./test -c ">>>"| cat -e
 
 .PHONY: all clean fclean re testers info-% print-% 
