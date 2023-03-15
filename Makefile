@@ -59,6 +59,20 @@ SRC-LXR				:=	ft_lexer\
 						ft_token_redirect_io\
 						ft_tkn_pipeline\
 
+SRC-LST				:=	ft_lstnew_bonus\
+						ft_lstadd_front_bonus\
+						ft_lstsize_bonus\
+						ft_lstlast_bonus\
+						ft_lstadd_back_bonus\
+						ft_lstdelone_bonus\
+						ft_lstclear_bonus\
+						ft_lstiter_bonus\
+						ft_lstmap_bonus\
+						ft_lstnodeiteri\
+						ft_lst_get_last_content\
+
+DIR-LST				:=	lst/
+SRC-LST				:=	$(SRC-LST:%=$(DIR-LST)%)
 
 SRC-LIB_ADD			:=	ft_split\
 						ft_strnstr\
@@ -79,6 +93,7 @@ SRC-LIB_ADD			:=	ft_split\
 						ft_strjoin\
 						ft_memmove\
 						ft_putstr_fd\
+						$(SRC-LST)
 						
 SRC-TST				:=	test
 
@@ -139,7 +154,7 @@ re:	fclean	all
 
 
 test:	$(NAME) $(BUILD-TST)
-	@$(CC) $(CFLAGS) -o test -I $(INC) -lreadline $(BUILD-TST) $(NAME) 
+	@$(CC) $(CFLAGS) -o test -I $(INC) -lreadline $(BUILD-TST) $(NAME) liblst.a
 #@$(MAKE) fclean
 
 info-%:
@@ -150,27 +165,7 @@ print-%:
 
 TEST-DIR	=	tests
 tester: test
-	./test -c "a==a" > $(TEST-DIR)/test.0.new
-	./test -c "a=a="
-	./test -c "a+=a="
-	./test -c "a+=\"hola que tal  esta todo\""| cat -e
-	./test -c "a\"hola que tal  esta todo\"a"| cat -e
-	./test -c "a\"hola que tal  esta todo\"a Bien Gracias por preguntar" | cat -e
-	./test -c "a\"hola\"a Bien Gracias por preguntar" | cat -e
-	./test -c "A|B" | cat -e
-	./test -c "a+=\"hola que tal  esta todo\"	other        words" | cat -e
-	./test -c "A|B" | cat -e
-	./test -c "A	 |	 B" | cat -e
-	./test -c "\"A		 |    B\"" | cat -e
-	./test -c "varname=\"this a normal var\"a'quoted 'Unquoted Hola"
-	./test -c "a=a b=b  c=c"| cat -e
-	./test -c "(hola (a))"| cat -e
-	./test -c "hola ñ"| cat -e
-	./test -c "a=|" | cat -e
-	./test -c "a=echo|cat"| cat -e
-	./test -c "hola ()"| cat -e
-	./test -c "a= "
-	./test -c " "| cat -e
-	./test -c ">>>"| cat -e
+	tests/tester.sh
+	$(END-RULE)
 
 .PHONY: all clean fclean re testers info-% print-% 

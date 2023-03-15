@@ -1,0 +1,5 @@
+Token ASSIGNMENT_WORD:$
+a=echo$
+PIPE Finded$
+Token WORD:$
+cat$

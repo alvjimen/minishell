@@ -1,0 +1,6 @@
+Token ASSIGNMENT_WORD:$
+a+="hola que tal  esta todo"$
+Token WORD:$
+other$
+Token WORD:$
+words$

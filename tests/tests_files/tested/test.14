@@ -1,0 +1,4 @@
+Token ASSIGNMENT_WORD:$
+varname="this a normal var"a'quoted 'Unquoted$
+Token WORD:$
+Hola$

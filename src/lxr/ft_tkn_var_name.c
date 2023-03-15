@@ -6,7 +6,7 @@
 /*   By: alvjimen <alvjimen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/01 11:44:49 by alvjimen          #+#    #+#             */
-/*   Updated: 2023/03/14 15:21:37 by alvjimen         ###   ########.fr       */
+/*   Updated: 2023/03/15 13:15:48 by alvjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "lxr.h"
@@ -47,6 +47,7 @@ int	ft_token_varname(t_lxr	*lxr)
 		write(1, &lxr->str[lxr->pos], counter);
 		write(1, "\n", 1);
 		lxr->pos += counter;
+		lxr->num_tokens++;
 		return (0);
 	}
 	return (ft_token_word(lxr, &counter));
