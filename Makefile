@@ -1,10 +1,12 @@
 # **************************************************************************** #
-#                                                                              # #                                                         :::      ::::::::    # #    Makefile                                           :+:      :+:    :+:    #
+#                                                                              #
+#                                                         :::      ::::::::    #
+#    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
 #    By: alvjimen <alvjimen@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/01/31 19:37:18 by alvjimen          #+#    #+#              #
-#    Updated: 2023/03/13 15:29:55 by alvjimen         ###   ########.fr        #
+#    Updated: 2023/03/15 17:03:33 by alvjimen         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -56,8 +58,6 @@ SRC-LXR				:=	ft_lexer\
 						ft_operator_redirections\
 						ft_get_tokens\
 						ft_parenthesis\
-						ft_token_redirect_io\
-						ft_tkn_pipeline\
 
 SRC-LST				:=	ft_lstnew_bonus\
 						ft_lstadd_front_bonus\
@@ -154,7 +154,7 @@ re:	fclean	all
 
 
 test:	$(NAME) $(BUILD-TST)
-	@$(CC) $(CFLAGS) -o test -I $(INC) -lreadline $(BUILD-TST) $(NAME) liblst.a
+	@$(CC) $(CFLAGS) -o test -I $(INC) -lreadline $(BUILD-TST) $(NAME)
 #@$(MAKE) fclean
 
 info-%:

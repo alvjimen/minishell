@@ -6,7 +6,7 @@
 /*   By: alvjimen <alvjimen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/28 18:36:15 by alvjimen          #+#    #+#             */
-/*   Updated: 2023/03/15 07:17:04 by alvjimen         ###   ########.fr       */
+/*   Updated: 2023/03/15 19:49:08 by alvjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,10 +15,7 @@
 # define NOT_TOKEN 255
 # include <string.h>
 # include <unistd.h>
-/* My libft libs i can change it for libft.h and should be fine*/
-# include <cmn.h>
-# include <str.h>
-# include <out.h>
+# include <libft.h>
 # include <readline/history.h>
 # include <readline/readline.h>
 
@@ -47,7 +44,12 @@ typedef enum e_operators
 {
 	NONE,
 	AND_IF,
-	OR_IF
+	OR_IF,
+	PIPE,
+	GREATER,
+	DGREATER,
+	LOWER,
+	DLOWER
 }	t_operators;
 
 typedef struct s_tkn
@@ -56,6 +58,7 @@ typedef struct s_tkn
 	t_operators		operators;
 	t_tokens		token;
 	t_states		states;
+	t_list			*related;
 }	t_tkn;
 
 typedef struct s_lxr
@@ -65,6 +68,7 @@ typedef struct s_lxr
 	t_tkn	tokens;
 	size_t	num_tokens;
 	t_mode	mode;
+	t_list	*lst;
 }	t_lxr;
 
 t_lxr	*ft_init_lxr(char *s);
@@ -91,5 +95,7 @@ int		ft_get_tokens(t_lxr *lxr);
 int		ft_parenthesis(t_lxr *lxr);
 int		ft_token_redirect_io(t_lxr *lxr);
 int		ft_tkn_pipeline(t_lxr *lxr);
+t_tkn	*ft_init_tkn(t_tkn *token);
+void	ft_print_lst(void	*ptr);
 
 #endif
