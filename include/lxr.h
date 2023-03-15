@@ -6,7 +6,7 @@
 /*   By: alvjimen <alvjimen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/28 18:36:15 by alvjimen          #+#    #+#             */
-/*   Updated: 2023/03/13 16:23:20 by alvjimen         ###   ########.fr       */
+/*   Updated: 2023/03/15 07:17:04 by alvjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,5 +89,7 @@ int		ft_operators(t_lxr *lxr);
 int		ft_char_operator(t_lxr *lxr, size_t *counter);
 int		ft_get_tokens(t_lxr *lxr);
 int		ft_parenthesis(t_lxr *lxr);
+int		ft_token_redirect_io(t_lxr *lxr);
+int		ft_tkn_pipeline(t_lxr *lxr);
 
 #endif

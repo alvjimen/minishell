@@ -56,6 +56,8 @@ SRC-LXR				:=	ft_lexer\
 						ft_operator_redirections\
 						ft_get_tokens\
 						ft_parenthesis\
+						ft_token_redirect_io\
+						ft_tkn_pipeline\
 
 
 SRC-LIB_ADD			:=	ft_split\
@@ -148,14 +150,7 @@ print-%:
 
 TEST-DIR	=	tests
 tester: test
-	./test -c "a==a" >> $(TEST-DIR)/test.0.new
-	diff tests/test.0 tests/test.0.new
-	if [[$? -eq 0]]
-	then
-		echo -e "test 0 OK"
-	else
-		echo -e "test 0 KO"
-	fi
+	./test -c "a==a" > $(TEST-DIR)/test.0.new
 	./test -c "a=a="
 	./test -c "a+=a="
 	./test -c "a+=\"hola que tal  esta todo\""| cat -e

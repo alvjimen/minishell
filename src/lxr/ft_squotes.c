@@ -6,7 +6,7 @@
 /*   By: alvjimen <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/05 18:58:26 by alvjimen          #+#    #+#             */
-/*   Updated: 2023/03/14 13:57:52 by alvjimen         ###   ########.fr       */
+/*   Updated: 2023/03/15 06:42:30 by alvjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "lxr.h"
@@ -36,6 +36,6 @@ int	ft_squotes(t_lxr *lxr, size_t *counter)
 		if (lxr->mode & NONINTERACTIVE || ft_get_more_input(lxr))
 			break ;
 	}
-	printf("Not close squotes\n");
+	ft_putstr_fd("Not close squotes\n", 1);
 	return (NOT_TOKEN);
 }
