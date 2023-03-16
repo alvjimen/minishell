@@ -6,7 +6,7 @@
 /*   By: alvjimen <alvjimen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/28 18:09:54 by alvjimen          #+#    #+#             */
-/*   Updated: 2023/03/16 18:41:43 by alvjimen         ###   ########.fr       */
+/*   Updated: 2023/03/16 19:08:27 by alvjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "lxr.h"
@@ -35,7 +35,8 @@ void	ft_print_lst(void	*ptr)
 		ft_putstr_fd("Token ASSIGNMENT_WORD:\n", 1);
 	else if (content->token == WORD)
 		ft_putstr_fd("Token WORD:\n", 1);
-
+	else if (content->token == PARENTHESIS)
+		ft_putstr_fd("Token PAREN:\n", 1);
 	ft_putstr_fd(content->value, 1);
 	ft_putstr_fd("\n", 1);
 }

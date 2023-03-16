@@ -6,30 +6,28 @@
 /*   By: alvjimen <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/05 19:25:52 by alvjimen          #+#    #+#             */
-/*   Updated: 2023/03/16 18:53:23 by alvjimen         ###   ########.fr       */
+/*   Updated: 2023/03/16 18:58:04 by alvjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "lxr.h"
 
 int	ft_token_pipe(t_lxr	*lxr)
 {
-	int	i;
+	size_t	counter;
 
 	if (lxr->str[lxr->pos] != '|')
 		return (NOT_TOKEN);
 	lxr->tokens.token = OPERATOR;
-	if (lxr->str[lxr->pos + 1] == '|')
+	counter = 1;
+	if (lxr->str[lxr->pos + counter] == '|' && counter++)
 	{
 		lxr->tokens.operators = OR_IF;
-		i = 2;
+		counter++;
 	}
 	else
-	{
-		i = 1;
 		lxr->tokens.operators = PIPE;
-	}
-		if (ft_add_string_to_list(lxr, i) == NULL)
-			return (NOT_TOKEN);
+	if (ft_add_string_to_list(lxr, counter) == NULL)
+		return (NOT_TOKEN);
 	return (0);
 }
 
