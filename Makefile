@@ -6,7 +6,7 @@
 #    By: alvjimen <alvjimen@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/01/31 19:37:18 by alvjimen          #+#    #+#              #
-#    Updated: 2023/03/16 18:29:23 by alvjimen         ###   ########.fr        #
+#    Updated: 2023/03/16 20:06:44 by alvjimen         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -105,6 +105,9 @@ SRC-BTREE			:=	ft_btree_apply_by_level\
 						ft_btree_insert_data\
 						ft_btree_new_node\
 						ft_btree_level_count\
+						ft_btree_add_left\
+						ft_btree_add_right\
+						ft_btree_add_parent\
 
 DIR-SRC				:=	./src/
 DIR-LXR				:=	lxr/
@@ -166,7 +169,6 @@ print-%:
 
 TEST-DIR	=	tests
 tester: test
-	tests/tester.sh
-	$(END-RULE)
+	@tests/tester.sh
 
 .PHONY: all clean fclean re testers info-% print-% 

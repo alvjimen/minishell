@@ -81,7 +81,6 @@ function green_text()
 	echo -e "\033[32m$1\033[0m"
 }
 
-#echo "${test_word_assignament[@]}"
 yellow_text "WORD_ASSIGNAMENT"
 nbr=0;
 for name in "${test_word_assignament[@]}"
@@ -108,3 +107,4 @@ for name in "${test_syntax[@]}"
 do
 	check_files "$name"
 done
+#:e include/lxr.h:vsplit Makefile:tabnew src/test/test.c:vsplit tests/tester.sh
