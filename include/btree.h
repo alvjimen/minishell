@@ -6,19 +6,21 @@
 /*   By: alvjimen <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/25 16:32:39 by alvjimen          #+#    #+#             */
-/*   Updated: 2023/02/28 18:38:30 by alvjimen         ###   ########.fr       */
+/*   Updated: 2023/03/16 17:18:01 by alvjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef BTREE_H
 # define BTREE_H
 # include <stdlib.h>
-
+/*
+	btree is gonna use as a list long live to polimorphism;)
+*/
 typedef struct s_btree
 {
 	void			*content;
-	struct s_btree	*left;
 	struct s_btree	*right;
+	struct s_btree	*left;
 }	t_btree;
 
 t_btree	*ft_btree_new_node(void *content);

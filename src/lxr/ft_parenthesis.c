@@ -6,7 +6,7 @@
 /*   By: alvjimen <alvjimen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/12 17:53:50 by alvjimen          #+#    #+#             */
-/*   Updated: 2023/03/15 06:41:03 by alvjimen         ###   ########.fr       */
+/*   Updated: 2023/03/16 18:44:04 by alvjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "lxr.h"
@@ -37,10 +37,14 @@ static int	ft_search_close_parenthesis(t_lxr *lxr, size_t *counter,
 static int	ft_set_token(t_lxr *lxr, size_t counter)
 {
 	lxr->tokens.states ^= PAREN;
+	if (ft_add_string_to_list(lxr, counter + 1) == NULL)
+		return (NOT_TOKEN);
+	/*
 	ft_putstr_fd("Token PAREN:\n", 1);
 	write(1, &lxr->str[lxr->pos], counter + 1);
 	write(1, "\n", 1);
 	lxr->pos += counter + 1;
+	*/
 	return (0);
 }
 

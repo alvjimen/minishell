@@ -6,7 +6,7 @@
 /*   By: alvjimen <alvjimen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/28 18:36:15 by alvjimen          #+#    #+#             */
-/*   Updated: 2023/03/15 19:49:08 by alvjimen         ###   ########.fr       */
+/*   Updated: 2023/03/16 16:52:43 by alvjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,9 +21,11 @@
 
 typedef enum e_tokens
 {
+	NO_TOKEN,
 	WORD,
 	ASSIGNMENT_WORD,
-	PARENTHESIS
+	PARENTHESIS,
+	OPERATOR
 }	t_tokens;
 
 typedef enum e_states
@@ -97,5 +99,7 @@ int		ft_token_redirect_io(t_lxr *lxr);
 int		ft_tkn_pipeline(t_lxr *lxr);
 t_tkn	*ft_init_tkn(t_tkn *token);
 void	ft_print_lst(void	*ptr);
+void	*ft_add_string_to_list(t_lxr *lxr, size_t counter);
+void	ft_destroy_tkn(void *ptr);
 
 #endif
