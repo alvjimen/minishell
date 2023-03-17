@@ -6,7 +6,7 @@
 /*   By: alvjimen <alvjimen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/28 18:09:12 by alvjimen          #+#    #+#             */
-/*   Updated: 2023/03/16 17:37:04 by alvjimen         ###   ########.fr       */
+/*   Updated: 2023/03/17 12:05:02 by alvjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,7 @@ void	ft_destroy_tkn(void *ptr)
 		return ;
 	content = ptr;
 	free(content->value);
+	content->value = NULL;
 	ft_lstclear(&content->related, ft_destroy_tkn);
 	free(ptr);
 }

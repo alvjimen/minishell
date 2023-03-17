@@ -6,12 +6,12 @@
 /*   By: alvjimen <alvjimen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/16 20:09:40 by alvjimen          #+#    #+#             */
-/*   Updated: 2023/03/16 20:58:33 by alvjimen         ###   ########.fr       */
+/*   Updated: 2023/03/17 13:36:56 by alvjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "lxr.h"
 
-t_list	*ft_search_list(t_list *lst, f(void *))
+t_list	*ft_search_list(t_list *lst, int (*f)(void *))
 {
 	t_list	*node;
 	t_tkn	*tokens;
@@ -22,7 +22,7 @@ t_list	*ft_search_list(t_list *lst, f(void *))
 	while (lst)
 	{
 		if (!f(lst->content))
-			break
+			break ;
 		lst = lst->next;
 	}
 	return (lst);

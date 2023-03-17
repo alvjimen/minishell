@@ -6,7 +6,7 @@
 /*   By: alvjimen <alvjimen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/28 18:36:15 by alvjimen          #+#    #+#             */
-/*   Updated: 2023/03/16 19:40:03 by alvjimen         ###   ########.fr       */
+/*   Updated: 2023/03/17 13:36:23 by alvjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,6 +104,11 @@ t_tkn	*ft_init_tkn(t_tkn *token);
 void	ft_print_lst(void	*ptr);
 void	*ft_add_string_to_list(t_lxr *lxr, size_t counter);
 void	ft_destroy_tkn(void *ptr);
+t_list	*ft_split_list(t_list *lst, int (*f)(void *));
+t_list	*ft_search_list(t_list *lst, int (*f)(void *));
+int		ft_operators_interpipelines(void *ptr);
+int		ft_operators_intercmd(void *ptr);
+int		ft_operators_intracmd(void *ptr);
 
 
 #endif

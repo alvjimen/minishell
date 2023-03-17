@@ -6,7 +6,7 @@
 /*   By: alvjimen <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/25 16:32:39 by alvjimen          #+#    #+#             */
-/*   Updated: 2023/03/16 20:05:22 by alvjimen         ###   ########.fr       */
+/*   Updated: 2023/03/17 12:11:36 by alvjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,5 +34,5 @@ void	btree_apply_by_level(t_btree *root, void (*applyf)(void *item,
 				int current_level, int is_first_elem));
 void	ft_btree_add_left(t_btree *root, t_btree *node);
 void	ft_btree_add_right(t_btree *root, t_btree *node);
-void	ft_btree_add_parent(t_btree **root, t_btree *node, (*f)(t_btree *, t_btree *));
+void	ft_btree_add_parent(t_btree **root, t_btree *node, void (*f)(t_btree *, t_btree *));
 #endif
