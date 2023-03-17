@@ -6,44 +6,10 @@
 /*   By: alvjimen <alvjimen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/28 18:09:12 by alvjimen          #+#    #+#             */
-/*   Updated: 2023/03/17 12:05:02 by alvjimen         ###   ########.fr       */
+/*   Updated: 2023/03/17 17:29:38 by alvjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 #include "lxr.h"
-
-/*
-*TOKENS*
-word name newline
-*OPERATORS*
-AND_IF		&&
-OR_IF		||
-DSEM		;;
-DLESS		<<
-DGREAT		>>
-LESSAND		<&
-GREATAND	>&
-LESSGREAT	<>
-DLESSDASH	<<-
-CLOBBER		>|
-*RESERVED WORDS*
-If			if
-Then		then
-Else		else
-Elif		elif
-Fi			fi
-Do			do
-Done		done
-Case		case
-Esac		esac
-While		while
-Until		until
-For			for
-Lbrace		{
-Rbrace		}
-Bang		!
-IN			in
-*/
 
 t_tkn	*ft_init_tkn(t_tkn *token)
 {
