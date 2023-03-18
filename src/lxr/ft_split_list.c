@@ -6,7 +6,7 @@
 /*   By: alvjimen <alvjimen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/16 20:17:03 by alvjimen          #+#    #+#             */
-/*   Updated: 2023/03/18 18:21:53 by alvjimen         ###   ########.fr       */
+/*   Updated: 2023/03/18 20:49:24 by alvjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "lxr.h"
@@ -19,6 +19,8 @@ static int	ft_split_first(t_list *lst, t_list *delim)
 {
 	if (!lst)
 		return (1);
+	if (lst == delim)
+		return (0);
 	while (lst && lst->next != delim)
 		lst = lst->next;
 	if (!lst)
@@ -31,7 +33,9 @@ t_list	*ft_split_list(t_list **lst, int (*f)(void *))
 {
 	t_list	*second;
 
-	second = ft_search_list(lst, (*f));
+	if (!lst || !*lst)
+		return (NULL);
+	second = ft_search_list(*lst, (*f));
 	if (!second)
 		return (NULL);
 	if (ft_split_first(lst, second))
