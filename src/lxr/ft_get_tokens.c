@@ -6,7 +6,7 @@
 /*   By: alvjimen <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/07 17:17:24 by alvjimen          #+#    #+#             */
-/*   Updated: 2023/03/17 12:12:35 by alvjimen         ###   ########.fr       */
+/*   Updated: 2023/03/19 18:45:52 by alvjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "lxr.h"
@@ -41,8 +41,8 @@ void	*ft_add_to_lst(t_lxr *lxr)
 		free(token);
 		return (NULL);
 	}
-	ft_lstadd_back(&lxr->lst, (t_list *)node);
-	lxr->btree = (t_btree *)lxr->lst;
+	ft_lstadd_back((t_list **)&lxr->btree, (t_list *)node);
+	lxr->btree = (t_btree *)lxr->btree;
 	return ((void *)node);
 }
 

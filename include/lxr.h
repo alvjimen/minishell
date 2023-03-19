@@ -6,7 +6,7 @@
 /*   By: alvjimen <alvjimen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/28 18:36:15 by alvjimen          #+#    #+#             */
-/*   Updated: 2023/03/18 18:19:20 by alvjimen         ###   ########.fr       */
+/*   Updated: 2023/03/19 19:27:28 by alvjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,12 +58,12 @@ typedef enum e_operators
 typedef struct s_tkn
 {
 	char			*value;
+	char			**str;
 	t_operators		operators;
 	t_tokens		token;
 	size_t			num_tokens;
 	unsigned int	found: 1;
 	t_states		states;
-	t_list			*related;
 }	t_tkn;
 
 typedef struct s_lxr
@@ -73,7 +73,6 @@ typedef struct s_lxr
 	t_tkn	tokens;
 	size_t	num_tokens;
 	t_mode	mode;
-	t_list	*lst;
 	t_btree	*btree;
 }	t_lxr;
 
@@ -111,6 +110,5 @@ t_list	*ft_search_list(t_list *lst, int (*f)(void *));
 int		ft_operators_interpipelines(void *ptr);
 int		ft_operators_intercmd(void *ptr);
 int		ft_operators_intracmd(void *ptr);
-
-
+int		ft_tokens_word(void *ptr);
 #endif

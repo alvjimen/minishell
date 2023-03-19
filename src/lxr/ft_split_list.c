@@ -6,7 +6,7 @@
 /*   By: alvjimen <alvjimen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/16 20:17:03 by alvjimen          #+#    #+#             */
-/*   Updated: 2023/03/18 20:49:24 by alvjimen         ###   ########.fr       */
+/*   Updated: 2023/03/19 18:47:47 by alvjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "lxr.h"
@@ -38,7 +38,7 @@ t_list	*ft_split_list(t_list **lst, int (*f)(void *))
 	second = ft_search_list(*lst, (*f));
 	if (!second)
 		return (NULL);
-	if (ft_split_first(lst, second))
+	if (ft_split_first(*lst, second))
 		return (NULL);
 	return (second);
 }
