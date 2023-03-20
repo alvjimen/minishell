@@ -6,7 +6,7 @@
 /*   By: alvjimen <alvjimen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/31 20:04:15 by alvjimen          #+#    #+#             */
-/*   Updated: 2023/03/17 17:28:36 by alvjimen         ###   ########.fr       */
+/*   Updated: 2023/03/20 17:34:16 by alvjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "lxr.h"
@@ -32,7 +32,7 @@ int	main(int argc, char *argv[])
 		}
 		lxr->mode = NONINTERACTIVE;
 		ft_get_tokens(lxr);
-		ft_lstiter(lxr->lst, ft_print_lst);
+		ft_lstiter((t_list *)lxr->btree, ft_print_lst);
 		ft_btree_clear(&lxr->btree, ft_destroy_tkn);
 		free(lxr);
 		free(str);

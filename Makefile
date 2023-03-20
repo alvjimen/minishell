@@ -6,7 +6,7 @@
 #    By: alvjimen <alvjimen@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/01/31 19:37:18 by alvjimen          #+#    #+#              #
-#    Updated: 2023/03/18 18:21:07 by alvjimen         ###   ########.fr        #
+#    Updated: 2023/03/20 18:24:53 by alvjimen         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -62,6 +62,7 @@ SRC-LXR				:=	ft_lexer\
 						ft_split_list\
 						ft_search_list\
 						ft_operators_split\
+						ft_syntax_analizer\
 
 SRC-LST				:=	ft_lstnew_bonus\
 						ft_lstadd_front_bonus\
@@ -111,6 +112,7 @@ SRC-BTREE			:=	ft_btree_apply_by_level\
 						ft_btree_add_left\
 						ft_btree_add_right\
 						ft_btree_add_parent\
+						ft_btree_clear\
 
 DIR-SRC				:=	./src/
 DIR-LXR				:=	lxr/
@@ -128,7 +130,7 @@ SRC					:=	$(SRC-LXR) $(SRC-LIB_ADD) $(SRC-BTREE)
 INC					:=	./include/
 BUILD-DIR			:=	./.build/
 CC					:=	clang
-CFLAGS				:=	-Wall -Werror -Wextra -g3 -std=c89 -pedantic -fsanitize=undefined -fsanitize=address #-O2
+CFLAGS				:=	-Wall -Werror -Wextra -g3 -std=c89 #-pedantic -fsanitize=undefined -fsanitize=address #-O2
 BUILD				:=	$(addprefix $(BUILD-DIR), $(addsuffix .o, $(SRC)))
 BUILD-TST			:=	$(addprefix $(BUILD-DIR), $(addsuffix .o, $(SRC-TST)))
 DEPS				:=	$(BUILD:.o=.d)
