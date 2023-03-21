@@ -6,17 +6,19 @@
 /*   By: alvjimen <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/21 17:35:03 by alvjimen          #+#    #+#             */
-/*   Updated: 2023/03/21 19:28:43 by alvjimen         ###   ########.fr       */
+/*   Updated: 2023/03/21 19:31:54 by alvjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "lxr.h"
 /*
 opendir, readdir, closedir
 */
+/*
 void	ft_lst_del(void *ptr)
 {
 	free(ptr);
 }
+*/
 
 char **ft_ls(char *str)
 {
@@ -75,5 +77,6 @@ char **ft_ls(char *str)
 		perror("closedir");
 		return (NULL);
 	}
+	/*!Pdte of create an array with the lst or the array directly*/
 	return (files);
 }
