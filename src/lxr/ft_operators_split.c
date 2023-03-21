@@ -6,7 +6,7 @@
 /*   By: alvjimen <alvjimen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/17 12:23:30 by alvjimen          #+#    #+#             */
-/*   Updated: 2023/03/20 17:10:52 by alvjimen         ###   ########.fr       */
+/*   Updated: 2023/03/21 09:39:02 by alvjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "lxr.h"
@@ -15,6 +15,19 @@
 	if return 0 OK
 	if return 1 KO
 */
+int	ft_tokens_paren(void *ptr)
+{
+	t_tkn	*tokens;
+
+	if (!ptr)
+		return (1);
+	tokens = ptr;
+	if (tokens && tokens->token & PARENTHESIS)
+		return (0);
+	return (1);
+
+}
+
 int	ft_operators_split(t_btree **root)
 {
 	t_btree	*node;
@@ -25,6 +38,7 @@ int	ft_operators_split(t_btree **root)
 
 	if (!root || !*root)
 		return (1);
+	/*|| &&*/
 	node = (t_btree *)ft_split_list((t_list **)root,
 		ft_operators_interpipelines);
 	if (node)
@@ -32,6 +46,7 @@ int	ft_operators_split(t_btree **root)
 		ft_btree_add_parent(root, node, ft_btree_add_left);
 		return (0);
 	}
+	/*|*/
 	node = (t_btree *)ft_split_list((t_list **)root,
 		ft_operators_intercmd);
 	if (node)
@@ -39,6 +54,7 @@ int	ft_operators_split(t_btree **root)
 		ft_btree_add_parent(root, node, ft_btree_add_left);
 		return (0);
 	}
+	/*< > << >> */
 	node = (t_btree *)ft_split_list((t_list **)root,
 		ft_operators_intracmd);
 	if (node)
@@ -52,6 +68,13 @@ int	ft_operators_split(t_btree **root)
 				ft_operators_intracmd);
 		}
 		ft_btree_apply_to_node_infix(*root, ft_btree_swap);
+	}
+	/*()*/
+	if (!ft_tokens_paren(root[0]->content))
+	{
+		content = root[0]->content;
+		if (ft_parenthesis_split(content->value, root))
+			return (1);
 	}
 	/*Create the array of str*/
 	node = *root;

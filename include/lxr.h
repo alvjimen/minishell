@@ -6,7 +6,7 @@
 /*   By: alvjimen <alvjimen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/28 18:36:15 by alvjimen          #+#    #+#             */
-/*   Updated: 2023/03/19 19:27:28 by alvjimen         ###   ########.fr       */
+/*   Updated: 2023/03/21 13:39:48 by alvjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,8 @@ typedef enum e_states
 	I_STATE,
 	DQUOTES,
 	SQUOTES,
-	PAREN
+	PAREN,
+	DOLLAR
 }	t_states;
 
 typedef enum e_mode
@@ -74,7 +75,16 @@ typedef struct s_lxr
 	size_t	num_tokens;
 	t_mode	mode;
 	t_btree	*btree;
+	int		errors;
+	size_t	counter;
 }	t_lxr;
+
+typedef struct s_expand
+{
+	char		*str;
+	size_t		pos;
+	t_state		states;
+}	t_expand;
 
 t_lxr	*ft_init_lxr(char *s);
 size_t	ft_run_ifs(t_lxr *lxr);
