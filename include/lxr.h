@@ -6,7 +6,7 @@
 /*   By: alvjimen <alvjimen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/28 18:36:15 by alvjimen          #+#    #+#             */
-/*   Updated: 2023/03/21 13:39:48 by alvjimen         ###   ########.fr       */
+/*   Updated: 2023/03/21 17:37:06 by alvjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,10 +15,11 @@
 # define NOT_TOKEN 255
 # include <string.h>
 # include <unistd.h>
-# include <libft.h>
-# include <btree.h>
+# include <dirent.h>
 # include <readline/history.h>
 # include <readline/readline.h>
+# include "libft.h"
+# include "btree.h"
 
 typedef enum e_tokens
 {
@@ -78,13 +79,6 @@ typedef struct s_lxr
 	int		errors;
 	size_t	counter;
 }	t_lxr;
-
-typedef struct s_expand
-{
-	char		*str;
-	size_t		pos;
-	t_state		states;
-}	t_expand;
 
 t_lxr	*ft_init_lxr(char *s);
 size_t	ft_run_ifs(t_lxr *lxr);
