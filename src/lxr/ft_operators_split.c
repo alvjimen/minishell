@@ -6,7 +6,7 @@
 /*   By: alvjimen <alvjimen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/17 12:23:30 by alvjimen          #+#    #+#             */
-/*   Updated: 2023/03/21 19:27:12 by alvjimen         ###   ########.fr       */
+/*   Updated: 2023/03/21 19:45:08 by alvjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "lxr.h"
@@ -88,6 +88,7 @@ int	ft_operators_split(t_btree **root)
 		ft_lstclear((t_list **)&args, ft_destroy_tkn);
 	}
 	/*Crear una array de 2D apartir de una lista*/
+	/*PDTE usar sarr on this part*/
 	lst_size = ft_lstsize((t_list *)node);
 	content = node->content;
 	content->str = ft_calloc(lst_size + 1, sizeof(char *));
