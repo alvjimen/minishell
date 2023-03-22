@@ -6,20 +6,21 @@
 /*   By: alvjimen <alvjimen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/21 12:45:06 by alvjimen          #+#    #+#             */
-/*   Updated: 2023/03/21 13:50:19 by alvjimen         ###   ########.fr       */
+/*   Updated: 2023/03/22 19:47:09 by alvjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "lxr.h"
 
-int	ft_isdigit(int	ch)
+int	ft_isdigit(int ch)
 {
 	return (ch >= '0' && ch <= '9');
 }
 
 char	*ft_var_value(char **sarr, char *var_name)
 {
-	return (ft_strdup("var_value");
+	return (ft_strdup("var_value"));
 }
+
 /*if return value == lxr->str this is equal a escaped $ char*/
 char	*ft_get_varname(t_lxr *lxr)
 {
@@ -27,9 +28,11 @@ char	*ft_get_varname(t_lxr *lxr)
 	char	*str;
 
 	counter = 1;
-	if (ft_isalpha(lxr->str[lxr->pos + counter]) || lxr->str[lxr->pos + counter] == '_')
+	if (ft_isalpha(lxr->str[lxr->pos + counter])
+		|| lxr->str[lxr->pos + counter] == '_')
 	{
-		while (ft_isalnum(lxr->str[lxr->pos + counter] || lxr->str[lxr->pos + counter] == '_')
+		while (ft_isalnum(lxr->str[lxr->pos + counter])
+			|| lxr->str[lxr->pos + counter] == '_')
 			counter++;
 		str = substr(lxr->str, pos, counter);
 		if (!str)
@@ -62,11 +65,14 @@ char	*ft_vars_expansion(char *str)
 		return (NULL);
 	while (lxr->str[lxr->pos])
 	{
-		if (!lxr->tokens->states & (SQUOTES | DQUOTES) && lxr->str[lxr->pos] == '"')
+		if (!lxr->tokens->states & (SQUOTES | DQUOTES)
+			&& lxr->str[lxr->pos] == '"')
 			lxr->tokens->states |= DQUOTES;
-		else if (!lxr->tokens->states & DQUOTES && lxr->str[lxr->pos] == '"')
+		else if (!lxr->tokens->states & DQUOTES
+			&& lxr->str[lxr->pos] == '"')
 			lxr->tokens->states ^= DQUOTES;
-		else if (!lxr->tokens->states & SQUOTES && lxr->str[lxr->pos] == '$');
+		else if (!lxr->tokens->states & SQUOTES
+			&& lxr->str[lxr->pos] == '$')
 		{
 			name = ft_get_varname(lxr);
 			if (!name)
@@ -118,13 +124,14 @@ char	*ft_vars_expansion(char *str)
 			lxr->str = name;
 			free(tmp);
 			free(value);
-			tmp = NULL:
+			tmp = NULL;
 			value = NULL;
 			name = NULL;
 			lxr->pos = 0;
 			lxr->counter = 0;
 		}
 		pos++;
-		
 	}
+	free(lxr);
+	return (lxr->str);
 }

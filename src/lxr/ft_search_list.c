@@ -6,7 +6,7 @@
 /*   By: alvjimen <alvjimen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/16 20:09:40 by alvjimen          #+#    #+#             */
-/*   Updated: 2023/03/19 19:27:47 by alvjimen         ###   ########.fr       */
+/*   Updated: 2023/03/22 19:08:51 by alvjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "lxr.h"
@@ -81,5 +81,4 @@ int	ft_tokens_word(void *ptr)
 	if (tokens && tokens->token & WORD)
 		return (0);
 	return (1);
-
 }

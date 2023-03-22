@@ -6,7 +6,7 @@
 /*   By: alvjimen <alvjimen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/16 14:00:09 by alvjimen          #+#    #+#             */
-/*   Updated: 2023/03/16 18:33:20 by alvjimen         ###   ########.fr       */
+/*   Updated: 2023/03/22 17:47:09 by alvjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "lxr.h"
@@ -25,4 +25,3 @@ void	*ft_add_string_to_list(t_lxr *lxr, size_t counter)
 	lxr->num_tokens++;
 	return (lxr->tokens.value);
 }
-

@@ -6,7 +6,7 @@
 /*   By: alvjimen <alvjimen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/17 12:23:30 by alvjimen          #+#    #+#             */
-/*   Updated: 2023/03/21 19:45:08 by alvjimen         ###   ########.fr       */
+/*   Updated: 2023/03/22 19:45:11 by alvjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "lxr.h"
@@ -25,7 +25,6 @@ int	ft_tokens_paren(void *ptr)
 	if (tokens && tokens->token & PARENTHESIS)
 		return (0);
 	return (1);
-
 }
 
 int	ft_operators_split(t_btree **root)
@@ -40,7 +39,7 @@ int	ft_operators_split(t_btree **root)
 		return (1);
 	/*|| &&*/
 	node = (t_btree *)ft_split_list((t_list **)root,
-		ft_operators_interpipelines);
+			ft_operators_interpipelines);
 	if (node)
 	{
 		ft_btree_add_parent(root, node, ft_btree_add_left);
@@ -48,7 +47,7 @@ int	ft_operators_split(t_btree **root)
 	}
 	/*|*/
 	node = (t_btree *)ft_split_list((t_list **)root,
-		ft_operators_intercmd);
+			ft_operators_intercmd);
 	if (node)
 	{
 		ft_btree_add_parent(root, node, ft_btree_add_left);
@@ -56,7 +55,7 @@ int	ft_operators_split(t_btree **root)
 	}
 	/*< > << >> */
 	node = (t_btree *)ft_split_list((t_list **)root,
-		ft_operators_intracmd);
+			ft_operators_intracmd);
 	if (node)
 	{
 		while (node)
@@ -64,8 +63,8 @@ int	ft_operators_split(t_btree **root)
 			ft_btree_swap(*root);
 			ft_lstadd_back((t_list **)root, (t_list *)root[0]->left->right);
 			root[0]->left->right = NULL;
-			node = (t_btree *)ft_split_list((t_list **)root, 
-				ft_operators_intracmd);
+			node = (t_btree *)ft_split_list((t_list **)root,
+					ft_operators_intracmd);
 		}
 		ft_btree_apply_to_node_infix(*root, ft_btree_swap);
 	}
@@ -77,11 +76,12 @@ int	ft_operators_split(t_btree **root)
 			return (1);
 	}
 	/*Create the array of str*/
+	/*Acceder a la posición del árbol que tiene las palabras*/
 	node = *root;
 	while (node->left)
 		node = node->left;
+	/*Comprobar que si haya ASSIGNMENT_WORD y despues palabras*/
 	content = node->content;
-	/*Comprobar que no haya ASSIGNMENT_WORD y despues palabras*/
 	if (content->token & ASSIGNMENT_WORD)
 	{
 		args = (t_btree *)ft_split_list((t_list **)&node, ft_tokens_word);

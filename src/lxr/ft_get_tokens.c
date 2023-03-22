@@ -6,7 +6,7 @@
 /*   By: alvjimen <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/07 17:17:24 by alvjimen          #+#    #+#             */
-/*   Updated: 2023/03/20 17:52:02 by alvjimen         ###   ########.fr       */
+/*   Updated: 2023/03/22 19:09:56 by alvjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "lxr.h"
@@ -25,16 +25,6 @@ void	*ft_add_to_lst(t_lxr *lxr)
 	token = ft_init_tkn(&lxr->tokens);
 	if (!token)
 		return (NULL);
-	/*
-	node = ft_lstnew(token);
-	if (!node)
-	{
-		free(token);
-		return (NULL);
-	}
-	ft_lstadd_back(&lxr->lst, node);
-	return ((void *)node);
-	*/
 	node = ft_btree_new_node(token);
 	if (!node)
 	{

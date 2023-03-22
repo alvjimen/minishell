@@ -6,11 +6,12 @@
 /*   By: alvjimen <alvjimen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/20 14:03:33 by alvjimen          #+#    #+#             */
-/*   Updated: 2023/03/20 17:13:40 by alvjimen         ###   ########.fr       */
+/*   Updated: 2023/03/22 19:41:50 by alvjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "lxr.h"
 /*this is executes before get_tokens any ft_split*/
+
 int	ft_syntax_analizer(t_lxr *lxr)
 {
 	t_btree	*root;
@@ -55,7 +56,8 @@ int	ft_syntax_analizer(t_lxr *lxr)
 				content = root->right->content;
 				if (!content)
 					continue ;
-				if (content->token & OPERATOR && content->operators & (AND_IF | OR_IF | PIPE))
+				if (content->token & OPERATOR
+					&& content->operators & (AND_IF | OR_IF | PIPE))
 					return (1);
 			}
 			else if (content->operators & (DGREATER | GREATER | LOWER | DLOWER))
