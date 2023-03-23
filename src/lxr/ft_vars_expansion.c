@@ -6,7 +6,7 @@
 /*   By: alvjimen <alvjimen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/21 12:45:06 by alvjimen          #+#    #+#             */
-/*   Updated: 2023/03/23 14:48:37 by alvjimen         ###   ########.fr       */
+/*   Updated: 2023/03/23 19:21:36 by alvjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "lxr.h"
@@ -22,37 +22,64 @@ $1 'value'
 $da1 'value'
 $  '$'
 check
+i don't take the dollar value.
 */
-char	*ft_get_varname(t_lxr *lxr)
+void	ft_dollar_expansion(t_lxr **lxr, char **name, char **value, char **tmp)
 {
-	size_t	counter;
-	char	*str;
-
-	counter = 1;
-	if (ft_isalpha(lxr->str[lxr->pos + counter])
-		|| lxr->str[lxr->pos + counter] == '_')
+	name[0] = ft_get_varname(*lxr);
+	if (!*name)
+		return (NULL);
+	else if (*tmp == *lxr->str)
 	{
-		while (ft_isalnum(lxr->str[lxr->pos + counter])
-			|| lxr->str[lxr->pos + counter] == '_')
-			counter++;
-		str = substr(lxr->str, lxr->pos, counter);
-		if (!str)
-			return (NULL);
-		lxr->counter = counter;
-		return (str);
+		free(*name);
+		continue ;
 	}
-	/*
-		This counter ++ is for take the next char;
-	*/
-	else if (ft_isdigit(lxr->str[lxr->pos + counter]) && counter++)
+	*value = ft_var_value(NULL, *name);
+	free(*name);
+	if (!*value)
 	{
-		str = substr(lxr->str, pos, counter);
-		if (!str)
-			return (NULL);
-		lxr->counter = counter;
-		return (str);
+		free(*lxr);
+		return (NULL);
 	}
-	return (lxr->str);
+	*tmp = ft_substr(lxr[0]->str, 0, lxr[0]->pos);
+	if (!*tmp)
+	{
+		free(*value);
+		free(*lxr);
+		return (NULL);
+	}
+	*name = ft_strjoin(*tmp, *value);
+	free(*tmp);
+	free(*value);
+	if (!*name)
+	{
+		free(*lxr);
+		return (NULL);
+	}
+	*tmp = *name;
+	*value = ft_substr(lxr[0]->str, lxr[0]->pos + lxr[0]->counter, -1);
+	if (!value[0])
+	{
+		free(tmp[0]);
+		free(lxr[0]);
+		return (NULL);
+	}
+	name[0] = ft_strjoin(tmp[0], value[0]);
+	if (!name[0])
+	{
+		free(tmp[0]);
+		free(value[0]);
+		free(lxr[0]);
+		return (NULL);
+	}
+	lxr[0]->str = name[0];
+	free(tmp[0]);
+	free(value[0]);
+	tmp[0] = NULL;
+	value[0] = NULL;
+	name[0] = NULL;
+	lxr[0]->pos = 0;
+	lxr[0]->counter = 0;
 }
 
 char	*ft_vars_expansion(char *str)
@@ -78,44 +105,44 @@ char	*ft_vars_expansion(char *str)
 		else if (!lxr->tokens->states & SQUOTES
 			&& lxr->str[lxr->pos] == '$')
 		{
+			ft_dollar_expansion(&lxr, &name, &value, &tmp);
+			/*
 			name = ft_get_varname(lxr);
 			if (!name)
 				return (NULL);
 			else if (tmp == lxr->str)
 			{
 				free(name);
-				name = NULL;
 				continue ;
 			}
-			value = ft_var_value(NULL, NULL);
+			value = ft_var_value(NULL, name);
+			free(name);
 			if (!value)
 			{
-				free(name);
-				free(value);
 				free(lxr);
 				return (NULL);
 			}
-			free(name);
 			tmp = ft_substr(lxr->str, 0, lxr->pos);
 			if (!tmp)
 			{
 				free(value);
+				free(lxr);
 				return (NULL);
 			}
 			name = ft_strjoin(tmp, value);
-			if (!name)
-			{
-				free(tmp);
-				free(value);
-				return (NULL);
-			}
 			free(tmp);
 			free(value);
+			if (!name)
+			{
+				free(lxr);
+				return (NULL);
+			}
 			tmp = name;
 			value = ft_substr(lxr->str, lxr->pos + lxr->counter, -1);
 			if (!value)
 			{
 				free(tmp);
+				free(lxr);
 				return (NULL);
 			}
 			name = ft_strjoin(tmp, value);
@@ -123,6 +150,7 @@ char	*ft_vars_expansion(char *str)
 			{
 				free(tmp);
 				free(value);
+				free(lxr);
 				return (NULL);
 			}
 			lxr->str = name;
@@ -133,8 +161,9 @@ char	*ft_vars_expansion(char *str)
 			name = NULL;
 			lxr->pos = 0;
 			lxr->counter = 0;
+			*/
 		}
-		pos++;
+		lxr->pos++;
 	}
 	free(lxr);
 	return (lxr->str);

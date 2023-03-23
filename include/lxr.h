@@ -6,7 +6,7 @@
 /*   By: alvjimen <alvjimen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/28 18:36:15 by alvjimen          #+#    #+#             */
-/*   Updated: 2023/03/23 13:15:51 by alvjimen         ###   ########.fr       */
+/*   Updated: 2023/03/23 17:51:51 by alvjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 # define NOT_TOKEN 255
 # define FAILURE 1
 # define SUCCESS 0
+# define VAR 1
 
 # include <string.h>
 # include <unistd.h>
@@ -118,4 +119,5 @@ int		ft_operators_interpipelines(void *ptr);
 int		ft_operators_intercmd(void *ptr);
 int		ft_operators_intracmd(void *ptr);
 int		ft_tokens_word(void *ptr);
+char	*ft_get_varname(t_lxr *lxr);
 #endif

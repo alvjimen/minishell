@@ -6,7 +6,7 @@
 #    By: alvjimen <alvjimen@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/01/31 19:37:18 by alvjimen          #+#    #+#              #
-#    Updated: 2023/03/23 12:42:02 by alvjimen         ###   ########.fr        #
+#    Updated: 2023/03/23 17:51:23 by alvjimen         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -63,6 +63,7 @@ SRC-LXR				:=	ft_lexer\
 						ft_search_list\
 						ft_operators_split\
 						ft_syntax_analizer\
+						ft_get_varname\
 
 SRC-LST				:=	ft_lstnew_bonus\
 						ft_lstadd_front_bonus\
