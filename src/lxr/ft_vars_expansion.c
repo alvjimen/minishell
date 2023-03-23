@@ -6,14 +6,13 @@
 /*   By: alvjimen <alvjimen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/21 12:45:06 by alvjimen          #+#    #+#             */
-/*   Updated: 2023/03/23 19:21:36 by alvjimen         ###   ########.fr       */
+/*   Updated: 2023/03/23 20:06:26 by alvjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "lxr.h"
 
 char	*ft_var_value(char **sarr, char *var_name)
-{
-	return (ft_strdup("var_value"));
+{ return (ft_strdup("var_value"));
 }
 
 /*
@@ -24,16 +23,8 @@ $  '$'
 check
 i don't take the dollar value.
 */
-void	ft_dollar_expansion(t_lxr **lxr, char **name, char **value, char **tmp)
+char	*ft_previous_var(t_lxr **lxr, char **name, char **value, char **tmp)
 {
-	name[0] = ft_get_varname(*lxr);
-	if (!*name)
-		return (NULL);
-	else if (*tmp == *lxr->str)
-	{
-		free(*name);
-		continue ;
-	}
 	*value = ft_var_value(NULL, *name);
 	free(*name);
 	if (!*value)
@@ -41,6 +32,7 @@ void	ft_dollar_expansion(t_lxr **lxr, char **name, char **value, char **tmp)
 		free(*lxr);
 		return (NULL);
 	}
+	/*Get the first part of the string previos to $*/
 	*tmp = ft_substr(lxr[0]->str, 0, lxr[0]->pos);
 	if (!*tmp)
 	{
@@ -48,6 +40,13 @@ void	ft_dollar_expansion(t_lxr **lxr, char **name, char **value, char **tmp)
 		free(*lxr);
 		return (NULL);
 	}
+	return (*lxr);
+}
+
+char	*ft_join_previos_with_var_value(t_lxr **lxr, char **name,
+		char **value, char **tmp)
+{
+	/*Join the previos var with the value of the var*/
 	*name = ft_strjoin(*tmp, *value);
 	free(*tmp);
 	free(*value);
@@ -57,6 +56,13 @@ void	ft_dollar_expansion(t_lxr **lxr, char **name, char **value, char **tmp)
 		return (NULL);
 	}
 	*tmp = *name;
+	return (*lxr);
+}
+
+char	*ft_after_var(t_lxr **lxr, char **name,
+		char **value, char **tmp)
+{
+	/*Get the after var with the value of the var*/
 	*value = ft_substr(lxr[0]->str, lxr[0]->pos + lxr[0]->counter, -1);
 	if (!value[0])
 	{
@@ -64,19 +70,46 @@ void	ft_dollar_expansion(t_lxr **lxr, char **name, char **value, char **tmp)
 		free(lxr[0]);
 		return (NULL);
 	}
+	return (*lxr);
+}
+
+char	*ft_join_str(t_lxr **lxr, char **name, char **value, char **tmp)
+{
+	/*Join the previos var with the value of the var*/
 	name[0] = ft_strjoin(tmp[0], value[0]);
-	if (!name[0])
-	{
-		free(tmp[0]);
-		free(value[0]);
-		free(lxr[0]);
-		return (NULL);
-	}
-	lxr[0]->str = name[0];
 	free(tmp[0]);
 	free(value[0]);
 	tmp[0] = NULL;
 	value[0] = NULL;
+	if (!name[0])
+	{
+		free(lxr[0]);
+		return (NULL);
+	}
+	return (name[0]);
+}
+
+char	*ft_dollar_expansion(t_lxr **lxr, char **name, char **value, char **tmp)
+{
+	name[0] = ft_get_varname(*lxr);
+	if (!*name)
+		return (NULL);
+	else if (*tmp == *lxr->str)
+	{
+		free(*name);
+		lxr->pos++;
+		continue ;
+	}
+	if (ft_previous_var(lxr, name, value, tmp) == NULL)
+		return (NULL);
+	if (ft_join_previos_with_var_value(lxr, name, value, tmp) == NULL)
+		return (NULL);
+	if (ft_after_var(lxr, name, value ,tmp) == NULL)
+		return (NULL);
+	if (ft_join_str(lxr, name, value, tmp) == NULL)
+		return (NULL);
+	/*the new string it start again for look more variables*/
+	lxr[0]->str = name[0];
 	name[0] = NULL;
 	lxr[0]->pos = 0;
 	lxr[0]->counter = 0;
@@ -96,73 +129,13 @@ char	*ft_vars_expansion(char *str)
 		return (NULL);
 	while (lxr->str[lxr->pos])
 	{
-		if (!lxr->tokens->states & (SQUOTES | DQUOTES)
-			&& lxr->str[lxr->pos] == '"')
-			lxr->tokens->states |= DQUOTES;
-		else if (!lxr->tokens->states & DQUOTES
-			&& lxr->str[lxr->pos] == '"')
+		if (!lxr->tokens->states & SQUOTES) && lxr->str[lxr->pos] == '"')
 			lxr->tokens->states ^= DQUOTES;
+		else if (!lxr->tokens->states & DQUOTES) && lxr->str[lxr->pos] == '\'')
+			lxr->tokens->states ^= SQUOTES;
 		else if (!lxr->tokens->states & SQUOTES
 			&& lxr->str[lxr->pos] == '$')
-		{
 			ft_dollar_expansion(&lxr, &name, &value, &tmp);
-			/*
-			name = ft_get_varname(lxr);
-			if (!name)
-				return (NULL);
-			else if (tmp == lxr->str)
-			{
-				free(name);
-				continue ;
-			}
-			value = ft_var_value(NULL, name);
-			free(name);
-			if (!value)
-			{
-				free(lxr);
-				return (NULL);
-			}
-			tmp = ft_substr(lxr->str, 0, lxr->pos);
-			if (!tmp)
-			{
-				free(value);
-				free(lxr);
-				return (NULL);
-			}
-			name = ft_strjoin(tmp, value);
-			free(tmp);
-			free(value);
-			if (!name)
-			{
-				free(lxr);
-				return (NULL);
-			}
-			tmp = name;
-			value = ft_substr(lxr->str, lxr->pos + lxr->counter, -1);
-			if (!value)
-			{
-				free(tmp);
-				free(lxr);
-				return (NULL);
-			}
-			name = ft_strjoin(tmp, value);
-			if (!name)
-			{
-				free(tmp);
-				free(value);
-				free(lxr);
-				return (NULL);
-			}
-			lxr->str = name;
-			free(tmp);
-			free(value);
-			tmp = NULL;
-			value = NULL;
-			name = NULL;
-			lxr->pos = 0;
-			lxr->counter = 0;
-			*/
-		}
 		lxr->pos++;
 	}
 	free(lxr);
