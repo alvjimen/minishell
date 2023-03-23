@@ -6,7 +6,7 @@
 /*   By: alvjimen <alvjimen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/21 08:09:01 by alvjimen          #+#    #+#             */
-/*   Updated: 2023/03/22 21:32:53 by alvjimen         ###   ########.fr       */
+/*   Updated: 2023/03/23 12:47:04 by alvjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "lxr.h"
@@ -14,9 +14,7 @@
 /*
 	return value Status
 	0				ALL OK.
-	1				Paremeter error
-	2				Syntax error.
-	3				Malloc error
+	1				ERROR
 */
 int	ft_clean_exit(t_lxr **lxr, char **tmp, int flag)
 {
@@ -30,9 +28,7 @@ int	ft_clean_exit(t_lxr **lxr, char **tmp, int flag)
 			*lxr = NULL;
 		}
 	}
-	if (flag == 3)
-		return (0);
-	return (1);
+	return (flag != 3);
 }
 
 int	ft_split_inner_parenthesis(t_lxr *lxr, t_btree **root)
@@ -44,13 +40,12 @@ int	ft_split_inner_parenthesis(t_lxr *lxr, t_btree **root)
 		return (ft_clean_exit(&lxr, &tmp, 2));
 	len = ft_operators_split(&lxr->btree);
 	if (len == 1)
-		return (1);
-	ft_destroy_tkn(root[0]->content);
-	free(*root);
+		return (FAILURE);
+	ft_btree_delone(root[0]);
 	*root = lxr->btree;
-	free(lxr);
-	return (0);
+	return (SUCCESS);
 }
+
 int	ft_parenthesis_split(char	*str, t_btree **root)
 {
 	size_t	len;
@@ -58,25 +53,17 @@ int	ft_parenthesis_split(char	*str, t_btree **root)
 	t_lxr	*lxr;
 
 	if (!str || !root || !*root)
-		return (1);
+		return (FAILURE);
 	len = ft_strlen(str);
 	if (len < 2)
-		return (1);
+		return (FAILURE);
 	tmp = ft_substr(str, 1, len - 2);
 	if (!tmp)
-		return (1);
+		return (FAILURE);
 	lxr = ft_init_lxr(tmp);
 	if (!lxr)
 		return (ft_clean_exit(&lxr, &tmp, 1));
-		/**/
-	len = ft_get_tokens(lxr);
-	if (len & (NO_TOKEN | 1))
+	if (ft_split_inner_parenthesis(lxr, root))
 		return (ft_clean_exit(&lxr, &tmp, 2));
-	len = ft_operators_split(&lxr->btree);
-	if (len == 1)
-		return (1);
-	ft_destroy_tkn(root->content);
-	free(*root);
-	*root = lxr->btree;
-	return (ft_clean_exit(&lxr, &tmp, 3);
+	return (ft_clean_exit(&lxr, &tmp, 3));
 }

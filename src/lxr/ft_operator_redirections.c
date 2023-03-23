@@ -28,7 +28,7 @@ int	ft_token_greater(t_lxr *lxr)
 		lxr->tokens.operators = GREATER;
 	if (ft_add_string_to_list(lxr, counter) == NULL)
 		return (NOT_TOKEN);
-	return (0);
+	return (SUCCESS);
 }
 
 int	ft_token_lower(t_lxr *lxr)
@@ -47,5 +47,5 @@ int	ft_token_lower(t_lxr *lxr)
 		lxr->tokens.operators = LOWER;
 	if (ft_add_string_to_list(lxr, counter) == NULL)
 		return (NOT_TOKEN);
-	return (0);
+	return (SUCCESS);
 }

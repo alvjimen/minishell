@@ -23,12 +23,12 @@ int	ft_get_more_input(t_lxr *lxr)
 
 	str = ft_strjoin(lxr->str, "\n");
 	if (!str)
-		return (1);
+		return (FAILURE);
 	free(lxr->str);
 	lxr->str = str;
 	tmp = readline("> ");
 	if (!tmp)
-		return (1);
+		return (FAILURE);
 	str = ft_strjoin(lxr->str, tmp);
 	free(lxr->str);
 	lxr->str = NULL;
@@ -36,6 +36,6 @@ int	ft_get_more_input(t_lxr *lxr)
 	tmp = NULL;
 	lxr->str = str;
 	if (!str)
-		return (1);
-	return (0);
+		return (FAILURE);
+	return (SUCCESS);
 }

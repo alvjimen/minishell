@@ -31,7 +31,7 @@ static int	ft_valid_char(char ch)
 int	ft_token_value(t_lxr *lxr, size_t *counter)
 {
 	if (!ft_valid_char(lxr->str[lxr->pos + ++counter[0]]))
-		return (1);
+		return (FAILURE);
 	while (ft_valid_char_lxr(lxr->str[lxr->pos + counter[0]], lxr)
 		&& !ft_char_operator(lxr, counter))
 	{
@@ -39,5 +39,5 @@ int	ft_token_value(t_lxr *lxr, size_t *counter)
 			return (NOT_TOKEN);
 		counter[0]++;
 	}
-	return (0);
+	return (SUCCESS);
 }

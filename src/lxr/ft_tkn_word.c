@@ -33,7 +33,7 @@ int	ft_token_word(t_lxr	*lxr, size_t *counter)
 		lxr->tokens.operators = NONE;
 		if (ft_add_string_to_list(lxr, *counter) == NULL)
 			return (NOT_TOKEN);
-		return (0);
+		return (SUCCESS);
 	}
 	ft_putstr_fd("Not a word\n", 1);
 	return (NOT_TOKEN);

@@ -6,22 +6,23 @@
 /*   By: alvjimen <alvjimen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/21 12:45:06 by alvjimen          #+#    #+#             */
-/*   Updated: 2023/03/22 19:47:09 by alvjimen         ###   ########.fr       */
+/*   Updated: 2023/03/23 14:48:37 by alvjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "lxr.h"
-
-int	ft_isdigit(int ch)
-{
-	return (ch >= '0' && ch <= '9');
-}
 
 char	*ft_var_value(char **sarr, char *var_name)
 {
 	return (ft_strdup("var_value"));
 }
 
-/*if return value == lxr->str this is equal a escaped $ char*/
+/*
+if return value == lxr->str this is equal a escaped $ char
+$1 'value'
+$da1 'value'
+$  '$'
+check
+*/
 char	*ft_get_varname(t_lxr *lxr)
 {
 	size_t	counter;
@@ -34,13 +35,16 @@ char	*ft_get_varname(t_lxr *lxr)
 		while (ft_isalnum(lxr->str[lxr->pos + counter])
 			|| lxr->str[lxr->pos + counter] == '_')
 			counter++;
-		str = substr(lxr->str, pos, counter);
+		str = substr(lxr->str, lxr->pos, counter);
 		if (!str)
 			return (NULL);
 		lxr->counter = counter;
 		return (str);
 	}
-	else if (ft_isdigit(lxr->str[lxr->pos + counter]))
+	/*
+		This counter ++ is for take the next char;
+	*/
+	else if (ft_isdigit(lxr->str[lxr->pos + counter]) && counter++)
 	{
 		str = substr(lxr->str, pos, counter);
 		if (!str)

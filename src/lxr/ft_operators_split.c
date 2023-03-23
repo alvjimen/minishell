@@ -6,7 +6,7 @@
 /*   By: alvjimen <alvjimen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/17 12:23:30 by alvjimen          #+#    #+#             */
-/*   Updated: 2023/03/22 19:45:11 by alvjimen         ###   ########.fr       */
+/*   Updated: 2023/03/23 13:22:14 by alvjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "lxr.h"
@@ -20,11 +20,11 @@ int	ft_tokens_paren(void *ptr)
 	t_tkn	*tokens;
 
 	if (!ptr)
-		return (1);
+		return (FAILURE);
 	tokens = ptr;
 	if (tokens && tokens->token & PARENTHESIS)
-		return (0);
-	return (1);
+		return (SUCCESS);
+	return (FAILURE);
 }
 
 int	ft_operators_split(t_btree **root)
@@ -36,14 +36,14 @@ int	ft_operators_split(t_btree **root)
 	size_t	lst_size;
 
 	if (!root || !*root)
-		return (1);
+		return (FAILURE);
 	/*|| &&*/
 	node = (t_btree *)ft_split_list((t_list **)root,
 			ft_operators_interpipelines);
 	if (node)
 	{
 		ft_btree_add_parent(root, node, ft_btree_add_left);
-		return (0);
+		return (SUCCESS);
 	}
 	/*|*/
 	node = (t_btree *)ft_split_list((t_list **)root,
@@ -51,7 +51,7 @@ int	ft_operators_split(t_btree **root)
 	if (node)
 	{
 		ft_btree_add_parent(root, node, ft_btree_add_left);
-		return (0);
+		return (SUCCESS);
 	}
 	/*< > << >> */
 	node = (t_btree *)ft_split_list((t_list **)root,
@@ -73,7 +73,7 @@ int	ft_operators_split(t_btree **root)
 	{
 		content = root[0]->content;
 		if (ft_parenthesis_split(content->value, root))
-			return (1);
+			return (FAILURE);
 	}
 	/*Create the array of str*/
 	/*Acceder a la posición del árbol que tiene las palabras*/
@@ -93,7 +93,7 @@ int	ft_operators_split(t_btree **root)
 	content = node->content;
 	content->str = ft_calloc(lst_size + 1, sizeof(char *));
 	if (!content->str)
-		return (1);
+		return (FAILURE);
 	args = node;
 	lst_size = 0;
 	while (args)
@@ -104,5 +104,5 @@ int	ft_operators_split(t_btree **root)
 	}
 	/*Destroy the element of the args*/
 	ft_lstclear((t_list **)&node->right, ft_destroy_tkn);
-	return (0);
+	return (SUCCESS);
 }

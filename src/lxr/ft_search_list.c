@@ -39,11 +39,11 @@ int	ft_operators_interpipelines(void *ptr)
 	t_tkn	*tokens;
 
 	if (!ptr)
-		return (1);
+		return (FAILURE);
 	tokens = ptr;
 	if (tokens && !tokens->found && tokens->operators & (OR_IF | AND_IF))
-		return (0);
-	return (1);
+		return (SUCCESS);
+	return (FAILURE);
 }
 
 int	ft_operators_intercmd(void *ptr)
@@ -51,11 +51,11 @@ int	ft_operators_intercmd(void *ptr)
 	t_tkn	*tokens;
 
 	if (!ptr)
-		return (1);
+		return (FAILURE);
 	tokens = ptr;
 	if (tokens && !tokens->found && tokens->operators & PIPE)
-		return (0);
-	return (1);
+		return (SUCCESS);
+	return (FAILURE);
 }
 
 int	ft_operators_intracmd(void *ptr)
@@ -63,12 +63,12 @@ int	ft_operators_intracmd(void *ptr)
 	t_tkn	*tokens;
 
 	if (!ptr)
-		return (1);
+		return (FAILURE);
 	tokens = ptr;
 	if (tokens && !tokens->found
 		&& tokens->operators & (DGREATER | GREATER | LOWER | DLOWER))
-		return (0);
-	return (1);
+		return (SUCCESS);
+	return (FAILURE);
 }
 
 int	ft_tokens_word(void *ptr)
@@ -76,9 +76,9 @@ int	ft_tokens_word(void *ptr)
 	t_tkn	*tokens;
 
 	if (!ptr)
-		return (1);
+		return (FAILURE);
 	tokens = ptr;
 	if (tokens && tokens->token & WORD)
-		return (0);
-	return (1);
+		return (SUCCESS);
+	return (FAILURE);
 }

@@ -31,7 +31,7 @@ static int	ft_search_close_parenthesis(t_lxr *lxr, size_t *counter,
 			return (NOT_TOKEN);
 		counter[0]++;
 	}
-	return (0);
+	return (SUCCESS);
 }
 
 static int	ft_set_token(t_lxr *lxr, size_t counter)
@@ -39,7 +39,7 @@ static int	ft_set_token(t_lxr *lxr, size_t counter)
 	lxr->tokens.states ^= PAREN;
 	if (ft_add_string_to_list(lxr, counter + 1) == NULL)
 		return (NOT_TOKEN);
-	return (0);
+	return (SUCCESS);
 }
 
 int	ft_parenthesis(t_lxr *lxr)
@@ -50,7 +50,7 @@ int	ft_parenthesis(t_lxr *lxr)
 	counter = 0;
 	counter_par = 0;
 	if (lxr->str[lxr->pos] != '(')
-		return (0);
+		return (SUCCESS);
 	counter++;
 	lxr->tokens.token = PARENTHESIS;
 	lxr->tokens.operators = NONE;
@@ -58,7 +58,7 @@ int	ft_parenthesis(t_lxr *lxr)
 	while (lxr->tokens.states & PAREN)
 	{
 		if (ft_search_close_parenthesis(lxr, &counter, &counter_par))
-			return (1);
+			return (FAILURE);
 		if (lxr->str[lxr->pos + counter] == ')')
 			return (ft_set_token(lxr, counter));
 		else if (lxr->mode & NONINTERACTIVE || ft_get_more_input(lxr))

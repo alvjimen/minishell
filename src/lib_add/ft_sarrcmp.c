@@ -19,12 +19,12 @@ int	ft_sarrcmp(char **arr, char *str)
 	int	i;
 
 	if (!str || !arr)
-		return (-1);
+		return (1);
 	i = -1;
 	while (arr[++i])
 	{
 		if (!ft_strncmp(arr[i], str, ft_strlen(str)))
 			return (i);
 	}
-	return (-1);
+	return (1);
 }

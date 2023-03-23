@@ -51,7 +51,7 @@ int	ft_get_tokens(t_lxr *lxr)
 			if (ft_token_varname(lxr) == NOT_TOKEN)
 				return (NOT_TOKEN);
 		if (ft_add_to_lst(lxr) == NULL)
-			return (1);
+			return (FAILURE);
 	}
-	return (0);
+	return (SUCCESS);
 }

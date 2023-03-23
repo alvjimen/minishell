@@ -6,13 +6,16 @@
 /*   By: alvjimen <alvjimen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/28 18:36:15 by alvjimen          #+#    #+#             */
-/*   Updated: 2023/03/21 17:37:06 by alvjimen         ###   ########.fr       */
+/*   Updated: 2023/03/23 13:15:51 by alvjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef LXR_H
 # define LXR_H
 # define NOT_TOKEN 255
+# define FAILURE 1
+# define SUCCESS 0
+
 # include <string.h>
 # include <unistd.h>
 # include <dirent.h>

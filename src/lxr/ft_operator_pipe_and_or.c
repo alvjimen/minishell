@@ -28,7 +28,7 @@ int	ft_token_pipe(t_lxr	*lxr)
 		lxr->tokens.operators = PIPE;
 	if (ft_add_string_to_list(lxr, counter) == NULL)
 		return (NOT_TOKEN);
-	return (0);
+	return (SUCCESS);
 }
 
 int	ft_token_and(t_lxr	*lxr)
@@ -39,5 +39,5 @@ int	ft_token_and(t_lxr	*lxr)
 	lxr->tokens.operators = AND_IF;
 	if (ft_add_string_to_list(lxr, 2) == NULL)
 		return (NOT_TOKEN);
-	return (0);
+	return (SUCCESS);
 }

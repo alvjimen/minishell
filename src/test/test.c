@@ -23,12 +23,12 @@ int	main(int argc, char *argv[])
 	{
 		str = ft_strdup(argv[2]);
 		if (!str)
-			return (1);
+			return (FAILURE);
 		lxr = ft_init_lxr(str);
 		if (!lxr)
 		{
 			free(str);
-			return (-1);
+			return (FAILURE);
 		}
 		lxr->mode = NONINTERACTIVE;
 		ft_get_tokens(lxr);
@@ -36,23 +36,23 @@ int	main(int argc, char *argv[])
 		ft_btree_clear(&lxr->btree, ft_destroy_tkn);
 		free(lxr);
 		free(str);
-		return (0);
+		return (SUCCESS);
 	}
 	while (1)
 	{
 		str = readline("> ");
 		if (!str)
-			return (1);
+			return (FAILURE);
 		lxr = ft_init_lxr(str);
 		if (!lxr)
 		{
 			free(lxr);
-			return (1);
+			return (FAILURE);
 		}
 		lxr->mode = NONINTERACTIVE;
 		ft_get_tokens(lxr);
 		free(lxr->str);
 		free(lxr);
 	}
-	return (0);
+	return (SUCCESS);
 }

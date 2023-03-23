@@ -20,7 +20,7 @@
 int	ft_squotes(t_lxr *lxr, size_t *counter)
 {
 	if (lxr->str[lxr->pos + counter[0]] != '\'')
-		return (0);
+		return (SUCCESS);
 	counter[0] += 1;
 	lxr->tokens.states |= SQUOTES;
 	while (lxr->tokens.states & SQUOTES)
@@ -31,7 +31,7 @@ int	ft_squotes(t_lxr *lxr, size_t *counter)
 		if (lxr->str[lxr->pos + counter[0]] == '\'')
 		{
 			lxr->tokens.states ^= SQUOTES;
-			return (0);
+			return (SUCCESS);
 		}
 		if (lxr->mode & NONINTERACTIVE || ft_get_more_input(lxr))
 			break ;

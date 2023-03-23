@@ -6,7 +6,7 @@
 #    By: alvjimen <alvjimen@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/01/31 19:37:18 by alvjimen          #+#    #+#              #
-#    Updated: 2023/03/21 19:38:13 by alvjimen         ###   ########.fr        #
+#    Updated: 2023/03/23 12:42:02 by alvjimen         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -121,6 +121,7 @@ SRC-BTREE			:=	ft_btree_apply_by_level\
 						ft_btree_add_right\
 						ft_btree_add_parent\
 						ft_btree_clear\
+						ft_btree_delone\
 
 DIR-SRC				:=	./src/
 DIR-LXR				:=	lxr/

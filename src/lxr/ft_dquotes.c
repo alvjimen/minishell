@@ -20,7 +20,7 @@
 int	ft_dquotes(t_lxr *lxr, size_t *counter)
 {
 	if (lxr->str[lxr->pos + counter[0]] != '"')
-		return (0);
+		return (SUCCESS);
 	counter[0]++;
 	lxr->tokens.states |= DQUOTES;
 	while (lxr->tokens.states & DQUOTES)
@@ -31,7 +31,7 @@ int	ft_dquotes(t_lxr *lxr, size_t *counter)
 		if (lxr->str[lxr->pos + counter[0]] == '\"')
 		{
 			lxr->tokens.states ^= DQUOTES;
-			return (0);
+			return (SUCCESS);
 		}
 		else if (lxr->mode & NONINTERACTIVE || ft_get_more_input(lxr))
 			break ;

@@ -46,7 +46,7 @@ int	ft_token_varname(t_lxr	*lxr)
 		lxr->tokens.operators = NONE;
 		if (ft_add_string_to_list(lxr, counter) == NULL)
 			return (NOT_TOKEN);
-		return (0);
+		return (SUCCESS);
 	}
 	return (ft_token_word(lxr, &counter));
 }

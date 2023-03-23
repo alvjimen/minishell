@@ -29,5 +29,5 @@ int	ft_operators(t_lxr *lxr)
 		return (ft_token_greater(lxr));
 	else if (lxr->str[lxr->pos] == '<')
 		return (ft_token_lower(lxr));
-	return (1);
+	return (FAILURE);
 }

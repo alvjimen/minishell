@@ -18,15 +18,15 @@
 static int	ft_split_first(t_list *lst, t_list *delim)
 {
 	if (!lst)
-		return (1);
+		return (FAILURE);
 	if (lst == delim)
-		return (0);
+		return (SUCCESS);
 	while (lst && lst->next != delim)
 		lst = lst->next;
 	if (!lst)
-		return (1);
+		return (FAILURE);
 	lst->next = NULL;
-	return (0);
+	return (SUCCESS);
 }
 
 t_list	*ft_split_list(t_list **lst, int (*f)(void *))
