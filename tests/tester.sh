@@ -55,6 +55,7 @@ test_syntax=(
 
 function check_files()
 {
+	local	ok=0;
 	./test -c "$1" 2>&1| cat -e > $dir/$dir_new/test.$nbr
 	diff $dir/$dir_og/test.$nbr $dir/$dir_new/test.$nbr > $diff_file
 	if [[ $? -eq 0 ]]
@@ -62,9 +63,13 @@ function check_files()
 		echo -ne "\033[32mOK $nbr\033[0m"
 	else
 		echo -ne "\033[31mKO $nbr033\033[0m"
+		ok=1
 	fi
 	yellow_text " input \"$1\""
-	red_text `cat $diff_file`
+	if test $ok -eq 1
+	then
+		red_text `cat $diff_file`
+	fi
 	let "nbr++"
 }
 
