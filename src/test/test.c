@@ -6,7 +6,7 @@
 /*   By: alvjimen <alvjimen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/31 20:04:15 by alvjimen          #+#    #+#             */
-/*   Updated: 2023/03/24 12:05:25 by alvjimen         ###   ########.fr       */
+/*   Updated: 2023/03/24 13:13:19 by alvjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "lxr.h"
@@ -38,6 +38,10 @@ int	main(int argc, char *argv[])
 			return (FAILURE);
 		}
 		ft_lstiter((t_list *)lxr->btree, ft_print_lst);
+		/*
+		ft_operators_split(&lxr->btree);
+		ft_lstiter((t_list *)lxr->btree, ft_print_lst);
+		*/
 		ft_btree_clear(&lxr->btree, ft_destroy_tkn);
 		free(lxr);
 		free(str);

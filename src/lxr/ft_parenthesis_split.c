@@ -6,7 +6,7 @@
 /*   By: alvjimen <alvjimen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/21 08:09:01 by alvjimen          #+#    #+#             */
-/*   Updated: 2023/03/24 12:37:18 by alvjimen         ###   ########.fr       */
+/*   Updated: 2023/03/24 13:09:51 by alvjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "lxr.h"
@@ -33,16 +33,16 @@ int	ft_clean_exit(t_lxr **lxr, char **tmp, int flag)
 
 int	ft_split_inner_parenthesis(t_lxr *lxr, t_btree **root)
 {
-	size_t	len;
+	int	len;
 
 	len = ft_get_tokens(lxr);
-	if ((int)len == NO_TOKEN || (int)len == 1)
-		return (ft_clean_exit(&lxr, &tmp, 2));
+	if (len == NO_TOKEN || len == FAILURE)
+		return (FAILURE);
 	ft_lstiter((t_list *)lxr->btree, ft_print_lst);
 	len = ft_operators_split(&lxr->btree);
-	if (len == 1)
+	if (len == FAILURE)
 		return (FAILURE);
-	ft_btree_delone(root[0]);
+	ft_btree_delone(*root, ft_destroy_tkn);
 	*root = lxr->btree;
 	return (SUCCESS);
 }

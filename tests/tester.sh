@@ -61,9 +61,10 @@ function check_files()
 	then
 		echo -ne "\033[32mOK $nbr\033[0m"
 	else
-		echo -e "\033[31mKO $nbr\n`cat $diff_file`\033[0m"
+		echo -ne "\033[31mKO $nbr033\033[0m"
 	fi
 	yellow_text " input \"$1\""
+	red_text `cat $diff_file`
 	let "nbr++"
 }
 

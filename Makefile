@@ -6,7 +6,7 @@
 #    By: alvjimen <alvjimen@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/01/31 19:37:18 by alvjimen          #+#    #+#              #
-#    Updated: 2023/03/23 17:51:23 by alvjimen         ###   ########.fr        #
+#    Updated: 2023/03/24 13:05:16 by alvjimen         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -62,6 +62,7 @@ SRC-LXR				:=	ft_lexer\
 						ft_split_list\
 						ft_search_list\
 						ft_operators_split\
+						ft_parenthesis_split\
 						ft_syntax_analizer\
 						ft_get_varname\
 
@@ -123,6 +124,7 @@ SRC-BTREE			:=	ft_btree_apply_by_level\
 						ft_btree_add_parent\
 						ft_btree_clear\
 						ft_btree_delone\
+						ft_btree_swap\
 
 DIR-SRC				:=	./src/
 DIR-LXR				:=	lxr/
