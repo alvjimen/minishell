@@ -6,7 +6,7 @@
 /*   By: alvjimen <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/05 19:46:13 by alvjimen          #+#    #+#             */
-/*   Updated: 2023/03/16 19:00:59 by alvjimen         ###   ########.fr       */
+/*   Updated: 2023/03/24 11:33:09 by alvjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "lxr.h"
@@ -38,6 +38,7 @@ int	ft_token_lower(t_lxr *lxr)
 	if (lxr->str[lxr->pos] != '<')
 		return (NOT_TOKEN);
 	counter = 1;
+	lxr->tokens.token = OPERATOR;
 	if (lxr->str[lxr->pos + counter] == '<')
 	{
 		counter++;
