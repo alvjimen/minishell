@@ -6,7 +6,7 @@
 /*   By: alvjimen <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/05 19:01:13 by alvjimen          #+#    #+#             */
-/*   Updated: 2023/03/15 06:42:44 by alvjimen         ###   ########.fr       */
+/*   Updated: 2023/03/24 12:31:34 by alvjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "lxr.h"
@@ -22,8 +22,8 @@ int	ft_dquotes(t_lxr *lxr, size_t *counter)
 	if (lxr->str[lxr->pos + counter[0]] != '"')
 		return (SUCCESS);
 	counter[0]++;
-	lxr->tokens.states |= DQUOTES;
-	while (lxr->tokens.states & DQUOTES)
+	lxr->tokens.states = DQUOTES;
+	while (lxr->tokens.states == DQUOTES)
 	{
 		while (lxr->str[lxr->pos + counter[0]]
 			&& lxr->str[lxr->pos + counter[0]] != '"')
@@ -33,7 +33,7 @@ int	ft_dquotes(t_lxr *lxr, size_t *counter)
 			lxr->tokens.states ^= DQUOTES;
 			return (SUCCESS);
 		}
-		else if (lxr->mode & NONINTERACTIVE || ft_get_more_input(lxr))
+		else if (lxr->mode == NONINTERACTIVE || ft_get_more_input(lxr))
 			break ;
 	}
 	ft_putstr_fd("Not close dquotes\n", 1);

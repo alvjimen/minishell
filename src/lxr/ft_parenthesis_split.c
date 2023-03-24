@@ -6,7 +6,7 @@
 /*   By: alvjimen <alvjimen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/21 08:09:01 by alvjimen          #+#    #+#             */
-/*   Updated: 2023/03/24 11:20:47 by alvjimen         ###   ########.fr       */
+/*   Updated: 2023/03/24 12:37:18 by alvjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "lxr.h"
@@ -36,7 +36,7 @@ int	ft_split_inner_parenthesis(t_lxr *lxr, t_btree **root)
 	size_t	len;
 
 	len = ft_get_tokens(lxr);
-	if (len & (NO_TOKEN | 1))
+	if ((int)len == NO_TOKEN || (int)len == 1)
 		return (ft_clean_exit(&lxr, &tmp, 2));
 	ft_lstiter((t_list *)lxr->btree, ft_print_lst);
 	len = ft_operators_split(&lxr->btree);
@@ -61,7 +61,6 @@ int	ft_parenthesis_split(char	*str, t_btree **root)
 	tmp = ft_substr(str, 1, len - 2);
 	if (!tmp)
 		return (FAILURE);
-	printf("parenthesis without open and close");
 	lxr = ft_init_lxr(tmp);
 	if (!lxr)
 		return (ft_clean_exit(&lxr, &tmp, 1));

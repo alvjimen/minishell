@@ -6,7 +6,7 @@
 /*   By: alvjimen <alvjimen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/12 17:53:50 by alvjimen          #+#    #+#             */
-/*   Updated: 2023/03/22 19:38:02 by alvjimen         ###   ########.fr       */
+/*   Updated: 2023/03/24 12:31:07 by alvjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "lxr.h"
@@ -54,14 +54,14 @@ int	ft_parenthesis(t_lxr *lxr)
 	counter++;
 	lxr->tokens.token = PARENTHESIS;
 	lxr->tokens.operators = NONE;
-	lxr->tokens.states |= PAREN;
-	while (lxr->tokens.states & PAREN)
+	lxr->tokens.states = PAREN;
+	while (lxr->tokens.states == PAREN)
 	{
 		if (ft_search_close_parenthesis(lxr, &counter, &counter_par))
 			return (FAILURE);
 		if (lxr->str[lxr->pos + counter] == ')')
 			return (ft_set_token(lxr, counter));
-		else if (lxr->mode & NONINTERACTIVE || ft_get_more_input(lxr))
+		else if (lxr->mode == NONINTERACTIVE || ft_get_more_input(lxr))
 			break ;
 	}
 	ft_putstr_fd("NOT close parenthesis\n", 1);
