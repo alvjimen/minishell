@@ -6,7 +6,7 @@
 /*   By: alvjimen <alvjimen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/17 12:23:30 by alvjimen          #+#    #+#             */
-/*   Updated: 2023/03/24 19:22:59 by alvjimen         ###   ########.fr       */
+/*   Updated: 2023/03/24 19:48:25 by alvjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "lxr.h"
@@ -69,6 +69,7 @@ int	ft_operators_split(t_btree **root)
 		{
 			aux = root[0];
 			/*aux->right = NULL;*/
+			/*Is not working fine*/
 			root[0] = node;
 			ft_lstadd_back((t_list **)&node->left, (t_list *)aux);
 			ft_btree_swap(*root);
