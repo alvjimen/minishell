@@ -6,7 +6,7 @@
 /*   By: alvjimen <alvjimen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/17 12:23:30 by alvjimen          #+#    #+#             */
-/*   Updated: 2023/03/24 19:48:25 by alvjimen         ###   ########.fr       */
+/*   Updated: 2023/03/25 17:51:06 by alvjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "lxr.h"
@@ -61,26 +61,43 @@ int	ft_operators_split(t_btree **root)
 	else if (ft_operators_outercmd(root, ft_operators_intercmd) == SUCCESS)
 		return (SUCCESS);
 	/*< > << >> */
+	/*if want to stay the the first file on top and the last on bottom execute this recursively
+	*/
 	node = (t_btree *)ft_split_list((t_list **)root,
 			ft_operators_intracmd);
 	if (node)
 	{
+		/*Is not working fine*/
 		while (node)
 		{
+			/*save the root*/
 			aux = root[0];
-			/*aux->right = NULL;*/
-			/*Is not working fine*/
+			/*Put the new root*/
 			root[0] = node;
-			ft_lstadd_back((t_list **)&node->left, (t_list *)aux);
+			/*If the old root and the new root is the same */
+			if (aux != node)
+				ft_lstadd_back((t_list **)&node->left, (t_list *)aux);
+			/*Swap the branch of the root*/
 			ft_btree_swap(*root);
+			/*
+			Si tenemos algo después del operador cogemos
+			el siguiente de ese operador lo añadimos a la otra rama y eso que estaba
+			antes en  los siguiente del operador y lo igualamos a nulo
+			*/
 			if (root[0]->left)
 			{
 				ft_lstadd_back((t_list **)root, (t_list *)root[0]->left->right);
 				root[0]->left->right = NULL;
 			}
+			/*
+			   Esto es para simular la recursividad pero vamos hacerlo un  poco mejor
+			*/
 			node = (t_btree *)ft_split_list((t_list **)root,
 					ft_operators_intracmd);
 		}
+		/*
+		ft_btree_swap(*root);
+		*/
 		ft_btree_apply_to_node_infix(*root, ft_btree_swap);
 	}
 	/*This is part of another function*/
