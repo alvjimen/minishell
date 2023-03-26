@@ -6,7 +6,7 @@
 /*   By: alvjimen <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/21 17:35:03 by alvjimen          #+#    #+#             */
-/*   Updated: 2023/03/22 18:50:56 by alvjimen         ###   ########.fr       */
+/*   Updated: 2023/03/26 16:47:58 by alvjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "lxr.h"
@@ -28,9 +28,10 @@ char	**ft_ls(char *str)
 
 	dir = opendir(str);
 	files = NULL;
+	str = NULL;
 	if (!dir)
 		return (NULL);
-	file = 1;
+	file = (struct dirent *)1;
 	while (file)
 	{
 		file = readdir(dir);
@@ -40,12 +41,11 @@ char	**ft_ls(char *str)
 			if (closedir(dir) == -1)
 				perror("closedir");
 			return (NULL);
-			counter++;
 		}
+		printf("file_name: %s\n", file->d_name);
 		files = ft_sarradd(files, file->d_name);
 		if (!files)
 		{
-			free(tmp);
 			if (closedir(dir) == -1)
 				perror("closedir");
 			return (NULL);
@@ -56,5 +56,7 @@ char	**ft_ls(char *str)
 		perror("closedir");
 		return (NULL);
 	}
+	ft_sarrfree(files);
+	files = NULL;
 	return (files);
 }
