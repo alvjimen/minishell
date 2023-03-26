@@ -6,18 +6,12 @@
 /*   By: alvjimen <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/21 17:35:03 by alvjimen          #+#    #+#             */
-/*   Updated: 2023/03/26 16:47:58 by alvjimen         ###   ########.fr       */
+/*   Updated: 2023/03/26 18:23:17 by alvjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "lxr.h"
 /*
-opendir, readdir, closedir
-*/
-/*
-void	ft_lst_del(void *ptr)
-{
-	free(ptr);
-}
+	ls on dir return the dir_name and dir_name + '/'
 */
 
 char	**ft_ls(char *str)
@@ -28,21 +22,22 @@ char	**ft_ls(char *str)
 
 	dir = opendir(str);
 	files = NULL;
-	str = NULL;
 	if (!dir)
 		return (NULL);
 	file = (struct dirent *)1;
 	while (file)
 	{
 		file = readdir(dir);
-		if (!file && errno)
+		if (!file && !errno)
+			return (NULL);
+		if (!file)
 		{
 			perror("readdir");
 			if (closedir(dir) == -1)
 				perror("closedir");
 			return (NULL);
 		}
-		printf("file_name: %s\n", file->d_name);
+		//printf("file_name: %s\n", file->d_name);
 		files = ft_sarradd(files, file->d_name);
 		if (!files)
 		{
@@ -56,7 +51,6 @@ char	**ft_ls(char *str)
 		perror("closedir");
 		return (NULL);
 	}
-	ft_sarrfree(files);
-	files = NULL;
+	ft_sarrfree(&files);
 	return (files);
 }

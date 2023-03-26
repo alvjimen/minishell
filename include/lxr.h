@@ -6,7 +6,7 @@
 /*   By: alvjimen <alvjimen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/28 18:36:15 by alvjimen          #+#    #+#             */
-/*   Updated: 2023/03/26 16:47:04 by alvjimen         ###   ########.fr       */
+/*   Updated: 2023/03/26 16:57:42 by alvjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@
 # include <errno.h>
 # include "libft.h"
 # include "btree.h"
+# include "sarr.h"
 
 typedef enum e_tokens
 {
