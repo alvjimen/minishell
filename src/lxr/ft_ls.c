@@ -6,14 +6,20 @@
 /*   By: alvjimen <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/21 17:35:03 by alvjimen          #+#    #+#             */
-/*   Updated: 2023/03/26 18:23:17 by alvjimen         ###   ########.fr       */
+/*   Updated: 2023/03/27 19:31:19 by alvjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "lxr.h"
 /*
-	ls on dir return the dir_name and dir_name + '/'
+	TODO got a flag for dir for the caller now to save the dir_name
+	and dir_name + '/'
 */
 
+/*
+	printf("file_name: %s\n", file->d_name);
+	to add the string should be malloc if not issues
+	sarradd malloc then no issue
+*/
 char	**ft_ls(char *str)
 {
 	DIR				*dir;
@@ -21,15 +27,16 @@ char	**ft_ls(char *str)
 	char			**files;
 
 	dir = opendir(str);
-	files = NULL;
 	if (!dir)
 		return (NULL);
+	files = NULL;
 	file = (struct dirent *)1;
+	errno = 0;
 	while (file)
 	{
 		file = readdir(dir);
 		if (!file && !errno)
-			return (NULL);
+			break ;
 		if (!file)
 		{
 			perror("readdir");
@@ -37,7 +44,6 @@ char	**ft_ls(char *str)
 				perror("closedir");
 			return (NULL);
 		}
-		//printf("file_name: %s\n", file->d_name);
 		files = ft_sarradd(files, file->d_name);
 		if (!files)
 		{
@@ -51,6 +57,9 @@ char	**ft_ls(char *str)
 		perror("closedir");
 		return (NULL);
 	}
+	/*
+	 * This is for avoid leaks i should remove it the same with the return value
+	 */
 	ft_sarrfree(&files);
-	return (files);
+	return (files + (size_t) dir);
 }
