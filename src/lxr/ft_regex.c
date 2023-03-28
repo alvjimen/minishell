@@ -6,24 +6,29 @@
 /*   By: alvjimen <alvjimen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/26 17:26:06 by alvjimen          #+#    #+#             */
-/*   Updated: 2023/03/27 19:30:39 by alvjimen         ###   ########.fr       */
+/*   Updated: 2023/03/28 17:49:50 by alvjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "lxr.h"
 /*call this after de token analizer after the var expansion*/
 
-char	*ft_start_notstar(char *matched, char *str)
+char	*ft_start_notstar(char *matched, char *str, size_t *counter)
 {
-	if (!matched || !str)
+	if (!matched || !str || !counter)
 		return (NULL);
-	return (ft_strnstr(matched, str, ft_strlen(str)));
+	if (ft_strnstr(matched, str, ft_strlen(str)))
+	{
+		counter[0]++;
+		return (matched);
+	}
+	return (NULL);
 }
 
 char	*ft_interstar(char **split, size_t *counter, char *matched)
 {
 	while (split[*counter] && split[*counter + 1])
 	{
-		matched = ft_strnstr(split[*counter], matched, -1);
+		matched = ft_strnstr(matched, split[*counter], -1);
 		if (!matched)
 		{
 			ft_sarrfree(&split);
@@ -37,6 +42,8 @@ char	*ft_interstar(char **split, size_t *counter, char *matched)
 
 int	ft_end_star(char *matched, char *str, char **split)
 {
+	if (!str)
+		return (SUCCESS);
 	matched = ft_strnstr(str, matched, -1);
 	if (!matched)
 	{
@@ -55,29 +62,39 @@ int	ft_end_notstar(char *matched, char *str, char **split,
 
 	len_split = ft_strlen(str);
 	len = ft_strlen(matched_copy);
-	if (len - len_split < 0 || matched >= &matched_copy[len - len_split])
+	if (len - len_split < 0 || matched > &matched_copy[len - len_split])
 	{
 		ft_sarrfree(&split);
 		return (FAILURE);
 	}
 	matched = matched_copy + (len - len_split);
+	ft_sarrfree(&split);
 	if (!ft_strnstr(matched, str, -1))
-	{
-		ft_sarrfree(&split);
 		return (FAILURE);
-	}
 	return (SUCCESS);
 }
 
-int	ft_just_asterisk(char *regex, size_t len)
+int	ft_just_asterisk(char *regex)
 {
+	size_t	len;
+
+	len = 0;
 	while (regex[len] == '*')
 		len++;
 	if (regex[len] == '\0')
 		return (SUCCESS);
 	return (FAILURE);
 }
-
+/*
+ * SOLUTION know how much split got the regex and in case one check and return on success
+ * i don't know why but star '*' it is needing like obligatory a char.
+ * SOLUTION find the error on debug
+ * a* match correctly 'a' but work bad at 'abc'
+ * *a not match with a but yes with aa
+ * a*b not match with ab but yes with aab
+ * a*
+ * */
+/*need to calculate the len of the split*/
 int	ft_regex(char *regex, char  *matched)
 {
 	size_t	len;
@@ -93,9 +110,9 @@ int	ft_regex(char *regex, char  *matched)
 	split = ft_split(regex, '*');
 	if (!split)
 		return (FAILURE);
-	if (*regex != '*' && !ft_start_notstar(matched, split[counter]))
+	if (*regex != '*' && !ft_start_notstar(matched, split[counter], &counter))
 		return (FAILURE);
-	else if (*regex == '*' && ft_just_asterisk(regex, len) == SUCCESS)
+	else if (*regex == '*' && ft_just_asterisk(regex) == SUCCESS)
 		return (SUCCESS);
 	matched = ft_interstar(split, &counter, matched);
 	if (!matched)

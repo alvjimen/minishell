@@ -46,26 +46,56 @@ test_pipe=(
 )
 
 test_parenthesis=(
-	'(hola (a))'
-	"hola ()"
-)
-test_syntax=(
-	">>>"
+	'(hola (a))',
+	"(a)"
 )
 
+test_syntax=(
+	"hola ()",
+	">>>",
+	"<>>",
+	"<<>",
+	">>>>>",
+	"w (a)",
+	"()",
+)
+# Pending to implement Implement
+test_regex=(
+	'*',
+	'a*',
+	'*a',
+	'*a*',
+	'a*a*a'
+)
+test_target=(
+	"anything",
+	"a",
+	"aa",
+	"ab",
+	"ba",
+	"aaa"
+)
 function check_files()
 {
 	local	ok=0;
-	./test -c "$1" 2>&1| cat -e > $dir/$dir_new/test.$nbr
-	diff $dir/$dir_og/test.$nbr $dir/$dir_new/test.$nbr > $diff_file
+	#echo "$#"
+	./test -c "$1" $2 $3 2>&1| cat -e > $dir/$dir_new/test.$nbr
+																	# Uncomment to silence error msg
+	diff $dir/$dir_og/test.$nbr $dir/$dir_new/test.$nbr > $diff_file #2>/dev/null
 	if [[ $? -eq 0 ]]
 	then
 		echo -ne "\033[32mOK $nbr\033[0m"
 	else
-		echo -ne "\033[31mKO $nbr033\033[0m"
+		echo -ne "\033[31mKO $nbr\033[0m"
 		ok=1
 	fi
-	yellow_text " input \"$1\""
+	#yellow_text " input \"$1\""
+	if [[ $# -gt 1 ]]
+	then
+		yellow_text " input \"$1\" regex \"$2\" target\"$3\""
+	else
+		yellow_text " input \"$1\""
+	fi
 	if test $ok -eq 1
 	then
 		red_text `cat $diff_file`
@@ -113,6 +143,16 @@ yellow_text "Syntax analyzer"
 for name in "${test_syntax[@]}"
 do
 	check_files "$name"
+done
+
+yellow_text "Regex"
+
+for name in "${test_regex[@]}"
+do
+	for target in "${test_target[@]}"
+	do
+		check_files a "$name" "$target"
+	done
 done
 rm -f $diff_file
 #:e include/lxr.h:vsplit Makefile:tabnew src/test/test.c:vsplit tests/tester.sh
