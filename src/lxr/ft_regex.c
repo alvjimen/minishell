@@ -6,7 +6,7 @@
 /*   By: alvjimen <alvjimen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/26 17:26:06 by alvjimen          #+#    #+#             */
-/*   Updated: 2023/03/29 11:59:42 by alvjimen         ###   ########.fr       */
+/*   Updated: 2023/03/29 13:06:46 by alvjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "lxr.h"
@@ -44,7 +44,7 @@ int	ft_end_star(char *matched, char *str, char **split)
 {
 	if (!str)
 		return (SUCCESS);
-	matched = ft_strnstr(str, matched, -1);
+	matched = ft_strnstr(matched, str, -1);
 	if (!matched)
 	{
 		ft_sarrfree(&split);
@@ -70,9 +70,12 @@ int	ft_end_notstar(char *matched, char *str, char **split,
 		return (FAILURE);
 	}
 	matched = matched_copy + (len - len_split);
-	ft_sarrfree(&split);
 	if (!ft_strnstr(matched, str, -1))
+	{
+		ft_sarrfree(&split);
 		return (FAILURE);
+	}
+	ft_sarrfree(&split);
 	return (SUCCESS);
 }
 
@@ -88,10 +91,14 @@ int	ft_just_asterisk(char *regex)
 	return (FAILURE);
 }
 /*
- * SOLUTION know how much split got the regex and in case one check and return on success
+ * SOLVE IT
  * i don't know why but star '*' it is needing like obligatory a char.
  * SOLUTION find the error on debug
- * *a match with ab that is incorrect
+ * Solve regex *a a* *a*
+	Issue with regex multiwildcard
+ * *a match with ab
+
+	Solve it *a* match a no with aa bab aab
  * a*b not match with ab aab abb aabb
  * */
 /*need to calculate the len of the split*/

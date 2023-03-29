@@ -78,7 +78,7 @@ test_target=(
 function check_files()
 {
 	local	ok=0;
-	./test -c "$1" $2 $3 2>&1| cat > $dir/$dir_new/test.$nbr
+	./test -c "$1" $2 $3 2>&1| cat -e> $dir/$dir_new/test.$nbr
 	# Uncomment the comment below to silence error msg
 	diff $dir/$dir_og/test.$nbr $dir/$dir_new/test.$nbr > $diff_file #2>/dev/null
 	if [[ $? -eq 0 ]]
