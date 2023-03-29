@@ -6,7 +6,7 @@
 #    By: alvjimen <alvjimen@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/01/31 19:37:18 by alvjimen          #+#    #+#              #
-#    Updated: 2023/03/27 19:18:12 by alvjimen         ###   ########.fr        #
+#    Updated: 2023/03/29 11:20:29 by alvjimen         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -187,7 +187,9 @@ print-%:
 	@$(info '$*'='$($*)')
 
 TEST-DIR	=	tests
-tester: test
+tests: test
 	@tests/tester.sh
 
-.PHONY: all clean fclean re testers info-% print-% 
+tester: test
+	@tests/tester.sh 1
+.PHONY: all clean fclean re tester tests info-% print-% 

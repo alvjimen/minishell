@@ -6,7 +6,7 @@
 /*   By: alvjimen <alvjimen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/26 17:26:06 by alvjimen          #+#    #+#             */
-/*   Updated: 2023/03/28 17:49:50 by alvjimen         ###   ########.fr       */
+/*   Updated: 2023/03/29 11:59:42 by alvjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "lxr.h"
@@ -60,9 +60,11 @@ int	ft_end_notstar(char *matched, char *str, char **split,
 	size_t	len;
 	size_t	counter;
 
+	if (!str)
+		return (FAILURE);
 	len_split = ft_strlen(str);
 	len = ft_strlen(matched_copy);
-	if (len - len_split < 0 || matched > &matched_copy[len - len_split])
+	if (len < len_split || matched > &matched_copy[len - len_split])
 	{
 		ft_sarrfree(&split);
 		return (FAILURE);
@@ -89,10 +91,8 @@ int	ft_just_asterisk(char *regex)
  * SOLUTION know how much split got the regex and in case one check and return on success
  * i don't know why but star '*' it is needing like obligatory a char.
  * SOLUTION find the error on debug
- * a* match correctly 'a' but work bad at 'abc'
- * *a not match with a but yes with aa
- * a*b not match with ab but yes with aab
- * a*
+ * *a match with ab that is incorrect
+ * a*b not match with ab aab abb aabb
  * */
 /*need to calculate the len of the split*/
 int	ft_regex(char *regex, char  *matched)
