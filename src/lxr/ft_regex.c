@@ -6,20 +6,24 @@
 /*   By: alvjimen <alvjimen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/26 17:26:06 by alvjimen          #+#    #+#             */
-/*   Updated: 2023/03/29 13:12:31 by alvjimen         ###   ########.fr       */
+/*   Updated: 2023/03/29 19:29:28 by alvjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "lxr.h"
 /*call this after de token analizer after the var expansion*/
 
-char	*ft_start_notstar(char *matched, char *str, size_t *counter)
+char	*ft_start_notstar(char **matched, char *str, size_t *counter)
 {
-	if (!matched || !str || !counter)
+	size_t	len;
+
+	if (!matched || !*matched || !str || !counter)
 		return (NULL);
-	if (ft_strnstr(matched, str, ft_strlen(str)))
+	len = ft_strlen(str);
+	if (ft_strnstr(*matched, str, len))
 	{
 		counter[0]++;
-		return (matched);
+		*matched += len;
+		return (*matched);
 	}
 	return (NULL);
 }
@@ -107,7 +111,7 @@ int	ft_regex(char *regex, char *matched)
 	split = ft_split(regex, '*');
 	if (!split)
 		return (FAILURE);
-	if (*regex != '*' && !ft_start_notstar(matched, split[counter], &counter))
+	if (*regex != '*' && !ft_start_notstar(&matched, split[counter], &counter))
 		return (FAILURE);
 	else if (*regex == '*' && ft_just_asterisk(regex) == SUCCESS)
 		return (SUCCESS);

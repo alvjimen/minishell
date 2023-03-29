@@ -6,7 +6,7 @@
 /*   By: alvjimen <alvjimen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/31 20:04:15 by alvjimen          #+#    #+#             */
-/*   Updated: 2023/03/29 14:04:46 by alvjimen         ###   ########.fr       */
+/*   Updated: 2023/03/29 17:45:36 by alvjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "lxr.h"
@@ -45,10 +45,6 @@ int	main(int argc, char *argv[])
 			ft_putstr_fd("operators split\n", 2);
 			ft_operators_split(&lxr->btree);
 			ft_btree_apply_prefix(lxr->btree, ft_print_lst);
-			/*
-				regex	&&	target
-				argv[3]	&&	argv[4]
-			*/
 			if (ft_regex(argv[3], argv[4]) == SUCCESS)
 				ft_putstr_fd("Match\n", 1);
 		}

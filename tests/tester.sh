@@ -87,7 +87,7 @@ function check_files()
 	else
 		echo -ne "\033[31mKO $nbr\033[0m"
 	# uncomment the below comment to show the result of diff in error case
-		#ok=1
+		ok=1
 	fi
 	if [[ $# -gt 1 ]]
 	then
