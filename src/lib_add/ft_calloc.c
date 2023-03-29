@@ -6,7 +6,7 @@
 /*   By: alvjimen <alvjimen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/18 17:28:56 by alvjimen          #+#    #+#             */
-/*   Updated: 2022/11/30 12:25:01 by alvjimen         ###   ########.fr       */
+/*   Updated: 2023/03/29 19:38:16 by alvjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "cmn.h"
@@ -18,7 +18,7 @@ void	*ft_calloc(size_t count, size_t size)
 	size_t	counter;
 
 	pointer = NULL;
-	if ((ULONG_MAX / size) < count)
+	if (size && (ULONG_MAX / size) < count)
 		return (pointer);
 	num_bytes = count * size;
 	pointer = malloc(num_bytes);

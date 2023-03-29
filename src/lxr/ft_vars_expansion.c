@@ -6,7 +6,7 @@
 /*   By: alvjimen <alvjimen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/21 12:45:06 by alvjimen          #+#    #+#             */
-/*   Updated: 2023/03/29 14:02:40 by alvjimen         ###   ########.fr       */
+/*   Updated: 2023/03/29 19:45:26 by alvjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "lxr.h"
@@ -67,7 +67,7 @@ char	*ft_after_var(t_lxr **lxr, char **name,
 {
 	name = NULL;
 	/*Get the after var with the value of the var*/
-	*value = ft_substr(lxr[0]->str, lxr[0]->pos + lxr[0]->counter, -1);
+	*value = ft_substr(lxr[0]->str, lxr[0]->pos, lxr[0]->counter);
 	if (!value[0])
 	{
 		free(tmp[0]);
