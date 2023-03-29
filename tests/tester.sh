@@ -46,7 +46,7 @@ test_pipe=(
 )
 
 test_parenthesis=(
-	'(hola (a))'
+	"(hola (a))"
 	"(a)"
 )
 
