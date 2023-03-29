@@ -6,7 +6,7 @@
 /*   By: alvjimen <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/23 17:48:29 by alvjimen          #+#    #+#             */
-/*   Updated: 2023/03/23 19:25:10 by alvjimen         ###   ########.fr       */
+/*   Updated: 2023/03/29 21:07:04 by alvjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "lxr.h"
@@ -18,7 +18,7 @@ char	*ft_var_chars(t_lxr	*lxr)
 	while (ft_isalnum(lxr->str[lxr->pos + lxr->counter])
 			|| lxr->str[lxr->pos + lxr->counter] == '_')
 		lxr->counter++;
-	str = ft_substr(lxr->str, lxr->pos, lxr->counter);
+	str = ft_substr(lxr->str, lxr->pos + 1, lxr->counter - 1);
 	if (!str)
 		return (NULL);
 	if (VAR)
