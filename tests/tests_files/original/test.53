@@ -1,4 +1,5 @@
-Token WORD:
-a
-operators split
-Token WORD:
+Token WORD:$
+a$
+operators split$
+Token WORD:$
+a$
