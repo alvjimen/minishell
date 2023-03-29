@@ -6,7 +6,7 @@
 /*   By: alvjimen <alvjimen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/26 17:26:06 by alvjimen          #+#    #+#             */
-/*   Updated: 2023/03/29 13:06:46 by alvjimen         ###   ########.fr       */
+/*   Updated: 2023/03/29 13:12:31 by alvjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "lxr.h"
@@ -90,19 +90,9 @@ int	ft_just_asterisk(char *regex)
 		return (SUCCESS);
 	return (FAILURE);
 }
-/*
- * SOLVE IT
- * i don't know why but star '*' it is needing like obligatory a char.
- * SOLUTION find the error on debug
- * Solve regex *a a* *a*
-	Issue with regex multiwildcard
- * *a match with ab
 
-	Solve it *a* match a no with aa bab aab
- * a*b not match with ab aab abb aabb
- * */
 /*need to calculate the len of the split*/
-int	ft_regex(char *regex, char  *matched)
+int	ft_regex(char *regex, char *matched)
 {
 	size_t	len;
 	size_t	counter;

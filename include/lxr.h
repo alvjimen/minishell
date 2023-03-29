@@ -6,7 +6,7 @@
 /*   By: alvjimen <alvjimen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/28 18:36:15 by alvjimen          #+#    #+#             */
-/*   Updated: 2023/03/26 16:57:42 by alvjimen         ###   ########.fr       */
+/*   Updated: 2023/03/29 13:53:35 by alvjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,8 +76,8 @@ typedef struct s_tkn
 
 typedef struct s_lxr
 {
-	char	*str;
 	size_t	pos;
+	char	*str;
 	t_tkn	tokens;
 	size_t	num_tokens;
 	t_mode	mode;

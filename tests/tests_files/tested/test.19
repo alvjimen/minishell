@@ -1,5 +1,0 @@
-Token ASSIGNMENT_WORD:$
-a=echo$
-|$
-Token WORD:$
-cat$

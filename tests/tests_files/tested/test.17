@@ -1,6 +1,0 @@
-Token ASSIGNMENT_WORD:$
-a=a$
-Token ASSIGNMENT_WORD:$
-b=b$
-Token ASSIGNMENT_WORD:$
-c=c$

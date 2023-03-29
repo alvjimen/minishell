@@ -60,11 +60,11 @@ test_syntax=(
 	"()"
 )
 test_regex=(
-	'*'
-	'a*'
-	'*a'
-	'*a*'
-	'a*a*a'
+	"*"
+	"a*"
+	"*a"
+	"*a*"
+	"a*a*a"
 )
 test_target=(
 	"anything"
