@@ -6,7 +6,7 @@
 /*   By: alvjimen <alvjimen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/21 12:45:06 by alvjimen          #+#    #+#             */
-/*   Updated: 2023/03/30 11:52:45 by alvjimen         ###   ########.fr       */
+/*   Updated: 2023/03/30 12:36:47 by alvjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "lxr.h"
@@ -115,7 +115,7 @@ char	*ft_dollar_expansion(t_lxr **lxr, char **name, char **value, char **tmp)
 {
 	name[0] = ft_get_varname(*lxr);
 	if (!*name)
-		return (NULL);
+		return (lxr[0]->str);
 	else if (*tmp == lxr[0]->str)
 	{
 		free(*name);
@@ -145,6 +145,7 @@ char	*ft_vars_expansion(char *str)
 	char	*name;
 	char	*value;
 	char	*tmp;
+	char	*aux;
 
 	if (!str)
 		return (NULL);
@@ -159,13 +160,17 @@ char	*ft_vars_expansion(char *str)
 			lxr->tokens.states ^= SQUOTES;
 		else if (lxr->tokens.states != SQUOTES && lxr->str[lxr->pos] == '$')
 		{
-			if (ft_dollar_expansion(&lxr, &name, &value, &tmp) == NULL)
-				return (NULL);
+			aux = ft_dollar_expansion(&lxr, &name, &value, &tmp);
+			if (aux != lxr->str)
+				return (aux);
 		}
 		lxr->pos++;
 	}
 	tmp = lxr->str;
 	free(lxr);
+	ft_putstr_fd("Var expansion: ",1);
 	ft_putstr_fd(tmp, 1);
+	ft_putstr_fd("\n",1);
+
 	return (tmp);
 }

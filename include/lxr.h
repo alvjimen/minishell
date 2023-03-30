@@ -6,7 +6,7 @@
 /*   By: alvjimen <alvjimen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/28 18:36:15 by alvjimen          #+#    #+#             */
-/*   Updated: 2023/03/29 13:53:35 by alvjimen         ###   ########.fr       */
+/*   Updated: 2023/03/30 12:17:31 by alvjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,4 +122,5 @@ int		ft_operators_intercmd(void *ptr);
 int		ft_operators_intracmd(void *ptr);
 int		ft_tokens_word(void *ptr);
 char	*ft_get_varname(t_lxr *lxr);
+char	*ft_vars_expansion(char *str);
 #endif

@@ -6,7 +6,7 @@
 /*   By: alvjimen <alvjimen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/17 12:23:30 by alvjimen          #+#    #+#             */
-/*   Updated: 2023/03/25 17:51:06 by alvjimen         ###   ########.fr       */
+/*   Updated: 2023/03/30 13:44:58 by alvjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "lxr.h"
@@ -45,9 +45,9 @@ int	ft_operators_split(t_btree **root)
 {
 	t_btree	*node;
 	t_btree	*aux;
+	t_tkn	*content;
 	/*
 	t_btree	*args;
-	t_tkn	*content;
 	t_tkn	*tkn_arg;
 	size_t	lst_size;
 	*/
@@ -68,8 +68,8 @@ int	ft_operators_split(t_btree **root)
 	if (node)
 	{
 		/*Is not working fine*/
-		while (node)
-		{
+		//while (node)
+		//{
 			/*save the root*/
 			aux = root[0];
 			/*Put the new root*/
@@ -78,29 +78,38 @@ int	ft_operators_split(t_btree **root)
 			if (aux != node)
 				ft_lstadd_back((t_list **)&node->left, (t_list *)aux);
 			/*Swap the branch of the root*/
-			ft_btree_swap(*root);
+			//ft_btree_swap(*root);
 			/*
 			Si tenemos algo después del operador cogemos
 			el siguiente de ese operador lo añadimos a la otra rama y eso que estaba
 			antes en  los siguiente del operador y lo igualamos a nulo
 			*/
+			/*
 			if (root[0]->left)
 			{
 				ft_lstadd_back((t_list **)root, (t_list *)root[0]->left->right);
 				root[0]->left->right = NULL;
 			}
-			/*
+			*/
+			if (root[0]->right)
+			{
+				ft_lstadd_back((t_list **)node->left,
+					(t_list *)node->right->right);
+				root[0]->right->right = NULL;
+			}/*
 			   Esto es para simular la recursividad pero vamos hacerlo un  poco mejor
 			*/
-			node = (t_btree *)ft_split_list((t_list **)root,
+			/*
+				node = (t_btree *)ft_split_list((t_list **)root,
 					ft_operators_intracmd);
-		}
+			*/
+		//}
 		/*
 		ft_btree_swap(*root);
 		*/
-		ft_btree_apply_to_node_infix(*root, ft_btree_swap);
+		//ft_btree_apply_to_node_infix(*root, ft_btree_swap);
 	}
-	/*This is part of another function*/
+	/*This is part of another function an is should execute later*/
 	/*()*/
 	/*
 	if (!ft_tokens_paren(root[0]->content))

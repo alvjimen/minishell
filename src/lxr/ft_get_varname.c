@@ -6,7 +6,7 @@
 /*   By: alvjimen <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/23 17:48:29 by alvjimen          #+#    #+#             */
-/*   Updated: 2023/03/30 11:17:24 by alvjimen         ###   ########.fr       */
+/*   Updated: 2023/03/30 12:30:12 by alvjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "lxr.h"
@@ -34,7 +34,7 @@ char	*ft_var_one_char(t_lxr *lxr)
 {
 	char	*str;
 
-	str = ft_substr(lxr->str, lxr->pos, lxr->counter);
+	str = ft_substr(lxr->str, lxr->pos + 1, lxr->counter++);
 	if (!str)
 		return (NULL);
 	if (VAR)
@@ -54,8 +54,12 @@ char	*ft_get_varname(t_lxr *lxr)
 	if (ft_isalpha(lxr->str[lxr->pos + lxr->counter])
 		|| lxr->str[lxr->pos + lxr->counter] == '_')
 		return (ft_var_chars(lxr));
+	else if (lxr->str[lxr->pos + lxr->counter])
+		return (ft_var_one_char(lxr));
+	return (NULL);
+}
+/*
 	else if (ft_isdigit(lxr->str[lxr->pos + lxr->counter]) ||
 			lxr->str[lxr->pos + lxr->counter] == '?')
 		return (ft_var_one_char(lxr));
-	return (lxr->str);
-}
+*/
