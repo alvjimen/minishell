@@ -6,7 +6,7 @@
 /*   By: alvjimen <alvjimen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/31 20:04:15 by alvjimen          #+#    #+#             */
-/*   Updated: 2023/03/30 12:21:18 by alvjimen         ###   ########.fr       */
+/*   Updated: 2023/03/30 19:27:02 by alvjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "lxr.h"
@@ -15,6 +15,7 @@
 int	main(int argc, char *argv[])
 {
 	char	*str;
+	char	**words;
 	t_lxr	*lxr;
 
 	lxr = NULL;
@@ -57,10 +58,15 @@ int	main(int argc, char *argv[])
 			if (ft_regex(argv[3], argv[4]) == SUCCESS)
 				ft_putstr_fd("Match\n", 1);
 		}
+		if (argc > 5)
+		{
+			ft_putstr_fd("get_array_words\n", 2);
+			words = ft_get_array_words(&lxr->btree);
+			ft_sarrfree(&words);
+		}
 		ft_btree_clear(&lxr->btree, ft_destroy_tkn);
 		free(lxr);
 		free(str);
-		ft_ls(".");
 		return (SUCCESS);
 	}
 	while (1)
