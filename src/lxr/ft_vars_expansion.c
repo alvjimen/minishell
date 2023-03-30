@@ -6,7 +6,7 @@
 /*   By: alvjimen <alvjimen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/21 12:45:06 by alvjimen          #+#    #+#             */
-/*   Updated: 2023/03/30 11:35:39 by alvjimen         ###   ########.fr       */
+/*   Updated: 2023/03/30 11:52:45 by alvjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "lxr.h"
@@ -108,7 +108,6 @@ char	*ft_join_str(t_lxr **lxr, char **name, char **value, char **tmp)
 	ft_putstr_fd("join of all the token: ", 1);
 	ft_putstr_fd(*name, 1);
 	ft_putstr_fd("\n", 1);
-	
 	return (name[0]);
 }
 
@@ -117,7 +116,7 @@ char	*ft_dollar_expansion(t_lxr **lxr, char **name, char **value, char **tmp)
 	name[0] = ft_get_varname(*lxr);
 	if (!*name)
 		return (NULL);
-	else if (ft_strncmp(*tmp, lxr[0]->str, -1) == SUCCESS)
+	else if (*tmp == lxr[0]->str)
 	{
 		free(*name);
 		lxr[0]->pos++;
@@ -137,7 +136,7 @@ char	*ft_dollar_expansion(t_lxr **lxr, char **name, char **value, char **tmp)
 	/**/
 	lxr[0]->pos = 0;
 	lxr[0]->counter = 0;
-	return (name[0]);
+	return (lxr[0]->str);
 }
 
 char	*ft_vars_expansion(char *str)
