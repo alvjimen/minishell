@@ -6,7 +6,7 @@
 /*   By: alvjimen <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/23 17:48:29 by alvjimen          #+#    #+#             */
-/*   Updated: 2023/03/29 21:07:04 by alvjimen         ###   ########.fr       */
+/*   Updated: 2023/03/30 11:17:24 by alvjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "lxr.h"
@@ -26,9 +26,6 @@ char	*ft_var_chars(t_lxr	*lxr)
 		ft_putstr_fd("var name: ", 1);
 		ft_putstr_fd(str, 1);
 		ft_putstr_fd("\n", 1);
-		ft_putstr_fd("rest str: ", 1);
-		ft_putstr_fd(&lxr->str[lxr->pos + lxr->counter], 1);
-		ft_putstr_fd("\n", 1);
 	}
 	return (str);
 }
@@ -44,9 +41,6 @@ char	*ft_var_one_char(t_lxr *lxr)
 	{
 		ft_putstr_fd("var name: ", 1);
 		ft_putstr_fd(str, 1);
-		ft_putstr_fd("\n", 1);
-		ft_putstr_fd("rest str: ", 1);
-		ft_putstr_fd(&lxr->str[lxr->pos + lxr->counter], 1);
 		ft_putstr_fd("\n", 1);
 	}
 	return (str);

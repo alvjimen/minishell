@@ -6,7 +6,7 @@
 /*   By: alvjimen <alvjimen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/21 12:45:06 by alvjimen          #+#    #+#             */
-/*   Updated: 2023/03/29 19:45:26 by alvjimen         ###   ########.fr       */
+/*   Updated: 2023/03/30 11:35:39 by alvjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "lxr.h"
@@ -29,6 +29,9 @@ i don't take the dollar value.
 char	*ft_previous_var(t_lxr **lxr, char **name, char **value, char **tmp)
 {
 	*value = ft_var_value(NULL, *name);
+	ft_putstr_fd("value of var: ", 1);
+	ft_putstr_fd(*value, 1);
+	ft_putstr_fd("\n", 1);
 	free(*name);
 	if (!*value)
 	{
@@ -43,6 +46,9 @@ char	*ft_previous_var(t_lxr **lxr, char **name, char **value, char **tmp)
 		free(*lxr);
 		return (NULL);
 	}
+	ft_putstr_fd("previous var: ", 1);
+	ft_putstr_fd(*name, 1);
+	ft_putstr_fd("\n", 1);
 	return (*tmp);
 }
 
@@ -59,21 +65,30 @@ char	*ft_join_previos_with_var_value(t_lxr **lxr, char **name,
 		return (NULL);
 	}
 	*tmp = *name;
+	ft_putstr_fd("join prev + var: ", 1);
+	ft_putstr_fd(*tmp, 1);
+	ft_putstr_fd("\n", 1);
 	return (*name);
 }
 
 char	*ft_after_var(t_lxr **lxr, char **name,
 		char **value, char **tmp)
 {
+	char	*aux;
+
 	name = NULL;
 	/*Get the after var with the value of the var*/
-	*value = ft_substr(lxr[0]->str, lxr[0]->pos, lxr[0]->counter);
+	aux = lxr[0]->str + lxr[0]->pos + lxr[0]->counter;
+	*value = ft_substr(lxr[0]->str, lxr[0]->pos + lxr[0]->counter, ft_strlen(aux));
 	if (!value[0])
 	{
 		free(tmp[0]);
 		free(lxr[0]);
 		return (NULL);
 	}
+	ft_putstr_fd("after var: ", 1);
+	ft_putstr_fd(*value, 1);
+	ft_putstr_fd("\n", 1);
 	return (*value);
 }
 
@@ -90,6 +105,10 @@ char	*ft_join_str(t_lxr **lxr, char **name, char **value, char **tmp)
 		free(lxr[0]);
 		return (NULL);
 	}
+	ft_putstr_fd("join of all the token: ", 1);
+	ft_putstr_fd(*name, 1);
+	ft_putstr_fd("\n", 1);
+	
 	return (name[0]);
 }
 
@@ -98,7 +117,7 @@ char	*ft_dollar_expansion(t_lxr **lxr, char **name, char **value, char **tmp)
 	name[0] = ft_get_varname(*lxr);
 	if (!*name)
 		return (NULL);
-	else if (*tmp == lxr[0]->str)
+	else if (ft_strncmp(*tmp, lxr[0]->str, -1) == SUCCESS)
 	{
 		free(*name);
 		lxr[0]->pos++;
@@ -115,6 +134,7 @@ char	*ft_dollar_expansion(t_lxr **lxr, char **name, char **value, char **tmp)
 	/*the new string it start again for look more variables*/
 	lxr[0]->str = name[0];
 	name[0] = NULL;
+	/**/
 	lxr[0]->pos = 0;
 	lxr[0]->counter = 0;
 	return (name[0]);
