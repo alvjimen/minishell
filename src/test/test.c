@@ -6,7 +6,7 @@
 /*   By: alvjimen <alvjimen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/31 20:04:15 by alvjimen          #+#    #+#             */
-/*   Updated: 2023/03/31 07:55:36 by alvjimen         ###   ########.fr       */
+/*   Updated: 2023/03/31 12:14:51 by alvjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "lxr.h"
@@ -60,18 +60,12 @@ int	main(int argc, char *argv[])
 		}
 		if (argc > 5)
 		{
-			ft_putstr_fd("get_array_words\n", 1);
 			words = ft_get_array_words(&lxr->btree);
-			ft_putstr_fd("first str array: ", 1);
-			ft_putstr_fd(words[0], 1);
-			/*
-			ft_putstr_fd(", ", 1);
-			ft_putstr_fd(words[1], 1);
-			ft_putstr_fd(", ", 1);
-			ft_putstr_fd(words[2], 1);
-			ft_sarrfree(&words);
-			*/
-			ft_putstr_fd("\n", 1);
+			ft_putstr_fd("get_array_words content\n", 1);
+			ft_sarrprint(words);
+			ft_putstr_fd("get_array_words content sorted\n", 1);
+			ft_sarrsort(words);
+			ft_sarrprint(words);
 		}
 		ft_btree_clear(&lxr->btree, ft_destroy_tkn);
 		free(lxr);
