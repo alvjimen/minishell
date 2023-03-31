@@ -6,7 +6,7 @@
 /*   By: alvjimen <alvjimen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/31 20:04:15 by alvjimen          #+#    #+#             */
-/*   Updated: 2023/03/31 12:14:51 by alvjimen         ###   ########.fr       */
+/*   Updated: 2023/03/31 13:18:56 by alvjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "lxr.h"
@@ -31,6 +31,8 @@ int	main(int argc, char *argv[])
 			free(str);
 			return (FAILURE);
 		}
+		words = ft_ls(".");
+		words = NULL;
 		lxr->mode = NONINTERACTIVE;
 		ft_get_tokens(lxr);
 		if (ft_syntax_analizer(lxr) == FAILURE)

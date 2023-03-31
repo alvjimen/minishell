@@ -6,7 +6,7 @@
 /*   By: alvjimen <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/31 11:49:06 by alvjimen          #+#    #+#             */
-/*   Updated: 2023/03/31 12:19:36 by alvjimen         ###   ########.fr       */
+/*   Updated: 2023/03/31 12:27:21 by alvjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "libft.h"
@@ -29,15 +29,11 @@ void	ft_sarrsort(char **sarr)
 		cmp = 0;
 		while (cmp < size_sa)
 		{
-			if (!sarr[index] || !sarr[cmp])
-				continue ;
 			if (ft_strncmp(sarr[index], sarr[cmp], ft_strlen(sarr[cmp])) > 0)
 				sort_pos++;
 			cmp++;
 		}
-		tmp = sarr[sort_pos];
-		sarr[sort_pos] = sarr[index];
-		sarr[index] = tmp;
+		ft_swap((void **)&sarr[sort_pos], (void **)&sarr[index]);
 		index++;
 	}
 }

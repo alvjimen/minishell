@@ -6,7 +6,7 @@
 /*   By: jvasquez <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/20 16:41:24 by jvasquez          #+#    #+#             */
-/*   Updated: 2023/03/27 18:50:09 by alvjimen         ###   ########.fr       */
+/*   Updated: 2023/03/31 12:32:46 by alvjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,10 @@ char	**ft_sarradd(char **arr, char *string)
 	size = ft_sarrsize(arr) + 2;
 	new_arr = malloc(sizeof(char *) * (size));
 	if (!new_arr)
+	{
+		ft_sarrfree(&arr);
 		return (NULL);
+	}
 	size = 0;
 	if (arr)
 	{

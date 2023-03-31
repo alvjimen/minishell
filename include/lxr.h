@@ -6,7 +6,7 @@
 /*   By: alvjimen <alvjimen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/28 18:36:15 by alvjimen          #+#    #+#             */
-/*   Updated: 2023/03/30 19:27:31 by alvjimen         ###   ########.fr       */
+/*   Updated: 2023/03/31 13:19:22 by alvjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -125,4 +125,5 @@ char	*ft_get_varname(t_lxr *lxr);
 char	*ft_vars_expansion(char *str);
 int		ft_tokens_assignment_word(void *ptr);
 char	**ft_get_array_words(t_btree **root);
+char	**ft_ls(char *str);
 #endif
