@@ -6,7 +6,7 @@
 /*   By: alvjimen <alvjimen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/28 18:36:15 by alvjimen          #+#    #+#             */
-/*   Updated: 2023/04/01 14:19:55 by alvjimen         ###   ########.fr       */
+/*   Updated: 2023/04/01 16:56:27 by alvjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,8 @@ typedef enum e_states
 	DQUOTES,
 	SQUOTES,
 	PAREN,
-	DOLLAR
+	DOLLAR,
+	ERROR
 }	t_states;
 
 typedef enum e_mode
@@ -131,4 +132,5 @@ char	**ft_ls(char *str);
 void	ft_btree_apply_to_node_pointer_infix(t_btree **root,
 		void (*applyf)(void **));
 void	ft_operators_split_recursively(void **ptr);
+int		ft_syntax_analizer(t_btree *root);
 #endif

@@ -6,7 +6,7 @@
 /*   By: alvjimen <alvjimen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/31 20:04:15 by alvjimen          #+#    #+#             */
-/*   Updated: 2023/04/01 12:03:00 by alvjimen         ###   ########.fr       */
+/*   Updated: 2023/04/01 18:19:31 by alvjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "lxr.h"
@@ -35,7 +35,7 @@ int	main(int argc, char *argv[])
 		words = NULL;
 		lxr->mode = NONINTERACTIVE;
 		ft_get_tokens(lxr);
-		if (ft_syntax_analizer(lxr) == FAILURE)
+		if (ft_syntax_analizer(lxr->btree) == FAILURE)
 		{
 			ft_putstr_fd("Syntax ERROR\n", 2);
 			return (FAILURE);
@@ -52,13 +52,19 @@ int	main(int argc, char *argv[])
 				ft_putstr_fd("\n", 1);
 			}
 		}
-		if (argc > 4)
+		if (argc > 4 && argc <= 6)
 		{
 			ft_putstr_fd("operators split\n", 1);
 			ft_operators_split(&lxr->btree);
 			ft_btree_apply_prefix(lxr->btree, ft_print_lst);
 			if (ft_regex(argv[3], argv[4]) == SUCCESS)
 				ft_putstr_fd("Match\n", 1);
+		}
+		if (argc > 6)
+		{
+			ft_putstr_fd("operators recursive split\n", 1);
+			ft_btree_apply_to_node_pointer_infix(&lxr->btree, ft_operators_split_recursively);
+			ft_btree_apply_prefix(lxr->btree, ft_print_lst);
 		}
 		if (argc > 5)
 		{
@@ -88,7 +94,7 @@ int	main(int argc, char *argv[])
 		}
 		lxr->mode = NONINTERACTIVE;
 		ft_get_tokens(lxr);
-		if (ft_syntax_analizer(lxr) == FAILURE)
+		if (ft_syntax_analizer(lxr->btree) == FAILURE)
 		{
 			ft_putstr_fd("Syntax ERROR\n", 2);
 			return (FAILURE);

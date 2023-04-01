@@ -6,13 +6,13 @@
 /*   By: alvjimen <alvjimen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/20 14:03:33 by alvjimen          #+#    #+#             */
-/*   Updated: 2023/03/24 12:45:04 by alvjimen         ###   ########.fr       */
+/*   Updated: 2023/04/01 18:42:51 by alvjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "lxr.h"
 /*this is executes before get_tokens any ft_split*/
 
-int	ft_syntax_analizer_word(t_btree *root, t_tkn *content, t_lxr *lxr)
+int	ft_syntax_analizer_word(t_btree *root, t_tkn *content)
 {
 	if (content->token == WORD || content->token == ASSIGNMENT_WORD)
 	{
@@ -23,10 +23,10 @@ int	ft_syntax_analizer_word(t_btree *root, t_tkn *content, t_lxr *lxr)
 			return (FAILURE);
 		return (SUCCESS);
 	}
-	return (ft_syntax_analizer_paren(root, content, lxr));
+	return (ft_syntax_analizer_paren(root, content));
 }
 
-int	ft_syntax_analizer_paren(t_btree *root, t_tkn *content, t_lxr *lxr)
+int	ft_syntax_analizer_paren(t_btree *root, t_tkn *content)
 {
 	if (content->token == PARENTHESIS)
 	{
@@ -40,7 +40,7 @@ int	ft_syntax_analizer_paren(t_btree *root, t_tkn *content, t_lxr *lxr)
 			return (FAILURE);
 		return (SUCCESS);
 	}
-	return (ft_syntax_analizer_operator(root, content, lxr));
+	return (ft_syntax_analizer_operator(root, content));
 }
 
 int	ft_syntax_analizer_operator(t_btree *root, t_tkn *content, t_lxr *lxr)
@@ -72,21 +72,22 @@ int	ft_syntax_analizer_operator(t_btree *root, t_tkn *content, t_lxr *lxr)
 	return (NOT_TOKEN);
 }
 
-int	ft_syntax_analizer(t_lxr *lxr)
+int	ft_syntax_analizer(t_btree *root)
 {
-	t_btree	*root;
 	t_tkn	*content;
 	int		result;
 
-	root = lxr->btree;
 	if (!root)
 		return (NOT_TOKEN);
 	while (root)
 	{
 		content = root->content;
 		if (!content)
-			return (FAILURE);
-		result = ft_syntax_analizer_word(root, content, lxr);
+		{
+			root = root->right;
+			continue ;
+		}
+		result = ft_syntax_analizer_word(root, content);
 		if (result == FAILURE)
 			return (FAILURE);
 		else if (result == NOT_TOKEN)
