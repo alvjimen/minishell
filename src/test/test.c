@@ -6,7 +6,7 @@
 /*   By: alvjimen <alvjimen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/31 20:04:15 by alvjimen          #+#    #+#             */
-/*   Updated: 2023/03/31 13:18:56 by alvjimen         ###   ########.fr       */
+/*   Updated: 2023/04/01 12:03:00 by alvjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "lxr.h"
@@ -68,6 +68,7 @@ int	main(int argc, char *argv[])
 			ft_putstr_fd("get_array_words content sorted\n", 1);
 			ft_sarrsort(words);
 			ft_sarrprint(words);
+			ft_sarrfree(&words);
 		}
 		ft_btree_clear(&lxr->btree, ft_destroy_tkn);
 		free(lxr);

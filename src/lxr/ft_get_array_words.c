@@ -6,39 +6,36 @@
 /*   By: alvjimen <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/30 18:13:42 by alvjimen          #+#    #+#             */
-/*   Updated: 2023/03/31 17:10:08 by alvjimen         ###   ########.fr       */
+/*   Updated: 2023/04/01 11:54:47 by alvjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "lxr.h"
 
-char	**ft_lst_to_array(t_list *node)
+char	**ft_lst_to_sarr(t_list *node)
 {
 	char	**words;
+	t_tkn	*content;
 
 	words = NULL;
 	while (node)
 	{
 		content = node->content;
+		node = node->next;
 		if (!content)
-		{
-			ft_sarrfree(&words);
-			return (NULL);
-		}
+			continue ;
 		words = ft_sarradd(words, content->value);
 		if (!words)
 			return (NULL);
-		node = node->next;
 	}
-	return (arr);
+	return (words);
 }
 
 char	**ft_get_array_words(t_btree **root)
 {
 	char	**words;
 	t_list	*node;
-	t_tkn	*content;
 
-	if (!root)
+	if (!root || !*root)
 		return (NULL);
 	words = NULL;
 	/*if is some word discard all the varnames this if i think is prescindible*/
@@ -48,19 +45,19 @@ char	**ft_get_array_words(t_btree **root)
 		ft_lstclear((t_list **)root, ft_destroy_tkn);
 		root[0] = (t_btree *)node;
 	}
+	words = ft_lst_to_sarr((t_list *) root[0]);
+	return (words);
+}
+/*
 	node = (t_list *)root[0];
 	while (node)
 	{
 		content = node->content;
+		node = node->next;
 		if (!content)
-		{
-			ft_sarrfree(&words);
-			return (NULL);
-		}
+			continue ;
 		words = ft_sarradd(words, content->value);
 		if (!words)
 			return (NULL);
-		node = node->next;
 	}
-	return (words);
-}
+*/

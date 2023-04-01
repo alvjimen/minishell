@@ -6,7 +6,7 @@
 /*   By: alvjimen <alvjimen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/16 20:09:40 by alvjimen          #+#    #+#             */
-/*   Updated: 2023/03/30 18:17:05 by alvjimen         ###   ########.fr       */
+/*   Updated: 2023/04/01 12:11:57 by alvjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "lxr.h"
@@ -21,7 +21,7 @@ t_list	*ft_search_list(t_list *lst, int (*f)(void *))
 	node = lst;
 	while (lst)
 	{
-		if (!f(lst->content))
+		if (f(lst->content) == SUCCESS)
 		{
 			tokens = lst->content;
 			if (!tokens)

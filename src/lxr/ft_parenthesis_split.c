@@ -6,7 +6,7 @@
 /*   By: alvjimen <alvjimen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/21 08:09:01 by alvjimen          #+#    #+#             */
-/*   Updated: 2023/03/30 13:41:36 by alvjimen         ###   ########.fr       */
+/*   Updated: 2023/04/01 12:17:28 by alvjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "lxr.h"
@@ -47,6 +47,7 @@ int	ft_split_inner_parenthesis(t_lxr *lxr, t_btree **root)
 	return (SUCCESS);
 }
 
+/*if (len <= 2) the len is checked on syntax analizer*/
 int	ft_parenthesis_split(char	*str, t_btree **root)
 {
 	size_t	len;
@@ -56,7 +57,7 @@ int	ft_parenthesis_split(char	*str, t_btree **root)
 	if (!str || !root || !*root)
 		return (FAILURE);
 	len = ft_strlen(str);
-	if (len < 2)
+	if (len <= 2)
 		return (FAILURE);
 	tmp = ft_substr(str, 1, len - 2);
 	if (!tmp)

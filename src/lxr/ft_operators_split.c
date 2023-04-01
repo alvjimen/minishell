@@ -6,14 +6,14 @@
 /*   By: alvjimen <alvjimen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/17 12:23:30 by alvjimen          #+#    #+#             */
-/*   Updated: 2023/03/31 15:57:46 by alvjimen         ###   ########.fr       */
+/*   Updated: 2023/04/01 14:03:05 by alvjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "lxr.h"
 
 /*
-	if return 0 OK
-	if return 1 KO
+	if return 0 SUCCESS
+	if return 1 FAILURE
 */
 int	ft_tokens_paren(void *ptr)
 {
@@ -63,16 +63,12 @@ int	ft_operators_redirections(t_btree **root)
 	return (SUCCESS);
 }
 
+
 int	ft_operators_split(t_btree **root)
 {
 	t_btree	*node;
 	t_btree	*aux;
 	t_tkn	*content;
-	/*
-	t_btree	*args;
-	t_tkn	*tkn_arg;
-	size_t	lst_size;
-	*/
 
 	if (!root || !*root)
 		return (FAILURE);
@@ -82,53 +78,28 @@ int	ft_operators_split(t_btree **root)
 	/*|*/
 	else if (ft_operators_outercmd(root, ft_operators_intercmd) == SUCCESS)
 		return (SUCCESS);
-	else if (ft_operators_redirections(root) == SUCCESS)
-		return (SUCCESS);
 	/*< > << >> */
-	/*if want to stay the the first file on top and the last on bottom execute this recursively
-	*/
-	/*This is part of another function an is should execute later*/
-	/*()*/
-	/*
+	ft_operators_redirections(root);
+	return (SUCCESS);
+}
+
+void	ft_operators_split_recursively(void **ptr)
+{
+	t_btree	**root;
+
+	root = ptr;
+	ft_operators_split(root);
+}
+/*This is part of another function an is should execute later*/
+/*()*/
+/* This is function should pass once the tree is all build for
+	subtitute the paren token with her content it doesn't care about
+	what is next use when is a leave of the tree in other case
+	may create leaks save the next part before use this function.
 	if (!ft_tokens_paren(root[0]->content))
 	{
 		content = root[0]->content;
 		if (ft_parenthesis_split(content->value, root))
 			return (FAILURE);
 	}
-	*/
-	/*Create the array of str*/
-	/*Acceder a la posición del árbol que tiene las palabras*/
-	/*
-	node = *root;
-	while (node->left)
-		node = node->left;
-	*/
-	/*Comprobar que si haya ASSIGNMENT_WORD y despues palabras*/
-	/*
-	content = node->content;
-	if (content->token == ASSIGNMENT_WORD)
-	{
-		args = (t_btree *)ft_split_list((t_list **)&node, ft_tokens_word);
-		ft_lstclear((t_list **)&args, ft_destroy_tkn);
-	}
-	*/
-	/*Crear una array de 2D apartir de una lista*/
-	/*PDTE usar sarr on this part*/
-	/*
-	content = node->content;
-	args = node;
-	lst_size = 0;
-	while (args)
-	{
-		tkn_arg = args->content;
-		content->str[lst_size++] = ft_strdup(tkn_arg->value);
-		args = args->right;
-	}
-	*/
-	/*Destroy the element of the args*/
-	/*
-	ft_lstclear((t_list **)&node->right, ft_destroy_tkn);
-	*/
-	return (SUCCESS);
-}
+*/
