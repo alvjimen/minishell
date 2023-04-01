@@ -6,7 +6,7 @@
 /*   By: alvjimen <alvjimen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/21 12:45:06 by alvjimen          #+#    #+#             */
-/*   Updated: 2023/04/01 18:45:18 by alvjimen         ###   ########.fr       */
+/*   Updated: 2023/04/01 19:16:10 by alvjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "lxr.h"
@@ -176,4 +176,20 @@ char	*ft_vars_expansion(char *str)
 		ft_putstr_fd("\n",1);
 	}
 	return (tmp);
+}
+
+void	ft_vars_expansion_recursively(void **ptr)
+{
+	char	*str;
+	t_btree	**root;
+	t_tkn	*content;
+
+	root = (t_btree **)ptr;
+	content = root[0]->content;
+	if (!content)
+		return ;
+	str = ft_vars_expansion(content->value);
+	content->value = str;
+	if (!str)
+		content->states = ERROR;
 }

@@ -6,7 +6,7 @@
 /*   By: alvjimen <alvjimen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/21 08:09:01 by alvjimen          #+#    #+#             */
-/*   Updated: 2023/04/01 16:57:55 by alvjimen         ###   ########.fr       */
+/*   Updated: 2023/04/01 19:10:00 by alvjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "lxr.h"
@@ -70,4 +70,29 @@ int	ft_parenthesis_split(char	*str, t_btree **root)
 	if (ft_syntax_analizer(*root) == SUCCESS)
 		return (ft_clean_exit(&lxr, &tmp, 3));
 	return (ft_clean_exit(&lxr, &tmp, 2));
+}
+
+/*This is part of another function an is should execute later*/
+/*()*/
+/* This is function should pass once the tree is all build for
+	subtitute the paren token with her content it doesn't care about
+	what is next use when is a leave of the tree in other case
+	may create leaks save the next part before use this function.
+*/
+void	ft_parenthesis_expansion_recursively(void **ptr)
+{
+	t_btree	**root;
+	t_tkn	*content;
+
+	root = (t_btree **)ptr;
+	if (ft_tokens_paren(root[0]->content))
+		return ;
+	content = root[0]->content;
+	if (ft_parenthesis_split(content->value, root))
+	{
+		content->states = ERROR;
+		return ;
+	}
+	if (ft_syntax_analizer(*root) != SUCCESS)
+		content->states = ERROR;
 }
