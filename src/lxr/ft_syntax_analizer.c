@@ -6,7 +6,7 @@
 /*   By: alvjimen <alvjimen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/20 14:03:33 by alvjimen          #+#    #+#             */
-/*   Updated: 2023/04/01 18:42:51 by alvjimen         ###   ########.fr       */
+/*   Updated: 2023/04/02 17:34:21 by alvjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "lxr.h"
@@ -90,8 +90,10 @@ int	ft_syntax_analizer(t_btree *root)
 		result = ft_syntax_analizer_word(root, content);
 		if (result == FAILURE)
 			return (FAILURE);
+		/*
 		else if (result == NOT_TOKEN)
 			ft_putstr_fd("empty input", 1);
+		*/
 		root = root->right;
 	}
 	return (SUCCESS);

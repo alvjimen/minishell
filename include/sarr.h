@@ -10,4 +10,5 @@ char	**ft_sarrrmi(int index, char **arr);
 int		ft_sarrprint(char **arr);
 int		ft_sarrcmp(char **arr, char *str);
 char    **ft_sarrrep(char **arr, int index, char *str);
+void	ft_sarrsort(char **sarr);
 #endif

@@ -6,7 +6,7 @@
 /*   By: alvjimen <alvjimen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/21 12:45:06 by alvjimen          #+#    #+#             */
-/*   Updated: 2023/04/01 19:16:10 by alvjimen         ###   ########.fr       */
+/*   Updated: 2023/04/02 19:48:00 by alvjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "lxr.h"
@@ -15,10 +15,11 @@ char	*ft_var_value(char **sarr, char *var_name)
 {
 	sarr = NULL;
 	var_name = NULL;
-	return (ft_strdup("var_value"));
+	return (ft_strdup("var value"));
 }
 
-char	*ft_previous_var(t_lxr **lxr, char **name, char **value, char **tmp)
+char	*ft_previous_var(t_lxr **lxr, char **name, char **value,
+		char **tmp)
 {
 	*value = ft_var_value(NULL, *name);
 	if (VAR)
@@ -79,7 +80,8 @@ char	*ft_after_var(t_lxr **lxr, char **name,
 
 	name = NULL;
 	aux = lxr[0]->str + lxr[0]->pos + lxr[0]->counter;
-	*value = ft_substr(lxr[0]->str, lxr[0]->pos + lxr[0]->counter, ft_strlen(aux));
+	*value = ft_substr(lxr[0]->str, lxr[0]->pos + lxr[0]->counter,
+			ft_strlen(aux));
 	if (!value[0])
 	{
 		free(tmp[0]);
@@ -129,7 +131,7 @@ char	*ft_dollar_expansion(t_lxr **lxr, char **name, char **value, char **tmp)
 		return (NULL);
 	if (ft_join_previos_with_var_value(lxr, name, value, tmp) == NULL)
 		return (NULL);
-	if (ft_after_var(lxr, name, value ,tmp) == NULL)
+	if (ft_after_var(lxr, name, value, tmp) == NULL)
 		return (NULL);
 	if (ft_join_str(lxr, name, value, tmp) == NULL)
 		return (NULL);
@@ -163,7 +165,7 @@ char	*ft_vars_expansion(char *str)
 		{
 			aux = ft_dollar_expansion(&lxr, &name, &value, &tmp);
 			if (aux != lxr->str)
-				return (aux);
+				return (aux);/*aux == NULL*/
 		}
 		lxr->pos++;
 	}
@@ -171,9 +173,9 @@ char	*ft_vars_expansion(char *str)
 	free(lxr);
 	if (VAR)
 	{
-		ft_putstr_fd("Var expansion: ",1);
+		ft_putstr_fd("Var expansion: ", 1);
 		ft_putstr_fd(tmp, 1);
-		ft_putstr_fd("\n",1);
+		ft_putstr_fd("\n", 1);
 	}
 	return (tmp);
 }

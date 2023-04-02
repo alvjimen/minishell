@@ -6,7 +6,7 @@
 /*   By: alvjimen <alvjimen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/28 18:36:15 by alvjimen          #+#    #+#             */
-/*   Updated: 2023/04/01 16:56:27 by alvjimen         ###   ########.fr       */
+/*   Updated: 2023/04/02 18:23:17 by alvjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,6 +76,14 @@ typedef struct s_tkn
 	unsigned int	found: 1;
 	t_states		states;
 }	t_tkn;
+
+typedef struct s_quotes
+{
+	char	**prev_quotes;
+	char	**inner_quotes;
+	char	*last_unquote;
+	size_t	counter;
+}	t_quotes;
 
 typedef struct s_lxr
 {
