@@ -6,7 +6,7 @@
 /*   By: alvjimen <alvjimen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/26 17:26:06 by alvjimen          #+#    #+#             */
-/*   Updated: 2023/04/04 21:35:33 by alvjimen         ###   ########.fr       */
+/*   Updated: 2023/04/04 21:37:06 by alvjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "lxr.h"
@@ -110,10 +110,13 @@ int	ft_regex(char *regex, char *matched)
 	if (!split)
 		return (FAILURE);
 	if (*regex != '*' && !ft_start_notstar(&matched, split[counter], &counter))
+	{
+		ft_sarrfree(&split);
 		return (FAILURE);
+	}
 	else if (*regex == '*' && ft_just_asterisk(regex) == SUCCESS)
 	{
-		free(split);
+		ft_sarrfree(&split);
 		return (SUCCESS);
 	}
 	matched = ft_interstar(split, &counter, matched);
