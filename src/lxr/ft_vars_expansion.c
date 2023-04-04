@@ -6,7 +6,7 @@
 /*   By: alvjimen <alvjimen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/21 12:45:06 by alvjimen          #+#    #+#             */
-/*   Updated: 2023/04/04 16:18:58 by alvjimen         ###   ########.fr       */
+/*   Updated: 2023/04/04 22:47:12 by alvjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "lxr.h"
@@ -29,6 +29,7 @@ char	*ft_previous_var(t_lxr **lxr, char **name, char **value,
 		ft_putstr_fd("\n", 1);
 	}
 	free(*name);
+	*name = NULL;
 	if (!*value)
 	{
 		free(*lxr);
@@ -56,7 +57,9 @@ char	*ft_join_previos_with_var_value(t_lxr **lxr, char **name,
 {
 	*name = ft_strjoin(*tmp, *value);
 	free(*tmp);
+	*tmp = NULL;
 	free(*value);
+	*value = NULL;
 	if (!*name)
 	{
 		free(*lxr);
@@ -85,12 +88,17 @@ char	*ft_after_var(t_lxr **lxr, char **name,
 	if (!value[0])
 	{
 		free(tmp[0]);
+		*tmp = NULL;
 		free(lxr[0]);
+		*lxr = NULL;
 		return (NULL);
 	}
-	ft_putstr_fd("after var: ", 1);
-	ft_putstr_fd(*value, 1);
-	ft_putstr_fd("\n", 1);
+	if (VAR)
+	{
+		ft_putstr_fd("after var: ", 1);
+		ft_putstr_fd(*value, 1);
+		ft_putstr_fd("\n", 1);
+	}
 	return (*value);
 }
 

@@ -6,7 +6,7 @@
 /*   By: alvjimen <alvjimen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/26 17:26:06 by alvjimen          #+#    #+#             */
-/*   Updated: 2023/04/04 21:39:40 by alvjimen         ###   ########.fr       */
+/*   Updated: 2023/04/04 21:45:08 by alvjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "lxr.h"
@@ -94,7 +94,6 @@ int	ft_just_asterisk(char *regex)
 }
 
 /*need to calculate the len of the split*/
-/*If regex doesn't not containg '*' it would make leaks may solve it*/
 int	ft_regex(char *regex, char *matched)
 {
 	size_t	len;

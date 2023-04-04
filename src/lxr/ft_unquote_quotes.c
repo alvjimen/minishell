@@ -6,7 +6,7 @@
 /*   By: alvjimen <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/01 19:18:10 by alvjimen          #+#    #+#             */
-/*   Updated: 2023/04/04 16:47:21 by alvjimen         ###   ########.fr       */
+/*   Updated: 2023/04/04 22:50:13 by alvjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "lxr.h"
@@ -40,6 +40,7 @@ void	*ft_fill_quotes(t_lxr *lxr, t_quotes *quotes)
 	quotes->counter++;
 	lxr->pos += lxr->counter;
 	lxr->counter = 0;
+	free(str);
 	return ((void *)quotes);
 }
 
@@ -224,6 +225,9 @@ void	ft_unquote_quotes(t_btree **root)
 		ft_destroy_quotes(&quotes);
 		content->token = ERROR;
 	}
+	ft_destroy_quotes(&quotes);
+	free(lxr);
+	return ;
 	str = ft_join_quotes(quotes);
 	if (str == NULL)
 	{
