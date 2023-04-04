@@ -6,7 +6,7 @@
 /*   By: alvjimen <alvjimen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/21 12:45:06 by alvjimen          #+#    #+#             */
-/*   Updated: 2023/04/04 11:56:13 by alvjimen         ###   ########.fr       */
+/*   Updated: 2023/04/04 16:18:58 by alvjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "lxr.h"
@@ -152,6 +152,10 @@ char	*ft_vars_expansion(char *str)
 
 	if (!str)
 		return (NULL);
+	tmp = NULL;
+	value = NULL;
+	aux = NULL;
+	name = NULL;
 	lxr = ft_init_lxr(str);
 	if (!lxr)
 		return (NULL);

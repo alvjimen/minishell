@@ -6,7 +6,7 @@
 /*   By: alvjimen <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/01 19:18:10 by alvjimen          #+#    #+#             */
-/*   Updated: 2023/04/04 12:59:42 by alvjimen         ###   ########.fr       */
+/*   Updated: 2023/04/04 16:47:21 by alvjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "lxr.h"
@@ -53,11 +53,11 @@ t_quotes	*ft_destroy_quotes(t_quotes **quotes)
 	return (NULL);
 }
 
-t_quotes	*ft_init_quotes(t_lxr *lxr, t_tkn *content)
+t_quotes	*ft_init_quotes(t_lxr *lxr)
 {
 	t_quotes	*quotes;
 
-	if (!lxr || !content)
+	if (!lxr)
 		return (NULL);
 	quotes = ft_calloc(1, sizeof(t_quotes));
 	if (!quotes)
@@ -75,12 +75,12 @@ t_quotes	*ft_init_quotes(t_lxr *lxr, t_tkn *content)
 	return (quotes);
 }
 
-void	*ft_expand_outside(t_quotes *quotes, t_btree **root)
+void	*ft_expand_outside(t_quotes *quotes)
 {
 	size_t	counter;
 	char	*str;
 
-	if (!root || !*root || !quotes)
+	if (!quotes)
 		return (NULL);
 	counter = 0;
 	while (counter < quotes->counter)
@@ -96,11 +96,11 @@ void	*ft_expand_outside(t_quotes *quotes, t_btree **root)
 	if (!str)
 		return (NULL);
 	quotes->last_unquote = str;
-	return (*root);
+	return (str);
 	
 }
 
-void	*ft_join_quotes(t_quotes *quotes, t_btree **root)
+void	*ft_join_quotes(t_quotes *quotes)
 {
 	char	*old;
 	char	*join;
@@ -109,7 +109,7 @@ void	*ft_join_quotes(t_quotes *quotes, t_btree **root)
 	old = NULL;
 	join = NULL;
 	counter = 0;
-	if (!root || !*root ||!quotes)
+	if (!quotes)
 		return (NULL);
 	while (counter < quotes->counter)
 	{
@@ -213,18 +213,18 @@ void	ft_unquote_quotes(t_btree **root)
 		content->token = ERROR;
 		return ;
 	}
-	quotes = ft_init_quotes(lxr, content);
+	quotes = ft_init_quotes(lxr);
 	if (!quotes)
 	{
 		content->token = ERROR;
 		return ;
 	}
-	if (ft_expand_outside(quotes, root) == NULL)
+	if (ft_expand_outside(quotes) == NULL)
 	{
 		ft_destroy_quotes(&quotes);
 		content->token = ERROR;
 	}
-	str = ft_join_quotes(quotes, root);
+	str = ft_join_quotes(quotes);
 	if (str == NULL)
 	{
 		ft_destroy_quotes(&quotes);
@@ -244,9 +244,7 @@ void	ft_unquote_quotes(t_btree **root)
 		content->token = ERROR;
 		return ;
 	}
-	/*
 	ft_btree_delone(root[0], ft_destroy_tkn);
-	*/
 	*root = lxr->btree;
 	free(lxr);
 	if (!*root)
@@ -266,13 +264,13 @@ void	ft_unquote_quotes(t_btree **root)
 		free(lxr);
 		return ;
 	}
-	quotes = ft_init_quotes(lxr, content);
+	quotes = ft_init_quotes(lxr);
 	if (!quotes)
 	{
 		content->token = ERROR;
 		return ;
 	}
-	str = ft_join_quotes(quotes, root);
+	str = ft_join_quotes(quotes);
 	if (str == NULL)
 	{
 		ft_destroy_quotes(&quotes);

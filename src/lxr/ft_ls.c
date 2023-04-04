@@ -6,7 +6,7 @@
 /*   By: alvjimen <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/21 17:35:03 by alvjimen          #+#    #+#             */
-/*   Updated: 2023/03/31 15:39:55 by alvjimen         ###   ########.fr       */
+/*   Updated: 2023/04/04 16:39:34 by alvjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "lxr.h"
@@ -66,6 +66,8 @@ char	**ft_ls(char *str)
 					perror("closedir");
 				return (NULL);
 			}
+			free(str);
+			str = NULL;
 		}
 	}
 	if (closedir(dir) == -1)
@@ -76,11 +78,9 @@ char	**ft_ls(char *str)
 	free(str);
 	ft_sarrsort(files);
 	/*
-	 * ft_sarrprint(files);
-	 */
-	/*
+	ft_sarrprint(files);
 	 * This is for avoid leaks i should remove it the same with the return value
-	 */
 	ft_sarrfree(&files);
+	 */
 	return (files);
 }
