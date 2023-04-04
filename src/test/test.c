@@ -6,7 +6,7 @@
 /*   By: alvjimen <alvjimen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/31 20:04:15 by alvjimen          #+#    #+#             */
-/*   Updated: 2023/04/04 16:38:06 by alvjimen         ###   ########.fr       */
+/*   Updated: 2023/04/04 16:50:56 by alvjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "lxr.h"
@@ -33,7 +33,7 @@ int	main(int argc, char *argv[])
 			return (FAILURE);
 		}
 			words = ft_ls(".");
-			ft_sarrprint(words);
+			/*ft_sarrprint(words);*/
 			ft_sarrfree(&words);
 			lxr->mode = NONINTERACTIVE;
 			ft_get_tokens(lxr);
