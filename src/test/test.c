@@ -6,7 +6,7 @@
 /*   By: alvjimen <alvjimen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/31 20:04:15 by alvjimen          #+#    #+#             */
-/*   Updated: 2023/04/04 13:00:44 by alvjimen         ###   ########.fr       */
+/*   Updated: 2023/04/04 16:38:06 by alvjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "lxr.h"
@@ -16,6 +16,7 @@ int	main(int argc, char *argv[])
 {
 	char	*str;
 	char	**words;
+	char	*tmp;
 	t_lxr	*lxr;
 
 	lxr = NULL;
@@ -31,26 +32,34 @@ int	main(int argc, char *argv[])
 			free(str);
 			return (FAILURE);
 		}
-		words = ft_ls(".");
-		words = NULL;
-		lxr->mode = NONINTERACTIVE;
-		ft_get_tokens(lxr);
-		if (ft_syntax_analizer(lxr->btree, lxr) == FAILURE)
-		{
-			ft_putstr_fd("Syntax ERROR\n", 2);
-			return (FAILURE);
-		}
-		ft_lstiter((t_list *)lxr->btree, ft_print_lst);
-		if (argc == 4)
-		{
-			free(str);
-			str = ft_vars_expansion(ft_strdup(argv[3]));
+			words = ft_ls(".");
+			ft_sarrprint(words);
+			ft_sarrfree(&words);
+			lxr->mode = NONINTERACTIVE;
+			ft_get_tokens(lxr);
+			if (ft_syntax_analizer(lxr->btree, lxr) == FAILURE)
+			{
+				ft_putstr_fd("Syntax ERROR\n", 2);
+				return (FAILURE);
+			}
+			ft_lstiter((t_list *)lxr->btree, ft_print_lst);
+			if (argc == 4)
+			{
+				free(str);
+				tmp = ft_strdup(argv[3]);
+				if (!tmp)
+					return (FAILURE);
+				str = ft_vars_expansion(tmp);
 			if (str)
 			{
 				ft_putstr_fd("vars_expansion return: ", 1);
 				ft_putstr_fd(str, 1);
 				ft_putstr_fd("\n", 1);
 			}
+			free(tmp);
+			tmp = NULL;
+			free(str);
+			str = NULL;
 		}
 		if (argc > 4 && argc <= 6)
 		{
@@ -84,6 +93,8 @@ int	main(int argc, char *argv[])
 		}
 		*/
 		ft_btree_clear(&lxr->btree, ft_destroy_tkn);
+		/*free(lxr->str);
+		*/
 		free(lxr);
 		free(str);
 		return (SUCCESS);
