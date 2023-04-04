@@ -6,7 +6,7 @@
 /*   By: alvjimen <alvjimen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/28 18:36:15 by alvjimen          #+#    #+#             */
-/*   Updated: 2023/04/04 09:29:24 by alvjimen         ###   ########.fr       */
+/*   Updated: 2023/04/04 12:40:56 by alvjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 # define NOT_TOKEN 255
 # define FAILURE 1
 # define SUCCESS 0
-# define VAR 1
+# define VAR 0
 
 # include <string.h>
 # include <unistd.h>
@@ -35,7 +35,8 @@ typedef enum e_tokens
 	PARENTHESIS,
 	FILENAME,
 	HDFILENAME,
-	OPERATOR
+	OPERATOR,
+	ERROR
 }	t_tokens;
 
 typedef enum e_states
@@ -44,8 +45,7 @@ typedef enum e_states
 	DQUOTES,
 	SQUOTES,
 	PAREN,
-	DOLLAR,
-	ERROR
+	DOLLAR
 }	t_states;
 
 typedef enum e_mode
@@ -141,4 +141,6 @@ void	ft_btree_apply_to_node_pointer_infix(t_btree **root,
 		void (*applyf)(void **));
 void	ft_operators_split_recursively(void **ptr);
 int		ft_syntax_analizer(t_btree *root, t_lxr *lxr);
+void	ft_unquote_quotes_recursively(void **ptr);
+void	ft_unquote_quotes(t_btree **root);
 #endif

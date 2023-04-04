@@ -6,12 +6,17 @@
 /*   By: alvjimen <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/01 19:18:10 by alvjimen          #+#    #+#             */
-/*   Updated: 2023/04/02 22:02:24 by alvjimen         ###   ########.fr       */
+/*   Updated: 2023/04/04 12:59:42 by alvjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "lxr.h"
 
-void	*ft_fill_quotes(t_lxr *lxr, t_tkn *content, t_quotes *quotes)
+/*void	*ft_fill_quotes(t_lxr *lxr, t_tkn *content, t_quotes *quotes)*/
+/*
+	if the string doesn't have quotes the ft_quotes could give and error
+	I have to solve it ft_destroy_quotes
+*/
+void	*ft_fill_quotes(t_lxr *lxr, t_quotes *quotes)
 {
 	char	*str;
 
@@ -26,13 +31,15 @@ void	*ft_fill_quotes(t_lxr *lxr, t_tkn *content, t_quotes *quotes)
 	if (ft_quotes(lxr, &lxr->counter) == FAILURE)
 		return (NULL);
 	free(str);
-	str = ft_substr(lxr->str, lxr->pos, lxr->counter);
+	str = ft_substr(lxr->str, lxr->pos, ++lxr->counter);
 	if (!str)
 		return (NULL);
 	quotes->inner_quotes = ft_sarradd(quotes->inner_quotes, str);
 	if (!quotes->inner_quotes)
 		return (NULL);
 	quotes->counter++;
+	lxr->pos += lxr->counter;
+	lxr->counter = 0;
 	return ((void *)quotes);
 }
 
@@ -42,6 +49,7 @@ t_quotes	*ft_destroy_quotes(t_quotes **quotes)
 	ft_sarrfree(&quotes[0]->inner_quotes);
 	free(quotes[0]->last_unquote);
 	free(*quotes);
+	*quotes = NULL;
 	return (NULL);
 }
 
@@ -50,14 +58,14 @@ t_quotes	*ft_init_quotes(t_lxr *lxr, t_tkn *content)
 	t_quotes	*quotes;
 
 	if (!lxr || !content)
-		return ;
+		return (NULL);
 	quotes = ft_calloc(1, sizeof(t_quotes));
 	if (!quotes)
 		return (NULL);
 	while (lxr->str[lxr->pos + lxr->counter])
 	{
 		if (ft_char_quotes(lxr->str[lxr->pos + lxr->counter])) 
-			if (ft_fill_quotes(lxr, content, quotes) == NULL)
+			if (ft_fill_quotes(lxr, quotes) == NULL)
 				return (ft_destroy_quotes(&quotes));
 		lxr->counter++;
 	}
@@ -67,21 +75,21 @@ t_quotes	*ft_init_quotes(t_lxr *lxr, t_tkn *content)
 	return (quotes);
 }
 
-void	*ft_expand_outside(t_quotes *quotes, t_lxr *lxr, t_btree **root)
+void	*ft_expand_outside(t_quotes *quotes, t_btree **root)
 {
 	size_t	counter;
 	char	*str;
 
-	if (!root || !*root, |!quotes)
+	if (!root || !*root || !quotes)
 		return (NULL);
 	counter = 0;
-	while (counter <= quotes->counter)
+	while (counter < quotes->counter)
 	{
 		str = ft_vars_expansion(quotes->prev_quotes[counter]);
 		if (!str)
 			return (NULL);
 		free(quotes->prev_quotes[counter]);
-		quotes->prev_quotes[counter] == str;
+		quotes->prev_quotes[counter] = str;
 		counter++;
 	}
 	str = ft_vars_expansion(quotes->last_unquote);
@@ -92,18 +100,18 @@ void	*ft_expand_outside(t_quotes *quotes, t_lxr *lxr, t_btree **root)
 	
 }
 
-void	*ft_join_quotes(t_quotes	*quotes, t_lxr *lxr, t_btree **root)
+void	*ft_join_quotes(t_quotes *quotes, t_btree **root)
 {
 	char	*old;
 	char	*join;
-	size_t	counter
+	size_t	counter;
 
 	old = NULL;
 	join = NULL;
 	counter = 0;
-	if (!root || !*root ||!quotes || !lxr)
-		return (NULL):
-	while (counter <= quotes->counter)
+	if (!root || !*root ||!quotes)
+		return (NULL);
+	while (counter < quotes->counter)
 	{
 		if (!counter)
 			join = ft_strjoin("", quotes->prev_quotes[counter]);
@@ -112,7 +120,7 @@ void	*ft_join_quotes(t_quotes	*quotes, t_lxr *lxr, t_btree **root)
 		if (!join)
 		{
 			free(old);
-			return (NULL)
+			return (NULL);
 		}
 		free(old);
 		old = join;
@@ -120,7 +128,7 @@ void	*ft_join_quotes(t_quotes	*quotes, t_lxr *lxr, t_btree **root)
 		if (!join)
 		{
 			free(old);
-			return (NULL)
+			return (NULL);
 		}
 		free(old);
 		old = join;
@@ -130,38 +138,46 @@ void	*ft_join_quotes(t_quotes	*quotes, t_lxr *lxr, t_btree **root)
 	if  (!quotes->last_unquote)
 		return (join);
 	join = ft_strjoin(old, quotes->last_unquote);
-	free(old)
+	free(old);
 	if (!join)
 		return (NULL);
 	return (join);
 }
 
-void	*ft_expand_inside_quotes(t_lxr *lxr)
+void	*ft_expand_inside_quotes(t_quotes *quotes)
 {
+	size_t	counter;
 	char	*str;
 
-	if (!lxr)
+	if (!quotes)
 		return (NULL);
-	str = ft_vars_expansion(lxr->str);
-	if (!str)
-		return (NULL);
-	free(lxr->str);
-	lxr->str = str;
-	return (str);
+	counter = 0;
+	while (counter < quotes->counter)
+	{
+		str = ft_vars_expansion(quotes->inner_quotes[counter]);
+		if (!str)
+			return (NULL);
+		free(quotes->inner_quotes[counter]);
+		quotes->inner_quotes[counter] = str;
+		counter++;
+	}
+	return (quotes);
 }
+
 
 int	ft_quotes_unquoting(t_quotes *quotes)
 {
 	char	*str;
 	char	*tmp;
 	size_t	counter;
+	size_t	len;
 
 	counter = 0;
 	if (!quotes)
 		return (FAILURE);
-	while (counter <= quotes->counter)
+	while (counter < quotes->counter)
 	{
-		str = quotes->inner_quotes[counter]
+		str = quotes->inner_quotes[counter];
 		if (!str)
 			return (FAILURE);
 		len = ft_strlen(str);
@@ -194,36 +210,43 @@ void	ft_unquote_quotes(t_btree **root)
 	lxr = ft_init_lxr(content->value);
 	if (!lxr)
 	{
-		content->tokens.states = ERROR;
+		content->token = ERROR;
 		return ;
 	}
 	quotes = ft_init_quotes(lxr, content);
 	if (!quotes)
 	{
-		content->tokens.states = ERROR;
+		content->token = ERROR;
 		return ;
 	}
-	if (ft_expand_outside(quotes, lxr, root) == NULL)
+	if (ft_expand_outside(quotes, root) == NULL)
 	{
 		ft_destroy_quotes(&quotes);
-		content->tokens.states = ERROR;
+		content->token = ERROR;
 	}
-	str = ft_join_quotes(quotes, lxr, root);
+	str = ft_join_quotes(quotes, root);
 	if (str == NULL)
 	{
 		ft_destroy_quotes(&quotes);
-		content->tokens.states = ERROR;
+		content->token = ERROR;
 		return ;
 	}
 	free(lxr->str);
+	lxr->pos = 0;
+	lxr->counter = 0;
+	/*
+	ft_bzero(lxr, sizeof(t_lxr));
+	*/
 	lxr->str = str;
-	if (ft_get_tokens(lxr) != SUCCESS);
+	if (ft_get_tokens(lxr) != SUCCESS)
 	{
 		ft_destroy_quotes(&quotes);
-		content->tokens.states = ERROR;
+		content->token = ERROR;
 		return ;
 	}
+	/*
 	ft_btree_delone(root[0], ft_destroy_tkn);
+	*/
 	*root = lxr->btree;
 	free(lxr);
 	if (!*root)
@@ -234,28 +257,40 @@ void	ft_unquote_quotes(t_btree **root)
 	lxr = ft_init_lxr(content->value);
 	if (!lxr)
 	{
-		content->tokens.states = ERROR;
+		content->token = ERROR;
 		return ;
 	}
-	if (ft_expand_inside_quotes(lxr) == NULL)
+	if (ft_expand_inside_quotes(quotes) == NULL)
 	{
-		content->tokens.states = ERROR;
+		content->token = ERROR;
 		free(lxr);
 		return ;
 	}
 	quotes = ft_init_quotes(lxr, content);
 	if (!quotes)
 	{
-		content->tokens.states = ERROR;
+		content->token = ERROR;
 		return ;
 	}
-	str = ft_join_quotes(quotes, lxr, root);
+	str = ft_join_quotes(quotes, root);
 	if (str == NULL)
 	{
 		ft_destroy_quotes(&quotes);
-		content->tokens.states = ERROR;
+		content->token = ERROR;
 		return ;
 	}
 	free(lxr->str);
 	content->value = str;
+}
+
+void	ft_unquote_quotes_recursively(void **ptr)
+{
+	t_btree	**root;
+	t_tkn	*content;
+
+	root = (t_btree **)ptr;
+	content = root[0]->content;
+	if (!content)
+		return ;
+	ft_unquote_quotes(root);
 }

@@ -6,7 +6,7 @@
 /*   By: alvjimen <alvjimen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/31 20:04:15 by alvjimen          #+#    #+#             */
-/*   Updated: 2023/04/04 09:30:50 by alvjimen         ###   ########.fr       */
+/*   Updated: 2023/04/04 13:00:44 by alvjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "lxr.h"
@@ -63,9 +63,15 @@ int	main(int argc, char *argv[])
 		if (argc > 6)
 		{
 			ft_putstr_fd("operators recursive split\n", 1);
-			ft_btree_apply_to_node_pointer_infix(&lxr->btree, ft_operators_split_recursively);
+			ft_btree_apply_to_node_pointer_infix(&lxr->btree,
+					ft_operators_split_recursively);
+			ft_btree_apply_prefix(lxr->btree, ft_print_lst);
+			ft_btree_apply_to_node_pointer_infix(&lxr->btree,
+				ft_unquote_quotes_recursively);
+			ft_putstr_fd("printing\n", 1);
 			ft_btree_apply_prefix(lxr->btree, ft_print_lst);
 		}
+		/*
 		if (argc > 5)
 		{
 			words = ft_get_array_words(&lxr->btree);
@@ -76,6 +82,7 @@ int	main(int argc, char *argv[])
 			ft_sarrprint(words);
 			ft_sarrfree(&words);
 		}
+		*/
 		ft_btree_clear(&lxr->btree, ft_destroy_tkn);
 		free(lxr);
 		free(str);
