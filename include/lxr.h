@@ -6,7 +6,7 @@
 /*   By: alvjimen <alvjimen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/28 18:36:15 by alvjimen          #+#    #+#             */
-/*   Updated: 2023/04/02 18:23:17 by alvjimen         ###   ########.fr       */
+/*   Updated: 2023/04/04 09:29:24 by alvjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -140,5 +140,5 @@ char	**ft_ls(char *str);
 void	ft_btree_apply_to_node_pointer_infix(t_btree **root,
 		void (*applyf)(void **));
 void	ft_operators_split_recursively(void **ptr);
-int		ft_syntax_analizer(t_btree *root);
+int		ft_syntax_analizer(t_btree *root, t_lxr *lxr);
 #endif

@@ -6,7 +6,7 @@
 /*   By: alvjimen <alvjimen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/31 20:04:15 by alvjimen          #+#    #+#             */
-/*   Updated: 2023/04/01 18:19:31 by alvjimen         ###   ########.fr       */
+/*   Updated: 2023/04/04 09:30:50 by alvjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "lxr.h"
@@ -35,7 +35,7 @@ int	main(int argc, char *argv[])
 		words = NULL;
 		lxr->mode = NONINTERACTIVE;
 		ft_get_tokens(lxr);
-		if (ft_syntax_analizer(lxr->btree) == FAILURE)
+		if (ft_syntax_analizer(lxr->btree, lxr) == FAILURE)
 		{
 			ft_putstr_fd("Syntax ERROR\n", 2);
 			return (FAILURE);
@@ -94,7 +94,7 @@ int	main(int argc, char *argv[])
 		}
 		lxr->mode = NONINTERACTIVE;
 		ft_get_tokens(lxr);
-		if (ft_syntax_analizer(lxr->btree) == FAILURE)
+		if (ft_syntax_analizer(lxr->btree, lxr) == FAILURE)
 		{
 			ft_putstr_fd("Syntax ERROR\n", 2);
 			return (FAILURE);

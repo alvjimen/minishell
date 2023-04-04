@@ -6,13 +6,13 @@
 /*   By: alvjimen <alvjimen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/20 14:03:33 by alvjimen          #+#    #+#             */
-/*   Updated: 2023/04/02 17:34:21 by alvjimen         ###   ########.fr       */
+/*   Updated: 2023/04/04 09:28:06 by alvjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "lxr.h"
 /*this is executes before get_tokens any ft_split*/
 
-int	ft_syntax_analizer_word(t_btree *root, t_tkn *content)
+int	ft_syntax_analizer_word(t_btree *root, t_tkn *content, t_lxr *lxr)
 {
 	if (content->token == WORD || content->token == ASSIGNMENT_WORD)
 	{
@@ -23,10 +23,10 @@ int	ft_syntax_analizer_word(t_btree *root, t_tkn *content)
 			return (FAILURE);
 		return (SUCCESS);
 	}
-	return (ft_syntax_analizer_paren(root, content));
+	return (ft_syntax_analizer_paren(root, content, lxr));
 }
 
-int	ft_syntax_analizer_paren(t_btree *root, t_tkn *content)
+int	ft_syntax_analizer_paren(t_btree *root, t_tkn *content, t_lxr *lxr)
 {
 	if (content->token == PARENTHESIS)
 	{
@@ -40,7 +40,7 @@ int	ft_syntax_analizer_paren(t_btree *root, t_tkn *content)
 			return (FAILURE);
 		return (SUCCESS);
 	}
-	return (ft_syntax_analizer_operator(root, content));
+	return (ft_syntax_analizer_operator(root, content, lxr));
 }
 
 int	ft_syntax_analizer_operator(t_btree *root, t_tkn *content, t_lxr *lxr)
@@ -72,7 +72,7 @@ int	ft_syntax_analizer_operator(t_btree *root, t_tkn *content, t_lxr *lxr)
 	return (NOT_TOKEN);
 }
 
-int	ft_syntax_analizer(t_btree *root)
+int	ft_syntax_analizer(t_btree *root, t_lxr *lxr)
 {
 	t_tkn	*content;
 	int		result;
@@ -87,7 +87,7 @@ int	ft_syntax_analizer(t_btree *root)
 			root = root->right;
 			continue ;
 		}
-		result = ft_syntax_analizer_word(root, content);
+		result = ft_syntax_analizer_word(root, content, lxr);
 		if (result == FAILURE)
 			return (FAILURE);
 		/*
