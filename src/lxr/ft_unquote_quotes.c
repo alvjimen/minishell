@@ -6,7 +6,7 @@
 /*   By: alvjimen <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/01 19:18:10 by alvjimen          #+#    #+#             */
-/*   Updated: 2023/04/05 17:33:53 by alvjimen         ###   ########.fr       */
+/*   Updated: 2023/04/05 17:44:08 by alvjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "lxr.h"
@@ -54,7 +54,6 @@ t_quotes	*ft_destroy_quotes(t_quotes **quotes)
 	*quotes = NULL;
 	return (NULL);
 }
-
 t_quotes	*ft_init_quotes(t_lxr *lxr)
 {
 	t_quotes	*quotes;
@@ -118,24 +117,18 @@ void	*ft_join_quotes(t_quotes *quotes)
 		return (NULL);
 	while (counter < quotes->counter)
 	{
-		if (!counter)
+		if (!old)
 			join = ft_strjoin("", quotes->prev_quotes[counter]);
 		else
 			join = ft_strjoin(old , quotes->prev_quotes[counter]);
-		if (!join)
-		{
-			free(old);
-			return (NULL);
-		}
 		free(old);
+		if (!join)
+			return (NULL);
 		old = join;
 		join = ft_strjoin(old, quotes->inner_quotes[counter]);
-		if (!join)
-		{
-			free(old);
-			return (NULL);
-		}
 		free(old);
+		if (!join)
+			return (NULL);
 		old = join;
 		counter++;
 	}
@@ -298,9 +291,7 @@ void	ft_unquote_quotes(t_btree **root)
 	free(lxr->str);
 	content->value = str;
 	ft_destroy_quotes(&quotes);
-	/*ft_btree_clear(root, ft_destroy_tkn);*/
 	free(lxr);
-	/*free(str);*/
 	return ;
 }
 

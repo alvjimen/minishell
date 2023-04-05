@@ -6,7 +6,7 @@
 /*   By: alvjimen <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/25 16:32:39 by alvjimen          #+#    #+#             */
-/*   Updated: 2023/04/05 17:01:42 by alvjimen         ###   ########.fr       */
+/*   Updated: 2023/04/05 17:45:04 by alvjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,5 +39,5 @@ void	ft_btree_swap(void *ptr);
 void	ft_btree_delone(t_btree	*root, void (*clean)(void *));
 void	ft_btree_clear(t_btree	**root, void (*clean)(void *));
 void	ft_btree_modify_root_conserve_branchs(t_btree **root,
-		void (*f)(t_btree  **root));
+			void (*f)(t_btree **root));
 #endif

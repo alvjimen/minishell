@@ -6,7 +6,7 @@
 /*   By: alvjimen <alvjimen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/21 12:45:06 by alvjimen          #+#    #+#             */
-/*   Updated: 2023/04/04 22:47:12 by alvjimen         ###   ########.fr       */
+/*   Updated: 2023/04/05 17:46:37 by alvjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "lxr.h"
@@ -22,12 +22,6 @@ char	*ft_previous_var(t_lxr **lxr, char **name, char **value,
 		char **tmp)
 {
 	*value = ft_var_value(NULL, *name);
-	if (VAR)
-	{
-		ft_putstr_fd("value of var: ", 1);
-		ft_putstr_fd(*value, 1);
-		ft_putstr_fd("\n", 1);
-	}
 	free(*name);
 	*name = NULL;
 	if (!*value)
@@ -41,12 +35,6 @@ char	*ft_previous_var(t_lxr **lxr, char **name, char **value,
 		free(*value);
 		free(*lxr);
 		return (NULL);
-	}
-	if (VAR)
-	{
-		ft_putstr_fd("previous var: ", 1);
-		ft_putstr_fd(*name, 1);
-		ft_putstr_fd("\n", 1);
 	}
 	return (*tmp);
 }
