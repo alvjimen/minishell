@@ -6,7 +6,7 @@
 /*   By: alvjimen <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/01 19:18:10 by alvjimen          #+#    #+#             */
-/*   Updated: 2023/04/05 16:16:25 by alvjimen         ###   ########.fr       */
+/*   Updated: 2023/04/05 17:33:53 by alvjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "lxr.h"
@@ -49,6 +49,7 @@ t_quotes	*ft_destroy_quotes(t_quotes **quotes)
 	ft_sarrfree(&quotes[0]->prev_quotes);
 	ft_sarrfree(&quotes[0]->inner_quotes);
 	free(quotes[0]->last_unquote);
+	quotes[0]->last_unquote = NULL;
 	free(*quotes);
 	*quotes = NULL;
 	return (NULL);
@@ -89,14 +90,16 @@ void	*ft_expand_outside(t_quotes *quotes)
 		str = ft_vars_expansion(quotes->prev_quotes[counter]);
 		if (!str)
 			return (NULL);
-		free(quotes->prev_quotes[counter]);
+		else if (str != quotes->prev_quotes[counter])
+			free(quotes->prev_quotes[counter]);
 		quotes->prev_quotes[counter] = str;
 		counter++;
 	}
 	str = ft_vars_expansion(quotes->last_unquote);
 	if (!str)
 		return (NULL);
-	free(quotes->last_unquote);
+	else if (str != quotes->last_unquote)
+		free(quotes->last_unquote);
 	quotes->last_unquote = str;
 	return (str);
 	
@@ -310,5 +313,6 @@ void	ft_unquote_quotes_recursively(void **ptr)
 	content = root[0]->content;
 	if (!content)
 		return ;
-	ft_unquote_quotes(root);
+	ft_btree_modify_root_conserve_branchs(root, ft_unquote_quotes);
+	/*ft_unquote_quotes(root);*/
 }
