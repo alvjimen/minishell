@@ -6,7 +6,7 @@
 /*   By: alvjimen <alvjimen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/21 08:09:01 by alvjimen          #+#    #+#             */
-/*   Updated: 2023/04/04 11:55:14 by alvjimen         ###   ########.fr       */
+/*   Updated: 2023/04/05 22:08:35 by alvjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "lxr.h"
@@ -88,13 +88,10 @@ void	ft_parenthesis_expansion_recursively(void **ptr)
 	if (ft_tokens_paren(root[0]->content))
 		return ;
 	content = root[0]->content;
+	/*ft_btree_modify_root_conserve_branchs(root, ft_unquote_quotes);*/
 	if (ft_parenthesis_split(content->value, root))
 	{
-		/*content->states = ERROR;*/
+		content->token = ERROR;
 		return ;
 	}
-	/*
-	if (ft_syntax_analizer(*root) != SUCCESS)
-		content->states = ERROR;
-	*/
 }

@@ -6,7 +6,7 @@
 /*   By: alvjimen <alvjimen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/28 18:36:15 by alvjimen          #+#    #+#             */
-/*   Updated: 2023/04/05 13:11:05 by alvjimen         ###   ########.fr       */
+/*   Updated: 2023/04/05 22:11:20 by alvjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,9 +32,9 @@ typedef enum e_tokens
 	NO_TOKEN,
 	WORD,
 	ASSIGNMENT_WORD,
-	PARENTHESIS,
 	FILENAME,
 	HDFILENAME,
+	PARENTHESIS,
 	OPERATOR,
 	ERROR
 }	t_tokens;
@@ -143,4 +143,6 @@ void	ft_operators_split_recursively(void **ptr);
 int		ft_syntax_analizer(t_btree *root, t_lxr *lxr);
 void	ft_unquote_quotes_recursively(void **ptr);
 void	ft_unquote_quotes(t_btree **root);
+t_btree	*ft_btree_builder(char	*str);
+void	ft_parenthesis_expansion_recursively(void **ptr);
 #endif

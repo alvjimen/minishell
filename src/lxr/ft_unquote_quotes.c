@@ -6,7 +6,7 @@
 /*   By: alvjimen <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/01 19:18:10 by alvjimen          #+#    #+#             */
-/*   Updated: 2023/04/05 17:44:08 by alvjimen         ###   ########.fr       */
+/*   Updated: 2023/04/05 21:41:46 by alvjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "lxr.h"
@@ -209,7 +209,7 @@ void	ft_unquote_quotes(t_btree **root)
 	if (!root ||  !*root)
 		return ;
 	content = root[0]->content;
-	if (!content)
+	if (!content || content->token > HDFILENAME)
 		return ;
 	lxr = ft_init_lxr(content->value);
 	if (!lxr)
@@ -258,7 +258,7 @@ void	ft_unquote_quotes(t_btree **root)
 	if (!*root)
 		return ;
 	content = root[0]->content;
-	if (!content)
+	if (!content || content->token > HDFILENAME)
 		return ;
 	lxr = ft_init_lxr(content->value);
 	if (!lxr)
