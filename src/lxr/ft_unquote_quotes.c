@@ -6,7 +6,7 @@
 /*   By: alvjimen <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/01 19:18:10 by alvjimen          #+#    #+#             */
-/*   Updated: 2023/04/05 16:05:25 by alvjimen         ###   ########.fr       */
+/*   Updated: 2023/04/05 16:16:25 by alvjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "lxr.h"
@@ -126,12 +126,6 @@ void	*ft_join_quotes(t_quotes *quotes)
 		}
 		free(old);
 		old = join;
-		if (!old)
-		{
-			old = ft_strdup("");
-			if (!old)
-				return (NULL);
-		}
 		join = ft_strjoin(old, quotes->inner_quotes[counter]);
 		if (!join)
 		{
@@ -143,6 +137,12 @@ void	*ft_join_quotes(t_quotes *quotes)
 		counter++;
 	}
 	old = join;
+	if (!old)
+	{
+		old = ft_strdup("");
+		if (!old)
+			return (NULL);
+	}
 	if  (!quotes->last_unquote)
 		return (join);
 	join = ft_strjoin(old, quotes->last_unquote);
@@ -295,7 +295,7 @@ void	ft_unquote_quotes(t_btree **root)
 	free(lxr->str);
 	content->value = str;
 	ft_destroy_quotes(&quotes);
-	ft_btree_clear(root, ft_destroy_tkn);
+	/*ft_btree_clear(root, ft_destroy_tkn);*/
 	free(lxr);
 	/*free(str);*/
 	return ;
