@@ -6,7 +6,7 @@
 /*   By: alvjimen <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/01 19:18:10 by alvjimen          #+#    #+#             */
-/*   Updated: 2023/04/05 13:27:46 by alvjimen         ###   ########.fr       */
+/*   Updated: 2023/04/05 16:05:25 by alvjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "lxr.h"
@@ -126,6 +126,12 @@ void	*ft_join_quotes(t_quotes *quotes)
 		}
 		free(old);
 		old = join;
+		if (!old)
+		{
+			old = ft_strdup("");
+			if (!old)
+				return (NULL);
+		}
 		join = ft_strjoin(old, quotes->inner_quotes[counter]);
 		if (!join)
 		{
@@ -271,13 +277,10 @@ void	ft_unquote_quotes(t_btree **root)
 		content->token = ERROR;
 		return ;
 	}
-	ft_destroy_quotes(&quotes);
-	ft_btree_clear(root, ft_destroy_tkn);
-	free(lxr);
-	return ;
 	if (ft_expand_inside_quotes(quotes) == NULL)
 	{
 		content->token = ERROR;
+		ft_destroy_quotes(&quotes);
 		free(lxr);
 		return ;
 	}
@@ -286,10 +289,16 @@ void	ft_unquote_quotes(t_btree **root)
 	{
 		ft_destroy_quotes(&quotes);
 		content->token = ERROR;
+		free(lxr);
 		return ;
 	}
 	free(lxr->str);
 	content->value = str;
+	ft_destroy_quotes(&quotes);
+	ft_btree_clear(root, ft_destroy_tkn);
+	free(lxr);
+	/*free(str);*/
+	return ;
 }
 
 void	ft_unquote_quotes_recursively(void **ptr)
