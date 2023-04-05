@@ -6,7 +6,7 @@
 /*   By: jvasquez <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/20 21:25:47 by jvasquez          #+#    #+#             */
-/*   Updated: 2023/01/20 21:25:48 by jvasquez         ###   ########.fr       */
+/*   Updated: 2023/04/05 11:29:42 by alvjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,5 +22,7 @@ char	**ft_sarrrep(char **arr, int index, char *str)
 		return (arr);
 	free(arr[index]);
 	arr[index] = ft_strdup(str);
+	if (!arr[index])
+		ft_sarrfree(&arr);
 	return (arr);
 }

@@ -6,7 +6,7 @@
 /*   By: alvjimen <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/01 19:18:10 by alvjimen          #+#    #+#             */
-/*   Updated: 2023/04/04 22:50:13 by alvjimen         ###   ########.fr       */
+/*   Updated: 2023/04/05 12:56:19 by alvjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "lxr.h"
@@ -96,6 +96,7 @@ void	*ft_expand_outside(t_quotes *quotes)
 	str = ft_vars_expansion(quotes->last_unquote);
 	if (!str)
 		return (NULL);
+	free(quotes->last_unquote);
 	quotes->last_unquote = str;
 	return (str);
 	
@@ -225,9 +226,6 @@ void	ft_unquote_quotes(t_btree **root)
 		ft_destroy_quotes(&quotes);
 		content->token = ERROR;
 	}
-	ft_destroy_quotes(&quotes);
-	free(lxr);
-	return ;
 	str = ft_join_quotes(quotes);
 	if (str == NULL)
 	{
@@ -235,7 +233,6 @@ void	ft_unquote_quotes(t_btree **root)
 		content->token = ERROR;
 		return ;
 	}
-	free(lxr->str);
 	lxr->pos = 0;
 	lxr->counter = 0;
 	/*
@@ -248,9 +245,17 @@ void	ft_unquote_quotes(t_btree **root)
 		content->token = ERROR;
 		return ;
 	}
+	ft_putstr_fd("Expanded not quoted vars: ", 1);
+	ft_putstr_fd(str, 1);
+	ft_putstr_fd("\n", 1);
 	ft_btree_delone(root[0], ft_destroy_tkn);
-	*root = lxr->btree;
+	root[0] = NULL;
+	ft_destroy_quotes(&quotes);
+	ft_btree_clear(&lxr->btree, ft_destroy_tkn);
 	free(lxr);
+	free(str);
+	return ;
+	*root = lxr->btree;
 	if (!*root)
 		return ;
 	content = root[0]->content;
