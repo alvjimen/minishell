@@ -6,7 +6,7 @@
 /*   By: alvjimen <alvjimen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/28 18:36:15 by alvjimen          #+#    #+#             */
-/*   Updated: 2023/04/04 22:47:21 by alvjimen         ###   ########.fr       */
+/*   Updated: 2023/04/05 13:11:05 by alvjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 # define NOT_TOKEN 255
 # define FAILURE 1
 # define SUCCESS 0
-# define VAR 1
+# define VAR 0
 
 # include <string.h>
 # include <unistd.h>
