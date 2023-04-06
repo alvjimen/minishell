@@ -6,7 +6,7 @@
 /*   By: alvjimen <alvjimen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/28 18:09:54 by alvjimen          #+#    #+#             */
-/*   Updated: 2023/04/06 19:07:49 by alvjimen         ###   ########.fr       */
+/*   Updated: 2023/04/06 22:08:45 by alvjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "lxr.h"
@@ -39,6 +39,9 @@ void	ft_print_lst(void	*ptr)
 		ft_putstr_fd("Token PAREN:\n", 1);
 	ft_putstr_fd(content->value, 1);
 	ft_putstr_fd("\n", 1);
-	ft_putstr_fd("sarrprint\n", 1);
-	ft_sarrprint(content->str);
+	if (content->str)
+	{
+		ft_putstr_fd("sarrprint\n", 1);
+		ft_sarrprint(content->str);
+	}
 }

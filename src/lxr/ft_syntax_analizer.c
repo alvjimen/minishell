@@ -6,7 +6,7 @@
 /*   By: alvjimen <alvjimen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/20 14:03:33 by alvjimen          #+#    #+#             */
-/*   Updated: 2023/04/04 09:28:06 by alvjimen         ###   ########.fr       */
+/*   Updated: 2023/04/06 21:36:32 by alvjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "lxr.h"
@@ -67,6 +67,9 @@ int	ft_syntax_analizer_operator(t_btree *root, t_tkn *content, t_lxr *lxr)
 		content = root->right->content;
 		if (!content || content->token == OPERATOR || content->token == PAREN)
 			return (FAILURE);
+		content->token = FILENAME;
+		if (((t_tkn *)(root->content))->operators == DLOWER)
+			content->token = HDFILENAME;
 		return (SUCCESS);
 	}
 	return (NOT_TOKEN);

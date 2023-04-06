@@ -6,7 +6,7 @@
 /*   By: alvjimen <alvjimen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/28 18:36:15 by alvjimen          #+#    #+#             */
-/*   Updated: 2023/04/06 18:29:46 by alvjimen         ###   ########.fr       */
+/*   Updated: 2023/04/06 22:29:01 by alvjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,8 @@ typedef enum e_tokens
 	HDFILENAME,
 	PARENTHESIS,
 	OPERATOR,
-	ERROR
+	ERROR,
+	AMBIGUOUS
 }	t_tokens;
 
 typedef enum e_states
@@ -146,4 +147,7 @@ void	ft_unquote_quotes(t_btree **root);
 t_btree	*ft_btree_builder(char	*str);
 void	ft_parenthesis_expansion_recursively(void **ptr);
 void	ft_get_array_words_recursively(void **ptr);
+void	ft_set_hdfilename(void	*content);
+void	ft_set_filename(void	*content);
+void	ft_set_error(void *content);
 #endif

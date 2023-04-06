@@ -6,7 +6,7 @@
 /*   By: alvjimen <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/30 18:13:42 by alvjimen          #+#    #+#             */
-/*   Updated: 2023/04/06 19:07:21 by alvjimen         ###   ########.fr       */
+/*   Updated: 2023/04/06 21:28:59 by alvjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "lxr.h"
@@ -42,8 +42,11 @@ char	**ft_get_array_words(t_btree **root)
 	if (ft_tokens_assignment_word(root[0]->content) == SUCCESS)
 	{
 		node = ft_split_list((t_list **)root, ft_tokens_word);
-		ft_lstclear((t_list **)root, ft_destroy_tkn);
-		root[0] = (t_btree *)node;
+		if (node)
+		{
+			ft_lstclear((t_list **)root, ft_destroy_tkn);
+			root[0] = (t_btree *)node;
+		}
 	}
 	if (ft_tokens_assignment_word(root[0]->content) == SUCCESS
 		|| ft_tokens_word(root[0]->content) == SUCCESS)
