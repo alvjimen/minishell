@@ -6,7 +6,7 @@
 /*   By: alvjimen <alvjimen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/06 21:52:16 by alvjimen          #+#    #+#             */
-/*   Updated: 2023/04/06 22:19:34 by alvjimen         ###   ########.fr       */
+/*   Updated: 2023/04/06 22:51:18 by alvjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "lxr.h"
@@ -39,4 +39,14 @@ void	ft_set_error(void *content)
 	if (!token)
 		return ;
 	token->token = ERROR;
+}
+
+void	ft_set_ambiguous(void *content)
+{
+	t_tkn	*token;
+
+	token = (t_tkn *)content;
+	if (!token)
+		return ;
+	token->token = AMBIGUOUS;
 }

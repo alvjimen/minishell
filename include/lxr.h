@@ -6,7 +6,7 @@
 /*   By: alvjimen <alvjimen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/28 18:36:15 by alvjimen          #+#    #+#             */
-/*   Updated: 2023/04/06 22:29:01 by alvjimen         ###   ########.fr       */
+/*   Updated: 2023/04/06 22:51:31 by alvjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -150,4 +150,5 @@ void	ft_get_array_words_recursively(void **ptr);
 void	ft_set_hdfilename(void	*content);
 void	ft_set_filename(void	*content);
 void	ft_set_error(void *content);
+void	ft_set_ambiguous(void *content);
 #endif

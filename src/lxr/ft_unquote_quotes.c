@@ -6,7 +6,7 @@
 /*   By: alvjimen <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/01 19:18:10 by alvjimen          #+#    #+#             */
-/*   Updated: 2023/04/06 22:38:03 by alvjimen         ###   ########.fr       */
+/*   Updated: 2023/04/06 22:53:45 by alvjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "lxr.h"
@@ -209,8 +209,8 @@ void	ft_unquote_quotes(t_btree **root)
 	if (!root ||  !*root)
 		return ;
 	content = root[0]->content;
-	if (!content /*|| content->token == OPERATOR || content->token == PARENTHESIS
-		|| content->token == ERROR || content->token == AMBIGUOUS*/)
+	if (!content)/* || content->operators || content->token == OPERATOR || content->token == PARENTHESIS
+		|| content->token == ERROR || content->token == AMBIGUOUS*/
 		return ;
 	lxr = ft_init_lxr(content->value);
 	if (!lxr)
@@ -250,15 +250,12 @@ void	ft_unquote_quotes(t_btree **root)
 	}
 	if (content->token == FILENAME || content->token == HDFILENAME)
 	{
-		if (ft_lstsize((t_list *)lxr->btree) > 1)
-		{
-			ft_lstiter((t_list *)lxr->btree, ft_set_error);
-			return ;
-		}
 		if (content->token == FILENAME)
 			ft_lstiter((t_list *)lxr->btree, ft_set_filename);
 		else if (content->token == HDFILENAME)
 			ft_lstiter((t_list *)lxr->btree, ft_set_hdfilename);
+		if (ft_lstsize((t_list *)lxr->btree) > 1)
+			ft_lstiter((t_list *)lxr->btree, ft_set_ambiguous);
 	}
 	ft_btree_delone(root[0], ft_destroy_tkn);
 	root[0] = NULL;
