@@ -6,7 +6,7 @@
 /*   By: alvjimen <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/01 19:18:10 by alvjimen          #+#    #+#             */
-/*   Updated: 2023/04/06 17:16:47 by alvjimen         ###   ########.fr       */
+/*   Updated: 2023/04/06 18:08:25 by alvjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "lxr.h"
@@ -247,9 +247,6 @@ void	ft_unquote_quotes(t_btree **root)
 		content->token = ERROR;
 		return ;
 	}
-	ft_putstr_fd("Expanded not quoted vars: ", 1);
-	ft_putstr_fd(str, 1);
-	ft_putstr_fd("\n", 1);
 	ft_btree_delone(root[0], ft_destroy_tkn);
 	root[0] = NULL;
 	*root = lxr->btree;

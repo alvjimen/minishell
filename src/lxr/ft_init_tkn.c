@@ -6,26 +6,10 @@
 /*   By: alvjimen <alvjimen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/28 18:09:12 by alvjimen          #+#    #+#             */
-/*   Updated: 2023/04/02 21:25:53 by alvjimen         ###   ########.fr       */
+/*   Updated: 2023/04/06 18:30:50 by alvjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "lxr.h"
-
-void	ft_destroy_2d_array(void **ptr)
-{
-	size_t	counter;
-	char	**str;
-
-	counter = 0;
-	str = (char **)ptr;
-	if (str == NULL || *str == NULL)
-		return ;
-	while (str[counter])
-	{
-		free(str[counter++]);
-	}
-	free(str);
-}
 
 t_tkn	*ft_init_tkn(t_tkn *token)
 {
@@ -49,9 +33,7 @@ void	ft_destroy_tkn(void *ptr)
 	content = ptr;
 	free(content->value);
 	content->value = NULL;
-	/*
-	if (content->str[0])
+	if (content->str)
 		ft_sarrfree(&content->str);
-	*/
 	free(ptr);
 }

@@ -6,7 +6,7 @@
 /*   By: alvjimen <alvjimen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/28 18:36:15 by alvjimen          #+#    #+#             */
-/*   Updated: 2023/04/05 22:11:20 by alvjimen         ###   ########.fr       */
+/*   Updated: 2023/04/06 18:29:46 by alvjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -145,4 +145,5 @@ void	ft_unquote_quotes_recursively(void **ptr);
 void	ft_unquote_quotes(t_btree **root);
 t_btree	*ft_btree_builder(char	*str);
 void	ft_parenthesis_expansion_recursively(void **ptr);
+void	ft_get_array_words_recursively(void **ptr);
 #endif
