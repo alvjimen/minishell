@@ -6,7 +6,7 @@
 /*   By: alvjimen <alvjimen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/31 20:04:15 by alvjimen          #+#    #+#             */
-/*   Updated: 2023/04/05 15:51:17 by alvjimen         ###   ########.fr       */
+/*   Updated: 2023/04/07 22:22:07 by alvjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "lxr.h"
@@ -21,7 +21,7 @@ int	main(int argc, char *argv[])
 
 	lxr = NULL;
 	if (argc >= 3 && argv[1][0] == '-' && argv[1][1] && argv[1][1] == 'c'
-		&& argv[1][2] == '\0')
+			&& argv[1][2] == '\0')
 	{
 		str = ft_strdup(argv[2]);
 		if (!str)
@@ -32,24 +32,24 @@ int	main(int argc, char *argv[])
 			free(str);
 			return (FAILURE);
 		}
-			words = ft_ls(".");
-			/*ft_sarrprint(words);*/
-			ft_sarrfree(&words);
-			lxr->mode = NONINTERACTIVE;
-			ft_get_tokens(lxr);
-			if (ft_syntax_analizer(lxr->btree, lxr) == FAILURE)
-			{
-				ft_putstr_fd("Syntax ERROR\n", 2);
+		words = ft_ls(".");
+		/*ft_sarrprint(words);*/
+		ft_sarrfree(&words);
+		lxr->mode = NONINTERACTIVE;
+		ft_get_tokens(lxr);
+		if (ft_syntax_analizer(lxr->btree, lxr) == FAILURE)
+		{
+			ft_putstr_fd("Syntax ERROR\n", 2);
+			return (FAILURE);
+		}
+		ft_lstiter((t_list *)lxr->btree, ft_print_lst);
+		if (argc == 4)
+		{
+			free(str);
+			tmp = ft_strdup(argv[3]);
+			if (!tmp)
 				return (FAILURE);
-			}
-			ft_lstiter((t_list *)lxr->btree, ft_print_lst);
-			if (argc == 4)
-			{
-				free(str);
-				tmp = ft_strdup(argv[3]);
-				if (!tmp)
-					return (FAILURE);
-				str = ft_vars_expansion(tmp);
+			str = ft_vars_expansion(tmp);
 			if (str)
 			{
 				ft_putstr_fd("vars_expansion return: ", 1);
@@ -76,25 +76,25 @@ int	main(int argc, char *argv[])
 					ft_operators_split_recursively);
 			ft_btree_apply_prefix(lxr->btree, ft_print_lst);
 			ft_btree_apply_to_node_pointer_infix(&lxr->btree,
-				ft_unquote_quotes_recursively);
+					ft_unquote_quotes_recursively);
 			ft_putstr_fd("printing\n", 1);
 			ft_btree_apply_prefix(lxr->btree, ft_print_lst);
 		}
 		/*
-		if (argc > 5)
-		{
-			words = ft_get_array_words(&lxr->btree);
-			ft_putstr_fd("get_array_words content\n", 1);
-			ft_sarrprint(words);
-			ft_putstr_fd("get_array_words content sorted\n", 1);
-			ft_sarrsort(words);
-			ft_sarrprint(words);
-			ft_sarrfree(&words);
-		}
-		*/
+		   if (argc > 5)
+		   {
+		   words = ft_get_array_words(&lxr->btree);
+		   ft_putstr_fd("get_array_words content\n", 1);
+		   ft_sarrprint(words);
+		   ft_putstr_fd("get_array_words content sorted\n", 1);
+		   ft_sarrsort(words);
+		   ft_sarrprint(words);
+		   ft_sarrfree(&words);
+		   }
+		 */
 		ft_btree_clear(&lxr->btree, ft_destroy_tkn);
 		/*free(lxr->str);
-		*/
+		 */
 		free(lxr);
 		free(str);
 		return (SUCCESS);

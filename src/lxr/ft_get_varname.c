@@ -6,17 +6,17 @@
 /*   By: alvjimen <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/23 17:48:29 by alvjimen          #+#    #+#             */
-/*   Updated: 2023/03/30 12:30:12 by alvjimen         ###   ########.fr       */
+/*   Updated: 2023/04/07 21:41:31 by alvjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "lxr.h"
 
 char	*ft_var_chars(t_lxr	*lxr)
 {
-	char *str;
+	char	*str;
 
 	while (ft_isalnum(lxr->str[lxr->pos + lxr->counter])
-			|| lxr->str[lxr->pos + lxr->counter] == '_')
+		|| lxr->str[lxr->pos + lxr->counter] == '_')
 		lxr->counter++;
 	str = ft_substr(lxr->str, lxr->pos + 1, lxr->counter - 1);
 	if (!str)

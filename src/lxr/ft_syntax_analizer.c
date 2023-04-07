@@ -6,7 +6,7 @@
 /*   By: alvjimen <alvjimen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/20 14:03:33 by alvjimen          #+#    #+#             */
-/*   Updated: 2023/04/06 21:36:32 by alvjimen         ###   ########.fr       */
+/*   Updated: 2023/04/07 22:04:13 by alvjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "lxr.h"
@@ -36,7 +36,7 @@ int	ft_syntax_analizer_paren(t_btree *root, t_tkn *content, t_lxr *lxr)
 			return (SUCCESS);
 		content = root->right->content;
 		if (!content || (content->token == ASSIGNMENT_WORD
-			|| content->token == WORD))
+				|| content->token == WORD))
 			return (FAILURE);
 		return (SUCCESS);
 	}
@@ -46,21 +46,22 @@ int	ft_syntax_analizer_paren(t_btree *root, t_tkn *content, t_lxr *lxr)
 int	ft_syntax_analizer_operator(t_btree *root, t_tkn *content, t_lxr *lxr)
 {
 	if (content->token == OPERATOR && (content->operators == AND_IF
-		|| content->operators == OR_IF || content->operators == PIPE))
+			|| content->operators == OR_IF || content->operators == PIPE))
 	{
 		if (root == lxr->btree)
 			return (FAILURE);
 		if (!root->right)
 			return (FAILURE);
 		content = root->right->content;
-		if (!content && content->token == OPERATOR && (content->operators == AND_IF
-			|| content->operators == OR_IF || content->operators == PIPE))
+		if (!content && content->token == OPERATOR
+			&& (content->operators == AND_IF || content->operators == OR_IF
+				|| content->operators == PIPE))
 			return (FAILURE);
 		return (SUCCESS);
 	}
 	else if (content->token == OPERATOR && (content->operators == DGREATER
-		|| content->operators == GREATER || content->operators == LOWER
-		|| content->operators == DLOWER))
+			|| content->operators == GREATER || content->operators == LOWER
+			|| content->operators == DLOWER))
 	{
 		if (!root->right)
 			return (FAILURE);
@@ -93,11 +94,6 @@ int	ft_syntax_analizer(t_btree *root, t_lxr *lxr)
 		result = ft_syntax_analizer_word(root, content, lxr);
 		if (result == FAILURE)
 			return (FAILURE);
-		/*
-		else if (result == NOT_TOKEN)
-			ft_putstr_fd("empty input", 1);
-		*/
-		root = root->right;
 	}
 	return (SUCCESS);
 }

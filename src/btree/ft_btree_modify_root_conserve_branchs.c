@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_modify_root_conserve_branchs.c                  :+:      :+:    :+:   */
+/*   ft_btree_modify_root_conserve_branchs.c            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: alvjimen <alvjimen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/02 21:12:37 by alvjimen          #+#    #+#             */
-/*   Updated: 2023/04/05 17:01:53 by alvjimen         ###   ########.fr       */
+/*   Updated: 2023/04/07 22:17:22 by alvjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "btree.h"
@@ -30,7 +30,7 @@ t_btree	*ft_btree_right_leave(t_btree *root)
 }
 
 void	ft_btree_modify_root_conserve_branchs(t_btree **root,
-		void (*f)(t_btree  **root))
+		void (*f)(t_btree **root))
 {
 	t_btree	*right;
 	t_btree	*left;

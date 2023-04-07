@@ -6,7 +6,7 @@
 /*   By: alvjimen <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/30 18:13:42 by alvjimen          #+#    #+#             */
-/*   Updated: 2023/04/06 21:28:59 by alvjimen         ###   ########.fr       */
+/*   Updated: 2023/04/07 21:43:30 by alvjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "lxr.h"
@@ -38,7 +38,6 @@ char	**ft_get_array_words(t_btree **root)
 	if (!root || !*root)
 		return (NULL);
 	words = NULL;
-	/*if is some word discard all the varnames this if i think is prescindible*/
 	if (ft_tokens_assignment_word(root[0]->content) == SUCCESS)
 	{
 		node = ft_split_list((t_list **)root, ft_tokens_word);
@@ -63,21 +62,20 @@ void	ft_get_array_words_recursively(void **ptr)
 	t_tkn	*content;
 	char	**words;
 
-
 	root = (t_btree **)ptr;
 	if (!root)
 		return ;
-	 words = ft_get_array_words(root);
-	 if (!root[0])
+	words = ft_get_array_words(root);
+	if (!root[0])
 	{
 		ft_sarrfree(&words);
-		 return ;
+		return ;
 	}
 	content = root[0]->content;
 	if (!content)
 	{
 		ft_sarrfree(&words);
-		 return ;
+		return ;
 	}
 	content->str = words;
 }

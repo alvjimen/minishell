@@ -6,7 +6,7 @@
 /*   By: alvjimen <alvjimen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/21 12:45:06 by alvjimen          #+#    #+#             */
-/*   Updated: 2023/04/05 21:42:53 by alvjimen         ###   ########.fr       */
+/*   Updated: 2023/04/07 22:20:47 by alvjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "lxr.h"
@@ -165,34 +165,11 @@ char	*ft_vars_expansion(char *str)
 		{
 			aux = ft_dollar_expansion(&lxr, &name, &value, &tmp);
 			if (aux != lxr->str)
-				return (aux);/*aux == NULL*/
+				return (aux);
 		}
 		lxr->pos++;
 	}
 	tmp = lxr->str;
 	free(lxr);
-	if (VAR)
-	{
-		ft_putstr_fd("Var expansion: ", 1);
-		ft_putstr_fd(tmp, 1);
-		ft_putstr_fd("\n", 1);
-	}
 	return (tmp);
 }
-/*
-void	ft_vars_expansion_recursively(void **ptr)
-{
-	char	*str;
-	t_btree	**root;
-	t_tkn	*content;
-
-	root = (t_btree **)ptr;
-	content = root[0]->content;
-	if (!content)
-		return ;
-	str = ft_vars_expansion(content->value);
-	content->value = str;
-	if (!str)
-		content->states = ERROR;
-}
-*/

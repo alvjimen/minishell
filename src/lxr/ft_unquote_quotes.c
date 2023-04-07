@@ -6,7 +6,7 @@
 /*   By: alvjimen <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/01 19:18:10 by alvjimen          #+#    #+#             */
-/*   Updated: 2023/04/06 22:53:45 by alvjimen         ###   ########.fr       */
+/*   Updated: 2023/04/07 21:59:13 by alvjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "lxr.h"
@@ -54,6 +54,7 @@ t_quotes	*ft_destroy_quotes(t_quotes **quotes)
 	*quotes = NULL;
 	return (NULL);
 }
+
 t_quotes	*ft_init_quotes(t_lxr *lxr)
 {
 	t_quotes	*quotes;
@@ -65,7 +66,7 @@ t_quotes	*ft_init_quotes(t_lxr *lxr)
 		return (NULL);
 	while (lxr->str[lxr->pos + lxr->counter])
 	{
-		if (ft_char_quotes(lxr->str[lxr->pos + lxr->counter])) 
+		if (ft_char_quotes(lxr->str[lxr->pos + lxr->counter]))
 			if (ft_fill_quotes(lxr, quotes) == NULL)
 				return (ft_destroy_quotes(&quotes));
 		lxr->counter++;
@@ -101,7 +102,6 @@ void	*ft_expand_outside(t_quotes *quotes)
 		free(quotes->last_unquote);
 	quotes->last_unquote = str;
 	return (str);
-	
 }
 
 void	*ft_join_quotes(t_quotes *quotes)
@@ -120,7 +120,7 @@ void	*ft_join_quotes(t_quotes *quotes)
 		if (!old)
 			join = ft_strjoin("", quotes->prev_quotes[counter]);
 		else
-			join = ft_strjoin(old , quotes->prev_quotes[counter]);
+			join = ft_strjoin(old, quotes->prev_quotes[counter]);
 		free(old);
 		if (!join)
 			return (NULL);
@@ -139,7 +139,7 @@ void	*ft_join_quotes(t_quotes *quotes)
 		if (!old)
 			return (NULL);
 	}
-	if  (!quotes->last_unquote)
+	if (!quotes->last_unquote)
 		return (join);
 	join = ft_strjoin(old, quotes->last_unquote);
 	free(old);
@@ -168,7 +168,6 @@ void	*ft_expand_inside_quotes(t_quotes *quotes)
 	return (quotes);
 }
 
-
 int	ft_quotes_unquoting(t_quotes *quotes)
 {
 	char	*str;
@@ -185,7 +184,7 @@ int	ft_quotes_unquoting(t_quotes *quotes)
 		if (!str)
 			return (FAILURE);
 		len = ft_strlen(str);
-		if (len <=  2)
+		if (len <= 2)
 			tmp = ft_strdup("");
 		else
 			tmp = ft_substr(str, 1, len - 2);
@@ -206,11 +205,10 @@ void	ft_unquote_quotes(t_btree **root)
 	t_quotes	*quotes;
 	char		*str;
 
-	if (!root ||  !*root)
+	if (!root || !*root)
 		return ;
 	content = root[0]->content;
-	if (!content)/* || content->operators || content->token == OPERATOR || content->token == PARENTHESIS
-		|| content->token == ERROR || content->token == AMBIGUOUS*/
+	if (!content)
 		return ;
 	lxr = ft_init_lxr(content->value);
 	if (!lxr)
@@ -265,7 +263,7 @@ void	ft_unquote_quotes(t_btree **root)
 	if (!*root)
 		return ;
 	content = root[0]->content;
-	if (!content/* || content->token > HDFILENAME*/)
+	if (!content)
 		return ;
 	lxr = ft_init_lxr(content->value);
 	if (!lxr)
@@ -295,8 +293,6 @@ void	ft_unquote_quotes(t_btree **root)
 		return ;
 	}
 	str = ft_join_quotes(quotes);
-	/*
-	*/
 	if (str == NULL)
 	{
 		ft_destroy_quotes(&quotes);
@@ -321,5 +317,4 @@ void	ft_unquote_quotes_recursively(void **ptr)
 	if (!content)
 		return ;
 	ft_btree_modify_root_conserve_branchs(root, ft_unquote_quotes);
-	/*ft_unquote_quotes(root);*/
 }

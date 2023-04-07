@@ -6,7 +6,7 @@
 /*   By: alvjimen <alvjimen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/17 12:23:30 by alvjimen          #+#    #+#             */
-/*   Updated: 2023/04/01 19:16:41 by alvjimen         ###   ########.fr       */
+/*   Updated: 2023/04/07 22:00:46 by alvjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "lxr.h"
@@ -58,7 +58,8 @@ int	ft_operators_redirections(t_btree **root)
 	if (root[0]->right)
 	{
 		ft_lstadd_back((t_list **)&node->left, (t_list *)node->right->right);
-		node->right->right = NULL; }
+		node->right->right = NULL;
+	}
 	return (SUCCESS);
 }
 
@@ -70,13 +71,10 @@ int	ft_operators_split(t_btree **root)
 
 	if (!root || !*root)
 		return (FAILURE);
-	/*|| &&*/
 	if (ft_operators_outercmd(root, ft_operators_interpipelines) == SUCCESS)
 		return (SUCCESS);
-	/*|*/
 	else if (ft_operators_outercmd(root, ft_operators_intercmd) == SUCCESS)
 		return (SUCCESS);
-	/*< > << >> */
 	ft_operators_redirections(root);
 	return (SUCCESS);
 }

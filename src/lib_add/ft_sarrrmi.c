@@ -6,13 +6,19 @@
 /*   By: jvasquez <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/20 17:23:02 by jvasquez          #+#    #+#             */
-/*   Updated: 2023/04/05 11:32:57 by alvjimen         ###   ########.fr       */
+/*   Updated: 2023/04/07 22:29:08 by alvjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-//Remove one item given an index
+static char	**ft_clean_exit(char **arr, char **arr2)
+{
+	ft_sarrfree(&arr);
+	ft_sarrfree(&arr2);
+	return (NULL);
+}
+
 char	**ft_sarrrmi(int index, char **arr)
 {
 	int		i;
@@ -24,23 +30,16 @@ char	**ft_sarrrmi(int index, char **arr)
 		return (arr);
 	new_arr = malloc(sizeof(char *) * (i));
 	if (!new_arr)
-	{
-		ft_sarrfree(&arr);
-		return (NULL);
-	}
+		return (ft_clean_exit(arr, NULL));
 	i = -1;
 	j = 0;
 	while (arr[++i])
 	{
-		if (i != index)
-		{
-			new_arr[j++] = ft_strdup(arr[i]);
-			if (new_arr[j - 1] == NULL)
-			{
-				ft_sarrfree(&new_arr);
-				return (NULL);
-			}
-		}
+		if (i == index)
+			continue ;
+		new_arr[j] = ft_strdup(arr[i]);
+		if (new_arr[j++] == NULL)
+			return (ft_clean_exit(arr, new_arr));
 	}
 	new_arr[j] = NULL;
 	ft_sarrfree(&arr);
