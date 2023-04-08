@@ -6,7 +6,7 @@
 /*   By: alvjimen <alvjimen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/26 17:26:06 by alvjimen          #+#    #+#             */
-/*   Updated: 2023/04/07 21:53:19 by alvjimen         ###   ########.fr       */
+/*   Updated: 2023/04/08 16:33:46 by alvjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "lxr.h"
@@ -133,6 +133,8 @@ int	ft_regex_bash(char *regex, char *matched)
 	size_t	len_r;
 	size_t	len_m;
 
+	if (!regex || !matched)
+		return (FAILURE);
 	if (ft_regex(regex, matched) == SUCCESS)
 	{
 		len_m = ft_strlen(matched);
@@ -141,9 +143,34 @@ int	ft_regex_bash(char *regex, char *matched)
 			len_r -= 1;
 		else
 			len_r = 0;
-		if (regex[len_r] != '/' || (regex[len_r] == '/'
-				&& matched[len_m] == '/'))
+		if ((regex[len_r] != '/' && matched[len_m] != '/')
+			|| (regex[len_r] == '/' && matched[len_m] == '/'))
 			return (SUCCESS);
 	}
 	return (FAILURE);
+}
+
+char	**ft_regex_ls(char	*regex)
+{
+	char	**ls;
+	size_t	index;
+
+	if (!regex || !matched)
+		return (NULL);
+	ls = ft_ls(".");
+	if (!ls)
+		return (NULL);
+	index = 0;
+	while (ls[index])
+	{
+		if (ft_regex_bash(regex, ls[index]) == SUCCESS)
+			index++;
+		else
+		{
+			ls = ft_sarrrmi(index, ls);
+			if (!ls)
+				return  (NULL);
+		}
+	}
+	return (ls);
 }
