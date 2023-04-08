@@ -6,7 +6,7 @@
 /*   By: alvjimen <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/01 19:18:10 by alvjimen          #+#    #+#             */
-/*   Updated: 2023/04/07 21:59:13 by alvjimen         ###   ########.fr       */
+/*   Updated: 2023/04/08 22:51:30 by alvjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "lxr.h"
@@ -117,6 +117,7 @@ void	*ft_join_quotes(t_quotes *quotes)
 		return (NULL);
 	while (counter < quotes->counter)
 	{
+		if (ft_strchr(prev_quotes[counter], '*')
 		if (!old)
 			join = ft_strjoin("", quotes->prev_quotes[counter]);
 		else

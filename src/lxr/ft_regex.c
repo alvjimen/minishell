@@ -6,7 +6,7 @@
 /*   By: alvjimen <alvjimen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/26 17:26:06 by alvjimen          #+#    #+#             */
-/*   Updated: 2023/04/08 16:33:46 by alvjimen         ###   ########.fr       */
+/*   Updated: 2023/04/08 23:07:43 by alvjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "lxr.h"
@@ -173,4 +173,116 @@ char	**ft_regex_ls(char	*regex)
 		}
 	}
 	return (ls);
+}
+
+char	**ft_regex_quotes(t_quotes *quotes)
+{
+	char	**words;
+	char	**regex;
+	char	*join;
+	char	*old;
+	char	*tmp;
+	size_t	counter;
+
+	if (!quotes)
+		return (NULL);
+	words = NULL;
+	str = NULL;
+	old = NULL;
+	tmp = NULL;
+	regex = NULL;
+	counter = 0;
+	while (counter < quotes->counter)
+	{
+		if (ft_strchr(quotes->prev_quotes[counter], '*'))
+		{
+			words = ft_split(quotes->prev_quotes[counter], '*');
+			if (!words)
+			{
+				ft_sarrfree(&regex);
+				return (NULL);
+			}
+			old = ft_strjoin(old, words[0]);
+			if (!old)
+			{
+				free(join);
+				ft_sarrfree(&regex);
+				return (NULL);
+			}
+			regex = ft_sarradd(regex, old);
+			free(join);
+			free(old);
+			if (!regex)
+				return (NULL);
+			old = ft_strdup(words[1]);
+			ft_sarrfree(words);
+			if (!old)
+			{
+				free(tmp);
+				free(str);
+				return (NULL);
+			}
+		}
+		else
+		{
+			if (!old)
+				join = ft_strjoin("", quotes->prev_quotes[counter]);
+			else
+				join = ft_strjoin(old, quotes->prev_quotes[counter]);
+		}
+		free(old);
+		if (!join)
+			return (NULL);
+		old = join;
+		join = ft_strjoin(old, quotes->inner_quotes[counter]);
+		free(old);
+		if (!join)
+			return (NULL);
+		old = join;
+		counter++;
+	}
+	old = join;
+	if (!old)
+	{
+		old = ft_strdup("");
+		if (!old)
+			return (NULL);
+	}
+	if (!quotes->last_unquote)
+		return (join);
+	join = ft_strjoin(old, quotes->last_unquote);
+	free(old);
+	if (!join)
+		return (NULL);
+	if (ft_strchr(quotes->last_unquote, '*'))
+	{
+		words = ft_split(quotes->last_unquote, '*');
+		if (!words)
+		{
+			ft_sarrfree(&regex);
+			return (NULL);
+		}
+		old = ft_strjoin(old, words[0]);
+		if (!old)
+		{
+			free(join);
+			ft_sarrfree(&regex);
+			return (NULL);
+		}
+		regex = ft_sarradd(regex, old);
+		free(join);
+		free(old);
+		if (!regex)
+			return (NULL);
+		old = ft_strdup(words[1]);
+		ft_sarrfree(words);
+		if (!old)
+		{
+			free(tmp);
+			free(str);
+			return (NULL);
+		}
+	}
+	//return (join);
+	return (regex);
 }
