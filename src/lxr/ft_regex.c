@@ -6,7 +6,7 @@
 /*   By: alvjimen <alvjimen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/26 17:26:06 by alvjimen          #+#    #+#             */
-/*   Updated: 2023/04/08 23:07:43 by alvjimen         ###   ########.fr       */
+/*   Updated: 2023/04/09 19:03:34 by alvjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "lxr.h"
@@ -155,7 +155,7 @@ char	**ft_regex_ls(char	*regex)
 	char	**ls;
 	size_t	index;
 
-	if (!regex || !matched)
+	if (!regex)
 		return (NULL);
 	ls = ft_ls(".");
 	if (!ls)
@@ -187,14 +187,14 @@ char	**ft_regex_quotes(t_quotes *quotes)
 	if (!quotes)
 		return (NULL);
 	words = NULL;
-	str = NULL;
 	old = NULL;
 	tmp = NULL;
 	regex = NULL;
 	counter = 0;
 	while (counter < quotes->counter)
 	{
-		if (ft_strchr(quotes->prev_quotes[counter], '*'))
+		if (quotes->prev_quotes[counter]
+			&& ft_strchr(quotes->prev_quotes[counter], '*'))
 		{
 			words = ft_split(quotes->prev_quotes[counter], '*');
 			if (!words)
@@ -215,11 +215,11 @@ char	**ft_regex_quotes(t_quotes *quotes)
 			if (!regex)
 				return (NULL);
 			old = ft_strdup(words[1]);
-			ft_sarrfree(words);
+			ft_sarrfree(&words);
 			if (!old)
 			{
 				free(tmp);
-				free(str);
+				free(tmp);
 				return (NULL);
 			}
 		}
@@ -249,7 +249,7 @@ char	**ft_regex_quotes(t_quotes *quotes)
 			return (NULL);
 	}
 	if (!quotes->last_unquote)
-		return (join);
+		return (words);
 	join = ft_strjoin(old, quotes->last_unquote);
 	free(old);
 	if (!join)
@@ -275,11 +275,11 @@ char	**ft_regex_quotes(t_quotes *quotes)
 		if (!regex)
 			return (NULL);
 		old = ft_strdup(words[1]);
-		ft_sarrfree(words);
+		ft_sarrfree(&words);
 		if (!old)
 		{
 			free(tmp);
-			free(str);
+			free(join);
 			return (NULL);
 		}
 	}

@@ -6,7 +6,7 @@
 /*   By: alvjimen <alvjimen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/21 08:09:01 by alvjimen          #+#    #+#             */
-/*   Updated: 2023/04/05 22:08:35 by alvjimen         ###   ########.fr       */
+/*   Updated: 2023/04/09 19:00:54 by alvjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "lxr.h"
@@ -16,7 +16,7 @@
 	0				ALL OK.
 	1				ERROR
 */
-int	ft_clean_exit(t_lxr **lxr, char **tmp, int flag)
+static int	ft_clean_exit(t_lxr **lxr, char **tmp, int flag)
 {
 	if (flag > 0)
 	{
