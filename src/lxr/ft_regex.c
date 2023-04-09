@@ -6,7 +6,7 @@
 /*   By: alvjimen <alvjimen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/26 17:26:06 by alvjimen          #+#    #+#             */
-/*   Updated: 2023/04/09 19:03:34 by alvjimen         ###   ########.fr       */
+/*   Updated: 2023/04/09 21:20:31 by alvjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "lxr.h"
@@ -169,59 +169,129 @@ char	**ft_regex_ls(char	*regex)
 		{
 			ls = ft_sarrrmi(index, ls);
 			if (!ls)
-				return  (NULL);
+				return (NULL);
 		}
 	}
 	return (ls);
 }
 
-char	**ft_regex_quotes(t_quotes *quotes)
+char	**ft_wordsplit_join(char **old, char *str, char **regex)
 {
 	char	**words;
+	char	**ls;
+	char	*join;
+	size_t	len_str;
+	size_t	counter;
+
+	counter = 0;
+	words = ft_split(str, '*');
+	if (!words)
+	{
+		ft_sarrfree(&regex);
+		free(*old);
+		return (NULL);
+	}
+	if (words[0] == NULL)
+	{
+		ft_sarrfree(&words);
+		regex = ft_sarradd(regex, *old);
+		free(*old);
+		*old = NULL;
+		if (!regex)
+			return (NULL);
+		return (regex);
+	}
+	len_str = ft_strlen(str);
+	if (*str == '*')
+	{
+		regex = ft_sarradd(regex, *old);
+		free(*old);
+		*old = NULL;
+		if (!regex)
+		{
+			ft_sarrfree(&words);
+			return (NULL);
+		}
+	}
+	else
+	{
+		if (old && *old)
+			join = ft_strjoin(*old, words[counter ++]);
+		else
+			join = ft_strjoin("", words[counter ++]);
+		free(*old);
+		*old = NULL;
+		if (!join)
+		{
+			ft_sarrfree(&regex);
+			ft_sarrfree(&words);
+			return (NULL);
+		}
+		regex = ft_sarradd(regex, join);
+		free(join);
+		if (!regex)
+		{
+			ft_sarrfree(&words);
+			return (NULL);
+		}
+	}
+	while (words[counter] && words[counter + 1])
+	{
+		regex = ft_sarradd(regex, words[counter]);
+		if (!regex)
+		{
+			ft_sarrfree(&words);
+			return (NULL);
+		}
+	}
+	if (len_str > 1 && str[len_str - 1] == '*')
+	{
+		regex = ft_sarradd(regex, words[counter]);
+		if (!regex)
+		{
+			ft_sarrfree(&words);
+			return (NULL);
+		}
+	}
+	else
+	{
+		*old = ft_strdup(words[counter]);
+		if (!*old)
+		{
+			ft_sarrfree(&regex);
+			ft_sarrfree(&words);
+			free(join);
+			join = NULL;
+			return (NULL);
+		}
+		regex = ft_sarradd(regex, *old);
+		free(*old);
+		*old = NULL;
+	}
+	ft_sarrfree(&words);
+	return (regex);
+}
+
+char	**ft_regex_quotes(t_quotes *quotes)
+{
 	char	**regex;
 	char	*join;
 	char	*old;
-	char	*tmp;
 	size_t	counter;
 
 	if (!quotes)
 		return (NULL);
-	words = NULL;
 	old = NULL;
-	tmp = NULL;
+	join = NULL;
 	regex = NULL;
 	counter = 0;
 	while (counter < quotes->counter)
 	{
-		if (quotes->prev_quotes[counter]
-			&& ft_strchr(quotes->prev_quotes[counter], '*'))
+		if (ft_strchr(quotes->prev_quotes[counter], '*'))
 		{
-			words = ft_split(quotes->prev_quotes[counter], '*');
-			if (!words)
-			{
-				ft_sarrfree(&regex);
-				return (NULL);
-			}
-			old = ft_strjoin(old, words[0]);
-			if (!old)
-			{
-				free(join);
-				ft_sarrfree(&regex);
-				return (NULL);
-			}
-			regex = ft_sarradd(regex, old);
-			free(join);
-			free(old);
+			regex = ft_wordsplit_join(&old, quotes->prev_quotes[counter], regex);
 			if (!regex)
 				return (NULL);
-			old = ft_strdup(words[1]);
-			ft_sarrfree(&words);
-			if (!old)
-			{
-				free(tmp);
-				free(tmp);
-				return (NULL);
-			}
 		}
 		else
 		{
@@ -229,12 +299,15 @@ char	**ft_regex_quotes(t_quotes *quotes)
 				join = ft_strjoin("", quotes->prev_quotes[counter]);
 			else
 				join = ft_strjoin(old, quotes->prev_quotes[counter]);
+			free(old);
+			if (!join)
+				return (NULL);
 		}
-		free(old);
-		if (!join)
-			return (NULL);
 		old = join;
-		join = ft_strjoin(old, quotes->inner_quotes[counter]);
+		if (!old)
+			join = ft_strjoin("", quotes->inner_quotes[counter]);
+		else
+			join = ft_strjoin(old, quotes->inner_quotes[counter]);
 		free(old);
 		if (!join)
 			return (NULL);
@@ -242,47 +315,37 @@ char	**ft_regex_quotes(t_quotes *quotes)
 		counter++;
 	}
 	old = join;
-	if (!old)
-	{
-		old = ft_strdup("");
-		if (!old)
-			return (NULL);
-	}
 	if (!quotes->last_unquote)
-		return (words);
-	join = ft_strjoin(old, quotes->last_unquote);
-	free(old);
+	{
+		regex = ft_sarradd(regex, join);
+		free(join);
+		return (regex);
+	}
 	if (!join)
+	{
+		ft_sarrfree(&regex);
 		return (NULL);
+	}
+	old = join;
 	if (ft_strchr(quotes->last_unquote, '*'))
 	{
-		words = ft_split(quotes->last_unquote, '*');
-		if (!words)
-		{
-			ft_sarrfree(&regex);
-			return (NULL);
-		}
-		old = ft_strjoin(old, words[0]);
-		if (!old)
-		{
-			free(join);
-			ft_sarrfree(&regex);
-			return (NULL);
-		}
-		regex = ft_sarradd(regex, old);
-		free(join);
-		free(old);
+		regex = ft_wordsplit_join(&old, quotes->last_unquote, regex);
 		if (!regex)
 			return (NULL);
-		old = ft_strdup(words[1]);
-		ft_sarrfree(&words);
-		if (!old)
-		{
-			free(tmp);
-			free(join);
-			return (NULL);
-		}
 	}
-	//return (join);
+	else
+	{
+		if (!old)
+			join = ft_strjoin("", quotes->last_unquote);
+		else
+			join = ft_strjoin(old, quotes->last_unquote);
+		free(old);
+		if (!join)
+			return (NULL);
+		regex = ft_sarradd(regex, join);
+		free(join);
+		if (!regex)
+			return (NULL);
+	}
 	return (regex);
 }
