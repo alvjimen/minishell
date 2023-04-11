@@ -6,7 +6,7 @@
 /*   By: alvjimen <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/30 18:13:42 by alvjimen          #+#    #+#             */
-/*   Updated: 2023/04/07 21:43:30 by alvjimen         ###   ########.fr       */
+/*   Updated: 2023/04/11 20:07:26 by alvjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "lxr.h"
@@ -15,6 +15,7 @@ char	**ft_lst_to_sarr(t_list *node)
 {
 	char	**words;
 	t_tkn	*content;
+	size_t	counter;
 
 	words = NULL;
 	while (node)
@@ -23,7 +24,18 @@ char	**ft_lst_to_sarr(t_list *node)
 		node = node->next;
 		if (!content)
 			continue ;
-		words = ft_sarradd(words, content->value);
+		if (content->regex)
+		{
+			counter = 0;
+			while (content->regex[counter])
+			{
+				words = ft_sarradd(words, content->regex[counter]);
+				if (!words)
+					return (NULL);
+			}
+		}
+		else
+			words = ft_sarradd(words, content->value);
 		if (!words)
 			return (NULL);
 	}

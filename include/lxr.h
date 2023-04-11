@@ -6,7 +6,7 @@
 /*   By: alvjimen <alvjimen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/28 18:36:15 by alvjimen          #+#    #+#             */
-/*   Updated: 2023/04/09 19:05:19 by alvjimen         ###   ########.fr       */
+/*   Updated: 2023/04/11 20:09:15 by alvjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,6 +71,7 @@ typedef struct s_tkn
 {
 	char			*value;
 	char			**str;
+	char			**regex;
 	t_operators		operators;
 	t_tokens		token;
 	size_t			num_tokens;
@@ -154,4 +155,7 @@ void		ft_set_ambiguous(void *content);
 char		**ft_regex_quotes(t_quotes *quotes);
 t_quotes	*ft_init_quotes(t_lxr *lxr);
 t_quotes	*ft_destroy_quotes(t_quotes **quotes);
+int			ft_regex_bash(char **regex, char *matched);
+void		*ft_join_quotes(t_quotes *quotes);
+char		**ft_regex_ls(t_quotes *quotes);
 #endif

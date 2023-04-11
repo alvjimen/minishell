@@ -6,7 +6,7 @@
 /*   By: alvjimen <alvjimen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/26 17:26:06 by alvjimen          #+#    #+#             */
-/*   Updated: 2023/04/09 21:20:31 by alvjimen         ###   ########.fr       */
+/*   Updated: 2023/04/11 20:06:55 by alvjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "lxr.h"
@@ -128,38 +128,78 @@ int	ft_regex(char *regex, char *matched)
 	return (ft_end_notstar(matched, split[counter], split, matched_copy));
 }
 
-int	ft_regex_bash(char *regex, char *matched)
+int	ft_splitted_regex(char **split, char *matched)
+{
+	size_t	len;
+	size_t	counter;
+	char	*matched_copy;
+
+	counter = 0;
+	len = 0;
+	matched_copy = matched;
+	if (!split || !*split || !matched || (*split[0] == '.' && *matched != '.'))
+		return (FAILURE);
+	if (*split[0] != '*' && !ft_start_notstar(&matched, split[counter], &counter))
+		return (ft_clean_exit(split, FAILURE));
+	else if (*split[0] == '*' && ft_just_asterisk(split[counter]) == SUCCESS)
+		return (ft_clean_exit(split, SUCCESS));
+	matched = ft_interstar(split, &counter, matched);
+	if (!matched)
+		return (FAILURE);
+	len = ft_strlen(split[counter]);
+	if (split[counter][len - 1] == '*')
+		return (ft_end_star(matched, split[counter], split) == FAILURE);
+	return (ft_end_notstar(matched, split[counter], split, matched_copy));
+}
+
+int	ft_regex_bash(char **regex, char *matched)
 {
 	size_t	len_r;
 	size_t	len_m;
+	size_t	index_r;
 
-	if (!regex || !matched)
+	if (!regex || !*regex || !matched)
 		return (FAILURE);
-	if (ft_regex(regex, matched) == SUCCESS)
+	if (ft_splitted_regex(regex, matched) == SUCCESS)
 	{
 		len_m = ft_strlen(matched);
-		len_r = ft_strlen(regex);
+		index_r = ft_sarrsize(regex);
+		len_r = ft_strlen(regex[index_r]);
 		if (len_r > 0)
 			len_r -= 1;
 		else
 			len_r = 0;
-		if ((regex[len_r] != '/' && matched[len_m] != '/')
-			|| (regex[len_r] == '/' && matched[len_m] == '/'))
+		if ((regex[index_r][len_r] != '/' && matched[len_m] != '/')
+			|| (regex[index_r][len_r] == '/' && matched[len_m] == '/'))
 			return (SUCCESS);
 	}
 	return (FAILURE);
 }
 
-char	**ft_regex_ls(char	*regex)
+char	**ft_regex_ls(t_quotes *quotes)
 {
 	char	**ls;
 	size_t	index;
+	char	**regex;
+	char	*str;
 
-	if (!regex)
+	if (!quotes)
 		return (NULL);
 	ls = ft_ls(".");
 	if (!ls)
 		return (NULL);
+	regex = ft_regex_quotes(quotes);
+	if (!regex)
+	{
+		ft_sarrfree(&ls);
+		return (NULL);
+	}
+	if (ft_quotes_unquoting(quotes) == FAILURE)
+	{
+		ft_sarrfree(&ls);
+		ft_sarrfree(&regex);
+		return (NULL);
+	}
 	index = 0;
 	while (ls[index])
 	{
@@ -168,12 +208,35 @@ char	**ft_regex_ls(char	*regex)
 		else
 		{
 			ls = ft_sarrrmi(index, ls);
-			if (!ls)
-				return (NULL);
+			if (ls)
+				continue ;
+			ft_sarrfree(&regex);
+			return (NULL);
 		}
 	}
+	if (ls && !ls[0])
+	{
+		str = ft_join_quotes(quotes);
+		if (!str)
+		{
+			ft_sarrfree(&ls);
+			ft_sarrfree(&regex);
+			ft_destroy_quotes(&quotes);
+		}
+		else
+			ft_sarradd(ls, str);
+	}
+	ft_sarrfree(&regex);
 	return (ls);
 }
+/*
+if (ls && !ls[0])
+{
+	str = ft_join_quotes(quotes);
+	if (str)
+		ft_sarradd(content->str, 
+}
+*/
 
 char	**ft_wordsplit_join(char **old, char *str, char **regex)
 {
@@ -272,12 +335,31 @@ char	**ft_wordsplit_join(char **old, char *str, char **regex)
 	return (regex);
 }
 
+int	ft_isany_star(t_quotes *quotes)
+{
+	size_t	counter;
+
+	counter = 0;
+	if (!quotes)
+		return (FAILURE);
+	while (counter < quotes->counter)
+	{
+		if (quotes->prev_quotes && ft_strchr(quotes->prev_quotes[counter], '*'))
+			return (SUCCESS);
+	}
+	if (quotes->last_unquote && !ft_char_quotes(quotes->last_unquote[0])
+		&& ft_strchr(quotes->last_unquote, '*'))
+		return (SUCCESS);
+	return (FAILURE);
+}
+
 char	**ft_regex_quotes(t_quotes *quotes)
 {
 	char	**regex;
 	char	*join;
 	char	*old;
 	size_t	counter;
+	int		quoted_last;
 
 	if (!quotes)
 		return (NULL);
@@ -285,6 +367,9 @@ char	**ft_regex_quotes(t_quotes *quotes)
 	join = NULL;
 	regex = NULL;
 	counter = 0;
+	quoted_last = !ft_char_quotes(quotes->last_unquote[0]);
+	if (ft_quotes_unquoting(quotes) == FAILURE)
+		return (NULL);
 	while (counter < quotes->counter)
 	{
 		if (ft_strchr(quotes->prev_quotes[counter], '*'))
@@ -327,7 +412,7 @@ char	**ft_regex_quotes(t_quotes *quotes)
 		return (NULL);
 	}
 	old = join;
-	if (ft_strchr(quotes->last_unquote, '*'))
+	if (quoted_last && ft_strchr(quotes->last_unquote, '*'))
 	{
 		regex = ft_wordsplit_join(&old, quotes->last_unquote, regex);
 		if (!regex)
