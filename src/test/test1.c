@@ -6,7 +6,7 @@
 /*   By: alvjimen <alvjimen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/31 20:04:15 by alvjimen          #+#    #+#             */
-/*   Updated: 2023/04/09 19:05:33 by alvjimen         ###   ########.fr       */
+/*   Updated: 2023/04/12 18:52:21 by alvjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "lxr.h"
@@ -18,7 +18,7 @@ int	main(int argc, char *argv[])
 	t_btree	*root;
 	char	**words;
 
-	if (argc >= 3 && argv[1][0] == '-' && argv[1][1] && argv[1][1] == 'c'
+	if (argc == 3 && argv[1][0] == '-' && argv[1][1] && argv[1][1] == 'c'
 		&& argv[1][2] == '\0')
 	{
 		str = ft_strdup(argv[2]);
@@ -54,6 +54,20 @@ int	main(int argc, char *argv[])
 		ft_destroy_quotes(&quotes);
 		if (!words)
 			return (FAILURE);
+		ft_sarrfree(&words);
+		return (SUCCESS);
+	}
+	else if (argc > 3)
+	{
+		str = ft_strdup(argv[2]);
+		if (!str)
+			return (FAILURE);
+		root = ft_btree_builder_regex(str);
+		free(str);
+		if (!root)
+			return (FAILURE);
+		ft_btree_clear(&root, ft_destroy_tkn);
+		return (SUCCESS);
 	}
 	return (SUCCESS);
 }

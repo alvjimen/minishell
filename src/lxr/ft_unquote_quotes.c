@@ -6,7 +6,7 @@
 /*   By: alvjimen <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/01 19:18:10 by alvjimen          #+#    #+#             */
-/*   Updated: 2023/04/11 20:07:56 by alvjimen         ###   ########.fr       */
+/*   Updated: 2023/04/12 12:21:03 by alvjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "lxr.h"
@@ -462,4 +462,16 @@ void	ft_unquote_quotes_recursively(void **ptr)
 	if (!content)
 		return ;
 	ft_btree_modify_root_conserve_branchs(root, ft_unquote_quotes);
+}
+
+void	ft_unquote_quotes_regex_recursively(void **ptr)
+{
+	t_btree	**root;
+	t_tkn	*content;
+
+	root = (t_btree **)ptr;
+	content = root[0]->content;
+	if (!content)
+		return ;
+	ft_btree_modify_root_conserve_branchs(root, ft_unquote_quotes_regex);
 }
