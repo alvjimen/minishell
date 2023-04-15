@@ -6,7 +6,7 @@
 /*   By: alvjimen <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/30 18:13:42 by alvjimen          #+#    #+#             */
-/*   Updated: 2023/04/11 20:07:26 by alvjimen         ###   ########.fr       */
+/*   Updated: 2023/04/15 11:43:33 by alvjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "lxr.h"
@@ -32,6 +32,7 @@ char	**ft_lst_to_sarr(t_list *node)
 				words = ft_sarradd(words, content->regex[counter]);
 				if (!words)
 					return (NULL);
+				counter++;
 			}
 		}
 		else
