@@ -6,7 +6,7 @@
 /*   By: alvjimen <alvjimen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/26 17:26:06 by alvjimen          #+#    #+#             */
-/*   Updated: 2023/04/15 13:42:21 by alvjimen         ###   ########.fr       */
+/*   Updated: 2023/04/15 13:54:40 by alvjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "lxr.h"
@@ -166,10 +166,14 @@ int	ft_regex_bash(char **regex, char *matched, char *str)
 	if (ft_splitted_regex(regex, matched, str) == SUCCESS)
 	{
 		len_m = ft_strlen(matched);
+		if (len_m > 0)
+			len_m -= 1;
 		index_r = ft_sarrsize(regex);
 		if (regex[0] == NULL)
 		{
 			len_r = ft_strlen(str);
+			if (len_r > 0)
+				len_r -= 1;
 			if ((str[len_r] != '/' && matched[len_m] != '/')
 					|| (str[len_r] == '/' && matched[len_m] == '/'))
 				return (SUCCESS);
