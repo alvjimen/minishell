@@ -6,7 +6,7 @@
 /*   By: alvjimen <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/01 19:18:10 by alvjimen          #+#    #+#             */
-/*   Updated: 2023/04/14 21:33:07 by alvjimen         ###   ########.fr       */
+/*   Updated: 2023/04/15 12:01:34 by alvjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "lxr.h"
@@ -253,11 +253,11 @@ void	ft_unquote_quotes(t_btree **root)
 	}
 	str = ft_join_quotes(quotes);
 	if (str == NULL)
-	{
+	{/*I should destroy quotes before this line*/
 		ft_destroy_quotes(&quotes);
 		content->token = ERROR;
 		return ;
-	}
+	}/*Maybe this could be another init_lxr*/
 	lxr->pos = 0;
 	lxr->counter = 0;
 	/*
@@ -278,7 +278,7 @@ void	ft_unquote_quotes(t_btree **root)
 			ft_lstiter((t_list *)lxr->btree, ft_set_hdfilename);
 		if (ft_lstsize((t_list *)lxr->btree) > 1)
 			ft_lstiter((t_list *)lxr->btree, ft_set_ambiguous);
-	}
+	}/* I should check than lxr->btree is not NULL if is NULL error is set an return*/
 	ft_btree_delone(root[0], ft_destroy_tkn);
 	root[0] = NULL;
 	*root = lxr->btree;
