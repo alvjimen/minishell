@@ -6,16 +6,23 @@
 /*   By: alvjimen <alvjimen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/21 12:45:06 by alvjimen          #+#    #+#             */
-/*   Updated: 2023/04/07 22:20:47 by alvjimen         ###   ########.fr       */
+/*   Updated: 2023/04/15 14:37:25 by alvjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "lxr.h"
-
+/*
 char	*ft_var_value(char **sarr, char *var_name)
 {
 	sarr = NULL;
 	var_name = NULL;
 	return (ft_strdup("var value"));
+}
+*/
+char	*ft_var_value(char **sarr, char *var_name)
+{
+	sarr = NULL;
+	var_name = NULL;
+	return (ft_strdup(""));
 }
 
 char	*ft_previous_var(t_lxr **lxr, char **name, char **value,

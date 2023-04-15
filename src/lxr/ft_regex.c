@@ -6,7 +6,7 @@
 /*   By: alvjimen <alvjimen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/26 17:26:06 by alvjimen          #+#    #+#             */
-/*   Updated: 2023/04/15 14:35:16 by alvjimen         ###   ########.fr       */
+/*   Updated: 2023/04/15 19:02:32 by alvjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "lxr.h"
@@ -49,9 +49,11 @@ int	ft_end_star(char *matched, char *str, char **split)
 	if (!str)
 		return (SUCCESS);
 	matched = ft_strnstr(matched, str, -1);
-	ft_sarrfree(&split);
 	if (!matched)
+	{
+		ft_sarrfree(&split);
 		return (FAILURE);
+	}
 	return (SUCCESS);
 }
 
@@ -77,7 +79,6 @@ int	ft_end_notstar(char *matched, char *str, char **split,
 		ft_sarrfree(&split);
 		return (FAILURE);
 	}
-	ft_sarrfree(&split);
 	return (SUCCESS);
 }
 
@@ -178,9 +179,7 @@ int	ft_regex_bash(char **regex, char *matched, char *str)
 					|| (str[len_r] == '/' && matched[len_m] == '/'))
 				return (SUCCESS);
 			return (FAILURE);
-
 		}
-			return (SUCCESS);
 		len_r = ft_strlen(regex[index_r - 1]);
 		if (len_r > 0)
 			len_r -= 1;
@@ -277,7 +276,7 @@ char	**ft_wordsplit_join(char **old, char *str, char **regex)
 		free(*old);
 		return (NULL);
 	}
-	if (!regex && !words[0] && old && !*old)
+	if (!regex && old && !*old)
 		return (words);
 	/*
 	if (words[0] == NULL)

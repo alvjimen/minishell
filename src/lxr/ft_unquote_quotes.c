@@ -6,7 +6,7 @@
 /*   By: alvjimen <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/01 19:18:10 by alvjimen          #+#    #+#             */
-/*   Updated: 2023/04/15 12:01:34 by alvjimen         ###   ########.fr       */
+/*   Updated: 2023/04/15 19:11:48 by alvjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "lxr.h"
@@ -421,12 +421,18 @@ void	ft_unquote_quotes_regex(t_btree **root)
 	if (ft_isany_star(quotes) == SUCCESS)
 	{
 		content->regex = ft_regex_ls(quotes, lxr->str);
+		ft_destroy_quotes(&quotes);
+		free(content->value);
+		content->value = NULL;
+		free(lxr);
 		if (!content->regex)
 		{
 			content->token = ERROR;
-			ft_destroy_quotes(&quotes);
-			free(lxr);
+			return ;
 		}
+		content->value = ft_strdup(content->regex[0]);
+		if (content->value)
+			content->token = ERROR;
 		return ;
 	}
 	if (ft_quotes_unquoting(quotes))
