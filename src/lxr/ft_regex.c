@@ -6,7 +6,7 @@
 /*   By: alvjimen <alvjimen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/26 17:26:06 by alvjimen          #+#    #+#             */
-/*   Updated: 2023/04/15 13:54:40 by alvjimen         ###   ########.fr       */
+/*   Updated: 2023/04/15 14:35:16 by alvjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "lxr.h"
@@ -227,6 +227,7 @@ char	**ft_regex_ls(t_quotes *quotes, char *str)
 			if (ls)
 				continue ;
 			ft_sarrfree(&regex);
+			ft_destroy_quotes(&quotes);
 			return (NULL);
 		}
 	}
@@ -238,9 +239,15 @@ char	**ft_regex_ls(t_quotes *quotes, char *str)
 			ft_sarrfree(&ls);
 			ft_sarrfree(&regex);
 			ft_destroy_quotes(&quotes);
+			return (NULL);
 		}
-		else
-			ft_sarradd(ls, str);
+		ls = ft_sarradd(ls, str);
+		if (!ls)
+		{
+			ft_sarrfree(&regex);
+			ft_destroy_quotes(&quotes);
+			return (NULL);
+		}
 	}
 	ft_sarrfree(&regex);
 	return (ls);
