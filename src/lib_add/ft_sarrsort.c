@@ -6,7 +6,7 @@
 /*   By: alvjimen <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/31 11:49:06 by alvjimen          #+#    #+#             */
-/*   Updated: 2023/03/31 12:27:21 by alvjimen         ###   ########.fr       */
+/*   Updated: 2023/04/15 20:44:33 by alvjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "libft.h"
@@ -37,3 +37,9 @@ void	ft_sarrsort(char **sarr)
 		index++;
 	}
 }
+/*
+	while (index < size_sa)
+	if (ft_strncmp(sarr[index], sarr[cmp], ft_strlen(sarr[cmp])) > 0)
+	while (index < size_sa / 2)
+	if (ft_strncmp(sarr[index], sarr[cmp], ft_strlen(sarr[cmp])) < 0)
+ */
