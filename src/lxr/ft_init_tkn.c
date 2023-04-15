@@ -6,7 +6,7 @@
 /*   By: alvjimen <alvjimen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/28 18:09:12 by alvjimen          #+#    #+#             */
-/*   Updated: 2023/04/06 18:30:50 by alvjimen         ###   ########.fr       */
+/*   Updated: 2023/04/15 11:45:39 by alvjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "lxr.h"
@@ -35,5 +35,7 @@ void	ft_destroy_tkn(void *ptr)
 	content->value = NULL;
 	if (content->str)
 		ft_sarrfree(&content->str);
+	if (content->regex)
+		ft_sarrfree(&content->regex);
 	free(ptr);
 }
