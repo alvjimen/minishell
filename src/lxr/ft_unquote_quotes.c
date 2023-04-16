@@ -6,7 +6,7 @@
 /*   By: alvjimen <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/01 19:18:10 by alvjimen          #+#    #+#             */
-/*   Updated: 2023/04/15 19:11:48 by alvjimen         ###   ########.fr       */
+/*   Updated: 2023/04/16 08:26:35 by alvjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "lxr.h"
@@ -34,7 +34,8 @@ void	*ft_fill_quotes(t_lxr *lxr, t_quotes *quotes)
 	str = ft_substr(lxr->str, lxr->pos, ++lxr->counter);
 	if (!str)
 		return (NULL);
-	quotes->inner_quotes = ft_sarradd(quotes->inner_quotes, str); if (!quotes->inner_quotes)
+	quotes->inner_quotes = ft_sarradd(quotes->inner_quotes, str);
+	if (!quotes->inner_quotes)
 		return (NULL);
 	quotes->counter++;
 	lxr->pos += lxr->counter;
@@ -393,6 +394,7 @@ void	ft_unquote_quotes_regex(t_btree **root)
 	*root = lxr->btree;
 	free(lxr);
 	free(str);
+	ft_destroy_quotes(&quotes);
 	if (!*root)
 		return ;
 	content = root[0]->content;
@@ -404,7 +406,6 @@ void	ft_unquote_quotes_regex(t_btree **root)
 		content->token = ERROR;
 		return ;
 	}
-	ft_destroy_quotes(&quotes);
 	quotes = ft_init_quotes(lxr);
 	if (!quotes)
 	{
@@ -452,6 +453,8 @@ void	ft_unquote_quotes_regex(t_btree **root)
 	}
 	free(lxr->str);
 	content->value = str;
+	if (content->token != FILENAME && (!content->value || !*content->value))
+		ft_btree_delone(root[0], ft_destroy_tkn);
 	ft_destroy_quotes(&quotes);
 	free(lxr);
 	return ;

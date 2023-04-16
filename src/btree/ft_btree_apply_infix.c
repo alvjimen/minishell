@@ -6,7 +6,7 @@
 /*   By: alvjimen <alvjimen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/24 13:17:56 by alvjimen          #+#    #+#             */
-/*   Updated: 2023/04/05 16:19:14 by alvjimen         ###   ########.fr       */
+/*   Updated: 2023/04/16 21:45:13 by alvjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "btree.h"
@@ -35,7 +35,7 @@ void	ft_btree_apply_to_node_infix(t_btree *root, void (*applyf)(void *))
 void	ft_btree_apply_to_node_pointer_infix(t_btree **root,
 		void (*applyf)(void **))
 {
-	if (!root)
+	if (!root || !*root)
 		return ;
 	applyf((void **)root);
 	if (root[0] && root[0]->left)

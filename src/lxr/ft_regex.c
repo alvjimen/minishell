@@ -6,7 +6,7 @@
 /*   By: alvjimen <alvjimen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/26 17:26:06 by alvjimen          #+#    #+#             */
-/*   Updated: 2023/04/15 20:17:34 by alvjimen         ###   ########.fr       */
+/*   Updated: 2023/04/16 07:43:45 by alvjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "lxr.h"
@@ -123,7 +123,7 @@ int	ft_regex(char *regex, char *matched)
 	return (ft_end_notstar(matched, split[counter], &split, matched_copy));
 }
 
-int	ft_splitted_regex(char **split, char *matched, char *regex)
+int	ft_splitted_regex(char ***split, char *matched, char *regex)
 {
 	size_t	len;
 	size_t	counter;
@@ -132,37 +132,37 @@ int	ft_splitted_regex(char **split, char *matched, char *regex)
 	counter = 0;
 	len = 0;
 	matched_copy = matched;
-	if (!split || !matched || ((*regex == '.' && *matched != '.')
+	if (!split || !*split || !matched || ((*regex == '.' && *matched != '.')
 		|| (*regex != '.' && *matched == '.')))
 		return (FAILURE);
-	if (*regex != '*' && !ft_start_notstar(&matched, split[counter], &counter))
+	if (*regex != '*' && !ft_start_notstar(&matched, split[0][counter], &counter))
 		return (FAILURE);
-	else if (*regex == '*' && ft_just_asterisk(split[counter]) == SUCCESS)
+	else if (*regex == '*' && ft_just_asterisk(split[0][counter]) == SUCCESS)
 		return (SUCCESS);
-	matched = ft_interstar(split, &counter, matched);
+	matched = ft_interstar(split[0], &counter, matched);
 	if (!matched)
 		return (FAILURE);
 	len = ft_strlen(regex);
 	if (regex[len - 1] == '*')
-		return (ft_end_star(matched, split[counter], split) == FAILURE);
-	return (ft_end_notstar(matched, split[counter], &split, matched_copy));
+		return (ft_end_star(matched, split[0][counter], split[0]) == FAILURE);
+	return (ft_end_notstar(matched, split[0][counter], split, matched_copy));
 }
 
-int	ft_regex_bash(char **regex, char *matched, char *str)
+int	ft_regex_bash(char ***regex, char *matched, char *str)
 {
 	size_t	len_r;
 	size_t	len_m;
 	size_t	index_r;
 
-	if (!regex || !matched)
+	if (!regex || !*regex || !matched)
 		return (FAILURE);
 	if (ft_splitted_regex(regex, matched, str) == SUCCESS)
 	{
 		len_m = ft_strlen(matched);
 		if (len_m > 0)
 			len_m -= 1;
-		index_r = ft_sarrsize(regex);
-		if (regex[0] == NULL)
+		index_r = ft_sarrsize(*regex);
+		if (regex[0][0] == NULL)
 		{
 			len_r = ft_strlen(str);
 			if (len_r > 0)
@@ -171,14 +171,14 @@ int	ft_regex_bash(char **regex, char *matched, char *str)
 					|| (str[len_r] == '/' && matched[len_m] == '/'))
 				return (SUCCESS);
 			return (FAILURE);
-		}
-		len_r = ft_strlen(regex[index_r - 1]);
+		}/*This part is unnecesarry  and delete the if*/
+		len_r = ft_strlen(regex[0][index_r - 1]);
 		if (len_r > 0)
 			len_r -= 1;
 		else
 			len_r = 0;
-		if ((regex[index_r - 1][len_r] != '/' && matched[len_m] != '/')
-			|| (regex[index_r - 1][len_r] == '/' && matched[len_m] == '/'))
+		if ((regex[0][index_r - 1][len_r] != '/' && matched[len_m] != '/')
+			|| (regex[0][index_r - 1][len_r] == '/' && matched[len_m] == '/'))
 			return (SUCCESS);
 	}
 	return (FAILURE);
@@ -210,18 +210,19 @@ char	**ft_regex_ls(t_quotes *quotes, char *str)
 	index = 0;
 	while (ls[index])
 	{
-		if (ft_regex_bash(regex, ls[index], str) == SUCCESS)
+		if (ft_regex_bash(&regex, ls[index], str) == SUCCESS)
 			index++;
 		else
 		{
 			ls = ft_sarrrmi(index, ls);
-			if (ls)
+			if (ls && regex)
 				continue ;
 			ft_sarrfree(&regex);
 			ft_destroy_quotes(&quotes);
 			return (NULL);
 		}
 	}
+	ft_sarrfree(&regex);
 	if (ls && !ls[0])
 	{
 		str = ft_join_quotes(quotes);

@@ -6,7 +6,7 @@
 /*   By: alvjimen <alvjimen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/28 18:36:15 by alvjimen          #+#    #+#             */
-/*   Updated: 2023/04/14 21:32:11 by alvjimen         ###   ########.fr       */
+/*   Updated: 2023/04/16 07:37:27 by alvjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -155,7 +155,7 @@ void		ft_set_ambiguous(void *content);
 char		**ft_regex_quotes(t_quotes *quotes);
 t_quotes	*ft_init_quotes(t_lxr *lxr);
 t_quotes	*ft_destroy_quotes(t_quotes **quotes);
-int	ft_regex_bash(char **regex, char *matched, char *str);
+int	ft_regex_bash(char ***regex, char *matched, char *str);
 void		*ft_join_quotes(t_quotes *quotes);
 void		ft_unquote_quotes_regex_recursively(void **ptr);
 t_btree		*ft_btree_builder_regex(char	*str);
