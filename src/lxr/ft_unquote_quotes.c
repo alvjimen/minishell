@@ -6,7 +6,7 @@
 /*   By: alvjimen <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/01 19:18:10 by alvjimen          #+#    #+#             */
-/*   Updated: 2023/04/16 08:26:35 by alvjimen         ###   ########.fr       */
+/*   Updated: 2023/04/16 22:26:53 by alvjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "lxr.h"
@@ -39,7 +39,7 @@ void	*ft_fill_quotes(t_lxr *lxr, t_quotes *quotes)
 		return (NULL);
 	quotes->counter++;
 	lxr->pos += lxr->counter;
-	lxr->counter = 0;
+	lxr->counter = -1;
 	free(str);
 	return ((void *)quotes);
 }
