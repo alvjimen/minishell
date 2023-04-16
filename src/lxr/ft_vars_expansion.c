@@ -6,7 +6,7 @@
 /*   By: alvjimen <alvjimen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/21 12:45:06 by alvjimen          #+#    #+#             */
-/*   Updated: 2023/04/16 22:04:14 by alvjimen         ###   ########.fr       */
+/*   Updated: 2023/04/16 22:13:34 by alvjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "lxr.h"
@@ -140,7 +140,7 @@ char	*ft_dollar_expansion(t_lxr **lxr, char **name, char **value, char **tmp)
 		return (NULL);
 	lxr[0]->str = name[0];
 	name[0] = NULL;
-	lxr[0]->pos = 0;
+	lxr[0]->pos = -1;
 	lxr[0]->counter = 0;
 	return (lxr[0]->str);
 }
@@ -174,8 +174,7 @@ char	*ft_vars_expansion(char *str)
 			if (aux != lxr->str)
 				return (aux);
 		}
-		if (lxr->str[lxr->pos])
-			lxr->pos++;
+		lxr->pos++;
 	}
 	tmp = lxr->str;
 	free(lxr);
