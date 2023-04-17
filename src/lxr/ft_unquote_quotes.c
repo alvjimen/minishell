@@ -6,7 +6,7 @@
 /*   By: alvjimen <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/01 19:18:10 by alvjimen          #+#    #+#             */
-/*   Updated: 2023/04/16 22:26:53 by alvjimen         ###   ########.fr       */
+/*   Updated: 2023/04/17 19:07:21 by alvjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "lxr.h"
@@ -354,16 +354,19 @@ void	ft_unquote_quotes_regex(t_btree **root)
 	if (!quotes)
 	{
 		content->token = ERROR;
+		free(lxr);
 		return ;
 	}
 	if (content->token != HDFILENAME && ft_expand_outside(quotes) == NULL)
 	{
+		free(lxr);
 		ft_destroy_quotes(&quotes);
 		content->token = ERROR;
 	}
 	str = ft_join_quotes(quotes);
 	if (str == NULL)
 	{
+		free(lxr);
 		ft_destroy_quotes(&quotes);
 		content->token = ERROR;
 		return ;
@@ -376,8 +379,10 @@ void	ft_unquote_quotes_regex(t_btree **root)
 	lxr->str = str;
 	if (ft_get_tokens(lxr) != SUCCESS)
 	{
+		free(str);
 		ft_destroy_quotes(&quotes);
 		content->token = ERROR;
+		free(lxr);
 		return ;
 	}
 	if (content->token == FILENAME || content->token == HDFILENAME)
@@ -409,6 +414,7 @@ void	ft_unquote_quotes_regex(t_btree **root)
 	quotes = ft_init_quotes(lxr);
 	if (!quotes)
 	{
+		free(lxr);
 		content->token = ERROR;
 		return ;
 	}

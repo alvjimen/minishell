@@ -6,7 +6,7 @@
 /*   By: alvjimen <alvjimen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/01 12:18:57 by alvjimen          #+#    #+#             */
-/*   Updated: 2023/04/16 08:07:03 by alvjimen         ###   ########.fr       */
+/*   Updated: 2023/04/17 19:29:17 by alvjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "lxr.h"
@@ -71,11 +71,13 @@ t_btree	*ft_btree_builder_regex(char	*str)
 		ft_operators_split_recursively);
 	ft_btree_apply_to_node_pointer_infix(&root,
 		ft_parenthesis_expansion_recursively);
+	/*
 	ft_btree_apply_to_node_pointer_infix(&root,
 		ft_unquote_quotes_regex_recursively);
 	ft_btree_apply_to_node_pointer_infix(&root,
 		ft_get_array_words_recursively);
 	ft_putstr_fd("printing\n", 1);
 	ft_btree_apply_prefix(root, ft_print_lst);
+	*/
 	return (root);
 }

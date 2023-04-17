@@ -6,7 +6,7 @@
 /*   By: alvjimen <alvjimen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/28 18:36:15 by alvjimen          #+#    #+#             */
-/*   Updated: 2023/04/16 07:37:27 by alvjimen         ###   ########.fr       */
+/*   Updated: 2023/04/17 20:03:18 by alvjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -160,4 +160,6 @@ void		*ft_join_quotes(t_quotes *quotes);
 void		ft_unquote_quotes_regex_recursively(void **ptr);
 t_btree		*ft_btree_builder_regex(char	*str);
 char		**ft_regex_ls(t_quotes *quotes, char *str);
+void		ft_expand_vars_regex_unquote(t_btree **root);
+void		ft_print_btree(t_btree *root);
 #endif

@@ -6,7 +6,7 @@
 /*   By: alvjimen <alvjimen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/31 20:04:15 by alvjimen          #+#    #+#             */
-/*   Updated: 2023/04/07 22:22:07 by alvjimen         ###   ########.fr       */
+/*   Updated: 2023/04/17 19:30:05 by alvjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "lxr.h"
@@ -33,7 +33,6 @@ int	main(int argc, char *argv[])
 			return (FAILURE);
 		}
 		words = ft_ls(".");
-		/*ft_sarrprint(words);*/
 		ft_sarrfree(&words);
 		lxr->mode = NONINTERACTIVE;
 		ft_get_tokens(lxr);
@@ -80,25 +79,12 @@ int	main(int argc, char *argv[])
 			ft_putstr_fd("printing\n", 1);
 			ft_btree_apply_prefix(lxr->btree, ft_print_lst);
 		}
-		/*
-		   if (argc > 5)
-		   {
-		   words = ft_get_array_words(&lxr->btree);
-		   ft_putstr_fd("get_array_words content\n", 1);
-		   ft_sarrprint(words);
-		   ft_putstr_fd("get_array_words content sorted\n", 1);
-		   ft_sarrsort(words);
-		   ft_sarrprint(words);
-		   ft_sarrfree(&words);
-		   }
-		 */
 		ft_btree_clear(&lxr->btree, ft_destroy_tkn);
-		/*free(lxr->str);
-		 */
 		free(lxr);
 		free(str);
 		return (SUCCESS);
 	}
+	t_quotes	*quotes;
 	while (1)
 	{
 		str = readline("> ");
