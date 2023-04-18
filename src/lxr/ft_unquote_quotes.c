@@ -6,7 +6,7 @@
 /*   By: alvjimen <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/01 19:18:10 by alvjimen          #+#    #+#             */
-/*   Updated: 2023/04/18 14:25:39 by alvjimen         ###   ########.fr       */
+/*   Updated: 2023/04/18 19:20:26 by alvjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "lxr.h"
@@ -59,7 +59,7 @@ t_quotes	*ft_init_quotes(t_lxr *lxr)
 	quotes = ft_calloc(1, sizeof(t_quotes));
 	if (!quotes)
 		return (NULL);
-	while (lxr->str[lxr->pos + lxr->counter])
+	while (lxr->str && lxr->str[lxr->pos + lxr->counter])
 	{
 		if (ft_char_quotes(lxr->str[lxr->pos + lxr->counter]))
 			if (ft_fill_quotes(lxr, quotes) == NULL)
@@ -77,7 +77,10 @@ void	*ft_expand_outside(t_quotes *quotes)
 	size_t	counter;
 	char	*str;
 
+	if (!quotes)
+		return (NULL);
 	counter = 0;
+	str = NULL;
 	while (counter < quotes->counter)
 	{
 		str = ft_vars_expansion(quotes->prev_quotes[counter]);
@@ -85,7 +88,8 @@ void	*ft_expand_outside(t_quotes *quotes)
 			return (NULL);
 		else if (str != quotes->prev_quotes[counter])
 			free(quotes->prev_quotes[counter]);
-		quotes->prev_quotes[counter++] = str;
+		quotes->prev_quotes[counter] = str;
+		counter++;
 	}
 	if (quotes->last_unquote && !ft_char_quotes(*quotes->last_unquote))
 	{
@@ -99,19 +103,6 @@ void	*ft_expand_outside(t_quotes *quotes)
 	return ((void *)quotes);
 }
 
-void	*ft_join_quotes_last_unquote(t_quotes *quotes, char *join, char *old)
-{
-	old = join;
-	if (!quotes->last_unquote)
-		return (join);
-	if (!old)
-		join = ft_strjoin("", quotes->last_unquote);
-	else
-		join = ft_strjoin(old, quotes->last_unquote);
-	free(old);
-	return (join);
-}
-
 void	*ft_join_quotes(t_quotes *quotes)
 {
 	char	*old;
@@ -121,6 +112,8 @@ void	*ft_join_quotes(t_quotes *quotes)
 	old = NULL;
 	join = NULL;
 	counter = 0;
+	if (!quotes)
+		return (NULL);
 	while (counter < quotes->counter)
 	{
 		if (!old)
@@ -131,14 +124,14 @@ void	*ft_join_quotes(t_quotes *quotes)
 		if (!join)
 			return (NULL);
 		old = join;
-		join = ft_strjoin(old, quotes->inner_quotes[counter++]);
+		join = ft_strjoin(old, quotes->inner_quotes[counter]);
 		free(old);
 		if (!join)
 			return (NULL);
 		old = join;
+		counter++;
 	}
-	return (ft_join_quotes_last_unquote(quotes, join, old));
-	/*old = join;
+	old = join;
 	if (!quotes->last_unquote)
 		return (join);
 	if (!old)
@@ -146,8 +139,9 @@ void	*ft_join_quotes(t_quotes *quotes)
 	else
 		join = ft_strjoin(old, quotes->last_unquote);
 	free(old);
+	if (!join)
+		return (NULL);
 	return (join);
-	*/
 }
 
 void	*ft_expand_inside_quotes(t_quotes *quotes)
@@ -246,35 +240,30 @@ void	ft_unquote_quotes(t_btree **root)
 	if (!quotes)
 	{
 		content->token = ERROR;
-		free(lxr);
 		return ;
 	}
 	if (content->token != HDFILENAME && ft_expand_outside(quotes) == NULL)
 	{
-		free(lxr);
 		ft_destroy_quotes(&quotes);
 		content->token = ERROR;
 	}
 	str = ft_join_quotes(quotes);
 	if (str == NULL)
-	{
-		free(lxr);
+	{/*I should destroy quotes before this line*/
 		ft_destroy_quotes(&quotes);
 		content->token = ERROR;
 		return ;
-	}
+	}/*Maybe this could be another init_lxr*/
 	lxr->pos = 0;
 	lxr->counter = 0;
 	/*
-		ft_bzero(lxr, sizeof(t_lxr));
+	ft_bzero(lxr, sizeof(t_lxr));
 	*/
 	lxr->str = str;
 	if (ft_get_tokens(lxr) != SUCCESS)
 	{
-		free(str);
 		ft_destroy_quotes(&quotes);
 		content->token = ERROR;
-		free(lxr);
 		return ;
 	}
 	if (content->token == FILENAME || content->token == HDFILENAME)
@@ -285,13 +274,12 @@ void	ft_unquote_quotes(t_btree **root)
 			ft_lstiter((t_list *)lxr->btree, ft_set_hdfilename);
 		if (ft_lstsize((t_list *)lxr->btree) > 1)
 			ft_lstiter((t_list *)lxr->btree, ft_set_ambiguous);
-	}
+	}/* I should check than lxr->btree is not NULL if is NULL error is set an return*/
 	ft_btree_delone(root[0], ft_destroy_tkn);
 	root[0] = NULL;
 	*root = lxr->btree;
 	free(lxr);
 	free(str);
-	ft_destroy_quotes(&quotes);
 	if (!*root)
 		return ;
 	content = root[0]->content;
@@ -303,10 +291,10 @@ void	ft_unquote_quotes(t_btree **root)
 		content->token = ERROR;
 		return ;
 	}
+	ft_destroy_quotes(&quotes);
 	quotes = ft_init_quotes(lxr);
 	if (!quotes)
 	{
-		free(lxr);
 		content->token = ERROR;
 		return ;
 	}
@@ -334,12 +322,11 @@ void	ft_unquote_quotes(t_btree **root)
 	}
 	free(lxr->str);
 	content->value = str;
-	if (content->token != FILENAME && (!content->value || !*content->value))
-		ft_btree_delone(root[0], ft_destroy_tkn);
 	ft_destroy_quotes(&quotes);
 	free(lxr);
 	return ;
 }
+
 void	ft_unquote_quotes_regex(t_btree **root)
 {
 	t_lxr		*lxr;
@@ -362,19 +349,16 @@ void	ft_unquote_quotes_regex(t_btree **root)
 	if (!quotes)
 	{
 		content->token = ERROR;
-		free(lxr);
 		return ;
 	}
 	if (content->token != HDFILENAME && ft_expand_outside(quotes) == NULL)
 	{
-		free(lxr);
 		ft_destroy_quotes(&quotes);
 		content->token = ERROR;
 	}
 	str = ft_join_quotes(quotes);
 	if (str == NULL)
 	{
-		free(lxr);
 		ft_destroy_quotes(&quotes);
 		content->token = ERROR;
 		return ;
@@ -387,10 +371,14 @@ void	ft_unquote_quotes_regex(t_btree **root)
 	lxr->str = str;
 	if (ft_get_tokens(lxr) != SUCCESS)
 	{
-		free(str);
 		ft_destroy_quotes(&quotes);
 		content->token = ERROR;
-		free(lxr);
+		return ;
+	}
+	if (!str[0])
+	{
+		free(content->value);
+		content->value = str;
 		return ;
 	}
 	if (content->token == FILENAME || content->token == HDFILENAME)
@@ -422,7 +410,6 @@ void	ft_unquote_quotes_regex(t_btree **root)
 	quotes = ft_init_quotes(lxr);
 	if (!quotes)
 	{
-		free(lxr);
 		content->token = ERROR;
 		return ;
 	}
@@ -467,8 +454,6 @@ void	ft_unquote_quotes_regex(t_btree **root)
 	}
 	free(lxr->str);
 	content->value = str;
-	if (content->token != FILENAME && (!content->value || !*content->value))
-		ft_btree_delone(root[0], ft_destroy_tkn);
 	ft_destroy_quotes(&quotes);
 	free(lxr);
 	return ;
