@@ -6,7 +6,7 @@
 /*   By: alvjimen <alvjimen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/31 20:04:15 by alvjimen          #+#    #+#             */
-/*   Updated: 2023/04/17 19:30:05 by alvjimen         ###   ########.fr       */
+/*   Updated: 2023/04/18 13:55:45 by alvjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "lxr.h"
@@ -82,7 +82,6 @@ int	main(int argc, char *argv[])
 		ft_btree_clear(&lxr->btree, ft_destroy_tkn);
 		free(lxr);
 		free(str);
-		return (SUCCESS);
 	}
 	t_quotes	*quotes;
 	while (1)

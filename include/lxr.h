@@ -6,7 +6,7 @@
 /*   By: alvjimen <alvjimen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/28 18:36:15 by alvjimen          #+#    #+#             */
-/*   Updated: 2023/04/17 20:03:18 by alvjimen         ###   ########.fr       */
+/*   Updated: 2023/04/18 14:12:25 by alvjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -140,7 +140,7 @@ int			ft_tokens_assignment_word(void *ptr);
 char		**ft_get_array_words(t_btree **root);
 char		**ft_ls(char *str);
 void		ft_btree_apply_to_node_pointer_infix(t_btree **root,
-			void (*applyf)(void **));
+				void (*applyf)(void **));
 void		ft_operators_split_recursively(void **ptr);
 int			ft_syntax_analizer(t_btree *root, t_lxr *lxr);
 void		ft_unquote_quotes_recursively(void **ptr);
@@ -155,11 +155,11 @@ void		ft_set_ambiguous(void *content);
 char		**ft_regex_quotes(t_quotes *quotes);
 t_quotes	*ft_init_quotes(t_lxr *lxr);
 t_quotes	*ft_destroy_quotes(t_quotes **quotes);
-int	ft_regex_bash(char ***regex, char *matched, char *str);
+int			ft_regex_bash(char ***regex, char *matched, char *str);
 void		*ft_join_quotes(t_quotes *quotes);
 void		ft_unquote_quotes_regex_recursively(void **ptr);
-t_btree		*ft_btree_builder_regex(char	*str);
 char		**ft_regex_ls(t_quotes *quotes, char *str);
 void		ft_expand_vars_regex_unquote(t_btree **root);
 void		ft_print_btree(t_btree *root);
+void		ft_btree_destroy(t_btree **root);
 #endif
