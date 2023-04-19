@@ -6,7 +6,7 @@
 /*   By: alvjimen <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/01 19:18:10 by alvjimen          #+#    #+#             */
-/*   Updated: 2023/04/19 07:19:41 by alvjimen         ###   ########.fr       */
+/*   Updated: 2023/04/19 21:07:30 by alvjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "lxr.h"
@@ -219,115 +219,6 @@ int	ft_quotes_unquoting(t_quotes *quotes)
 }
 
 /*This function  should be called by ft_modify_root_conserve_branchs*/
-void	ft_unquote_quotes(t_btree **root)
-{
-	t_lxr		*lxr;
-	t_tkn		*content;
-	t_quotes	*quotes;
-	char		*str;
-
-	if (!root || !*root)
-		return ;
-	content = root[0]->content;
-	if (!content)
-		return ;
-	lxr = ft_init_lxr(content->value);
-	if (!lxr)
-	{
-		content->token = ERROR;
-		return ;
-	}
-	quotes = ft_init_quotes(lxr);
-	if (!quotes)
-	{
-		content->token = ERROR;
-		return ;
-	}
-	if (content->token != HDFILENAME && ft_expand_outside(quotes) == NULL)
-	{
-		ft_destroy_quotes(&quotes);
-		content->token = ERROR;
-	}
-	str = ft_join_quotes(quotes);
-	if (str == NULL)
-	{/*I should destroy quotes before this line*/
-		ft_destroy_quotes(&quotes);
-		content->token = ERROR;
-		return ;
-	}/*Maybe this could be another init_lxr*/
-	lxr->pos = 0;
-	lxr->counter = 0;
-	/*
-	ft_bzero(lxr, sizeof(t_lxr));
-	*/
-	lxr->str = str;
-	if (ft_get_tokens(lxr) != SUCCESS)
-	{
-		ft_destroy_quotes(&quotes);
-		content->token = ERROR;
-		return ;
-	}
-	if (content->token == FILENAME || content->token == HDFILENAME)
-	{
-		if (content->token == FILENAME)
-			ft_lstiter((t_list *)lxr->btree, ft_set_filename);
-		else if (content->token == HDFILENAME)
-			ft_lstiter((t_list *)lxr->btree, ft_set_hdfilename);
-		if (ft_lstsize((t_list *)lxr->btree) > 1)
-			ft_lstiter((t_list *)lxr->btree, ft_set_ambiguous);
-	}/* I should check than lxr->btree is not NULL if is NULL error is set an return*/
-	ft_btree_delone(root[0], ft_destroy_tkn);
-	root[0] = NULL;
-	*root = lxr->btree;
-	free(lxr);
-	free(str);
-	if (!*root)
-		return ;
-	content = root[0]->content;
-	if (!content)
-		return ;
-	lxr = ft_init_lxr(content->value);
-	if (!lxr)
-	{
-		content->token = ERROR;
-		return ;
-	}
-	ft_destroy_quotes(&quotes);
-	quotes = ft_init_quotes(lxr);
-	if (!quotes)
-	{
-		content->token = ERROR;
-		return ;
-	}
-	if (content->token != HDFILENAME && ft_expand_inside_quotes(quotes) == NULL)
-	{
-		content->token = ERROR;
-		ft_destroy_quotes(&quotes);
-		free(lxr);
-		return ;
-	}
-	if (ft_quotes_unquoting(quotes))
-	{
-		content->token = ERROR;
-		ft_destroy_quotes(&quotes);
-		free(lxr);
-		return ;
-	}
-	str = ft_join_quotes(quotes);
-	if (str == NULL)
-	{
-		ft_destroy_quotes(&quotes);
-		content->token = ERROR;
-		free(lxr);
-		return ;
-	}
-	free(lxr->str);
-	content->value = str;
-	ft_destroy_quotes(&quotes);
-	free(lxr);
-	return ;
-}
-
 void	ft_unquote_quotes_regex(t_btree **root)
 {
 	t_lxr		*lxr;
@@ -434,7 +325,7 @@ void	ft_unquote_quotes_regex(t_btree **root)
 			return ;
 		}
 		content->value = ft_strdup(content->regex[0]);
-		if (content->value)
+		if (!content->value)
 			content->token = ERROR;
 		return ;
 	}
@@ -458,18 +349,6 @@ void	ft_unquote_quotes_regex(t_btree **root)
 	ft_destroy_quotes(&quotes);
 	free(lxr);
 	return ;
-}
-
-void	ft_unquote_quotes_recursively(void **ptr)
-{
-	t_btree	**root;
-	t_tkn	*content;
-
-	root = (t_btree **)ptr;
-	content = root[0]->content;
-	if (!content)
-		return ;
-	ft_btree_modify_root_conserve_branchs(root, ft_unquote_quotes);
 }
 
 void	ft_unquote_quotes_regex_recursively(void **ptr)
