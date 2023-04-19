@@ -6,7 +6,7 @@
 /*   By: alvjimen <alvjimen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/26 17:26:06 by alvjimen          #+#    #+#             */
-/*   Updated: 2023/04/19 12:43:19 by alvjimen         ###   ########.fr       */
+/*   Updated: 2023/04/19 21:00:03 by alvjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "lxr.h"
@@ -133,9 +133,10 @@ int	ft_splitted_regex(char ***split, char *matched, char *regex)
 	len = 0;
 	matched_copy = matched;
 	if (!split || !*split || !matched || ((*regex == '.' && *matched != '.')
-		|| (*regex != '.' && *matched == '.')))
+			|| (*regex != '.' && *matched == '.')))
 		return (FAILURE);
-	if (*regex != '*' && !ft_start_notstar(&matched, split[0][counter], &counter))
+	if (*regex != '*'
+		&& !ft_start_notstar(&matched, split[0][counter], &counter))
 		return (FAILURE);
 	else if (*regex == '*' && ft_just_asterisk(split[0][counter]) == SUCCESS)
 		return (SUCCESS);
@@ -152,7 +153,6 @@ int	ft_regex_bash(char ***regex, char *matched, char *str)
 {
 	size_t	len_r;
 	size_t	len_m;
-	size_t	index_r;
 
 	if (!regex || !*regex || !matched)
 		return (FAILURE);
@@ -161,17 +161,20 @@ int	ft_regex_bash(char ***regex, char *matched, char *str)
 		len_m = ft_strlen(matched);
 		if (len_m > 0)
 			len_m -= 1;
-		index_r = ft_sarrsize(*regex);
+		/*
 		if (regex[0][0] == NULL)
 		{
-			len_r = ft_strlen(str);
-			if (len_r > 0)
-				len_r -= 1;
-			if ((str[len_r] != '/' && matched[len_m] != '/')
-					|| (str[len_r] == '/' && matched[len_m] == '/'))
-				return (SUCCESS);
-			return (FAILURE);
-		}/*This part is unnecesarry  and delete the if*/
+			*/
+		len_r = ft_strlen(str);
+		if (len_r > 0)
+			len_r -= 1;
+		if ((str[len_r] != '/' && matched[len_m] != '/')
+				|| (str[len_r] == '/' && matched[len_m] == '/'))
+			return (SUCCESS);
+		return (FAILURE);
+		/*
+		}*//*This part is unnecesarry  and delete the if*/
+		/*
 		len_r = ft_strlen(regex[0][index_r - 1]);
 		if (len_r > 0)
 			len_r -= 1;
@@ -180,6 +183,7 @@ int	ft_regex_bash(char ***regex, char *matched, char *str)
 		if ((regex[0][index_r - 1][len_r] != '/' && matched[len_m] != '/')
 			|| (regex[0][index_r - 1][len_r] == '/' && matched[len_m] == '/'))
 			return (SUCCESS);
+			*/
 	}
 	return (FAILURE);
 }
