@@ -6,7 +6,7 @@
 /*   By: alvjimen <alvjimen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/21 12:45:06 by alvjimen          #+#    #+#             */
-/*   Updated: 2023/04/19 19:42:43 by alvjimen         ###   ########.fr       */
+/*   Updated: 2023/04/19 19:48:33 by alvjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "lxr.h"
@@ -25,7 +25,6 @@ char	*ft_var_value(char **sarr, char *var_name)
 	var_name = NULL;
 	return (ft_strdup(""));
 }
-
 
 char	*ft_previous_var(t_lxr **lxr, char **name, char **value,
 		char **tmp)
@@ -163,17 +162,21 @@ void	ft_pointer_set_null(char **p1, char **p2, char **p3, char **p4)
 	*p4 = NULL;
 }
 
-char	*ft_vars_expansion_loop(t_lxr **lxr, char **name, char **value, char **tmp)
+char	*ft_vars_expansion_loop(t_lxr **lxr, char **name, char **value,
+		char **tmp)
 {
 	char	*aux;
 
 	while (lxr[0]->str[lxr[0]->pos])
 	{
-		if (lxr[0]->tokens.states != SQUOTES && lxr[0]->str[lxr[0]->pos] == '"')
+		if (lxr[0]->tokens.states != SQUOTES
+			&& lxr[0]->str[lxr[0]->pos] == '"')
 			lxr[0]->tokens.states ^= DQUOTES;
-		else if (lxr[0]->tokens.states != DQUOTES && lxr[0]->str[lxr[0]->pos] == '\'')
+		else if (lxr[0]->tokens.states != DQUOTES
+			&& lxr[0]->str[lxr[0]->pos] == '\'')
 			lxr[0]->tokens.states ^= SQUOTES;
-		else if (lxr[0]->tokens.states != SQUOTES && lxr[0]->str[lxr[0]->pos] == '$')
+		else if (lxr[0]->tokens.states != SQUOTES
+			&& lxr[0]->str[lxr[0]->pos] == '$')
 		{
 			aux = ft_dollar_expansion(lxr, name, value, tmp);
 			if (aux != lxr[0]->str)
