@@ -6,7 +6,7 @@
 /*   By: alvjimen <alvjimen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/28 18:09:54 by alvjimen          #+#    #+#             */
-/*   Updated: 2023/04/19 15:57:36 by alvjimen         ###   ########.fr       */
+/*   Updated: 2023/04/19 19:32:17 by alvjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "lxr.h"
@@ -17,6 +17,8 @@ t_lxr	*ft_init_lxr(char *s)
 {
 	t_lxr	*lxr;
 
+	if (!s)
+		return (NULL);
 	lxr = ft_calloc(1, sizeof(t_lxr));
 	if (!lxr)
 		return (NULL);

@@ -6,7 +6,7 @@
 /*   By: alvjimen <alvjimen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/21 12:45:06 by alvjimen          #+#    #+#             */
-/*   Updated: 2023/04/18 18:44:43 by alvjimen         ###   ########.fr       */
+/*   Updated: 2023/04/19 19:42:43 by alvjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "lxr.h"
@@ -147,6 +147,45 @@ char	*ft_dollar_expansion(t_lxr **lxr, char **name, char **value, char **tmp)
 	return (lxr[0]->str);
 }
 
+void	ft_pointer_set_null(char **p1, char **p2, char **p3, char **p4)
+{
+	if (!p1)
+		return ;
+	*p1 = NULL;
+	if (!p2)
+		return ;
+	*p2 = NULL;
+	if (!p3)
+		return ;
+	*p3 = NULL;
+	if (!p4)
+		return ;
+	*p4 = NULL;
+}
+
+char	*ft_vars_expansion_loop(t_lxr **lxr, char **name, char **value, char **tmp)
+{
+	char	*aux;
+
+	while (lxr[0]->str[lxr[0]->pos])
+	{
+		if (lxr[0]->tokens.states != SQUOTES && lxr[0]->str[lxr[0]->pos] == '"')
+			lxr[0]->tokens.states ^= DQUOTES;
+		else if (lxr[0]->tokens.states != DQUOTES && lxr[0]->str[lxr[0]->pos] == '\'')
+			lxr[0]->tokens.states ^= SQUOTES;
+		else if (lxr[0]->tokens.states != SQUOTES && lxr[0]->str[lxr[0]->pos] == '$')
+		{
+			aux = ft_dollar_expansion(lxr, name, value, tmp);
+			if (aux != lxr[0]->str)
+				return (aux);
+		}
+		lxr[0]->pos++;
+	}
+	*tmp = lxr[0]->str;
+	free(lxr[0]);
+	return (*tmp);
+}
+
 char	*ft_vars_expansion(char *str)
 {
 	t_lxr	*lxr;
@@ -155,30 +194,9 @@ char	*ft_vars_expansion(char *str)
 	char	*tmp;
 	char	*aux;
 
-	if (!str)
-		return (NULL);
-	tmp = NULL;
-	value = NULL;
-	aux = NULL;
-	name = NULL;
+	ft_pointer_set_null(&name, &value, &tmp, &aux);
 	lxr = ft_init_lxr(str);
 	if (!lxr)
 		return (NULL);
-	while (lxr->str[lxr->pos])
-	{
-		if (lxr->tokens.states != SQUOTES && lxr->str[lxr->pos] == '"')
-			lxr->tokens.states ^= DQUOTES;
-		else if (lxr->tokens.states != DQUOTES && lxr->str[lxr->pos] == '\'')
-			lxr->tokens.states ^= SQUOTES;
-		else if (lxr->tokens.states != SQUOTES && lxr->str[lxr->pos] == '$')
-		{
-			aux = ft_dollar_expansion(&lxr, &name, &value, &tmp);
-			if (aux != lxr->str)
-				return (aux);
-		}
-		lxr->pos++;
-	}
-	tmp = lxr->str;
-	free(lxr);
-	return (tmp);
+	return (ft_vars_expansion_loop(&lxr, &name, &value, &tmp));
 }
