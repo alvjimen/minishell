@@ -6,7 +6,7 @@
 /*   By: alvjimen <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/01 19:18:10 by alvjimen          #+#    #+#             */
-/*   Updated: 2023/04/18 19:20:26 by alvjimen         ###   ########.fr       */
+/*   Updated: 2023/04/19 07:19:41 by alvjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "lxr.h"
@@ -157,7 +157,8 @@ void	*ft_expand_inside_quotes(t_quotes *quotes)
 		str = ft_vars_expansion(quotes->inner_quotes[counter]);
 		if (!str)
 			return (NULL);
-		free(quotes->inner_quotes[counter]);
+		if (str != quotes->inner_quotes[counter])
+			free(quotes->inner_quotes[counter]);
 		quotes->inner_quotes[counter] = str;
 		counter++;
 	}
