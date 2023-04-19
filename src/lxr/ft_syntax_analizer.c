@@ -6,7 +6,7 @@
 /*   By: alvjimen <alvjimen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/20 14:03:33 by alvjimen          #+#    #+#             */
-/*   Updated: 2023/04/19 13:50:27 by alvjimen         ###   ########.fr       */
+/*   Updated: 2023/04/19 19:22:00 by alvjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "lxr.h"
@@ -43,6 +43,19 @@ int	ft_syntax_analizer_paren(t_btree *root, t_tkn *content, t_lxr *lxr)
 	return (ft_syntax_analizer_operator(root, content, lxr));
 }
 
+static int	ft_syntax_analizer_operator_intercmd(t_btree *root, t_tkn *content)
+{
+	if (!root->right)
+		return (FAILURE);
+	content = root->right->content;
+	if (!content || content->token == OPERATOR || content->token == PAREN)
+		return (FAILURE);
+	content->token = FILENAME;
+	if (((t_tkn *)(root->content))->operators == DLOWER)
+		content->token = HDFILENAME;
+	return (SUCCESS);
+}
+
 int	ft_syntax_analizer_operator(t_btree *root, t_tkn *content, t_lxr *lxr)
 {
 	if (content->token == OPERATOR && (content->operators == AND_IF
@@ -62,17 +75,7 @@ int	ft_syntax_analizer_operator(t_btree *root, t_tkn *content, t_lxr *lxr)
 	else if (content->token == OPERATOR && (content->operators == DGREATER
 			|| content->operators == GREATER || content->operators == LOWER
 			|| content->operators == DLOWER))
-	{
-		if (!root->right)
-			return (FAILURE);
-		content = root->right->content;
-		if (!content || content->token == OPERATOR || content->token == PAREN)
-			return (FAILURE);
-		content->token = FILENAME;
-		if (((t_tkn *)(root->content))->operators == DLOWER)
-			content->token = HDFILENAME;
-		return (SUCCESS);
-	}
+		return (ft_syntax_analizer_operator_intercmd(root, content));
 	return (NOT_TOKEN);
 }
 
