@@ -6,28 +6,28 @@
 /*   By: alvjimen <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/21 17:35:03 by alvjimen          #+#    #+#             */
-/*   Updated: 2023/04/19 20:22:53 by alvjimen         ###   ########.fr       */
+/*   Updated: 2023/04/19 20:23:52 by alvjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "lxr.h"
 /*
 	ft_loop
 */
-char	**ft_close_ls(DIR *dir)
+static char	**ft_close_ls(DIR *dir)
 {
 	if (closedir(dir) == -1)
 		perror("closedir");
 	return (NULL);
 }
 
-char	**ft_error_handle(char **sarr, DIR *dir)
+static char	**ft_error_handle(char **sarr, DIR *dir)
 {
 	ft_sarrfree(&sarr);
 	perror("readdir");
 	return (ft_close_ls(dir));
 }
 
-char	**ft_add_slash_dir(struct dirent *file, char **files, DIR *dir)
+static char	**ft_add_slash_dir(struct dirent *file, char **files, DIR *dir)
 {
 	char	*str;
 
@@ -52,7 +52,7 @@ char	**ft_add_slash_dir(struct dirent *file, char **files, DIR *dir)
 	return (files);
 }
 
-char	**ft_loop(DIR	*dir, struct dirent *file)
+static char	**ft_loop(DIR	*dir, struct dirent *file)
 {
 	char	**files;
 
