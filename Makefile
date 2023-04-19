@@ -6,7 +6,7 @@
 #    By: alvjimen <alvjimen@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/01/31 19:37:18 by alvjimen          #+#    #+#              #
-#    Updated: 2023/04/18 13:41:49 by alvjimen         ###   ########.fr        #
+#    Updated: 2023/04/19 12:01:16 by alvjimen         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -125,7 +125,6 @@ SRC-LIB_ADD			:=	ft_split\
 						$(SRC-LST)
 						
 SRC-TST				:=	test
-SRC-TST1			:=	test1
 
 SRC-BTREE			:=	ft_btree_apply_by_level\
 						ft_btree_apply_infix\
@@ -151,7 +150,6 @@ DIR-BTREE			:=	btree/
 SRC-LXR				:=	$(SRC-LXR:%=$(DIR-LXR)%)
 SRC-LIB_ADD			:=	$(SRC-LIB_ADD:%=$(DIR-LIB_ADD)%)
 SRC-TST				:=	$(SRC-TST:%=$(DIR-TST)%)
-SRC-TST1			:=	$(SRC-TST1:%=$(DIR-TST)%)
 SRC-BTREE			:=	$(SRC-BTREE:%=$(DIR-BTREE)%)
 
 SRC					:=	$(SRC-LXR) $(SRC-LIB_ADD) $(SRC-BTREE)
@@ -159,10 +157,10 @@ SRC					:=	$(SRC-LXR) $(SRC-LIB_ADD) $(SRC-BTREE)
 INC					:=	./include/
 BUILD-DIR			:=	./.build/
 CC					:=	clang
-CFLAGS				:=	-Wall -Werror -Wextra -g3 -std=c89 #-pedantic -fsanitize=undefined -fsanitize=address #-O2
+CFLAGS				:=	-Wall -Werror -Wextra -g3 -std=c89 -pedantic\
+						-fsanitize=undefined -fsanitize=address #-O2
 BUILD				:=	$(addprefix $(BUILD-DIR), $(addsuffix .o, $(SRC)))
 BUILD-TST			:=	$(addprefix $(BUILD-DIR), $(addsuffix .o, $(SRC-TST)))
-BUILD-TST1			:=	$(addprefix $(BUILD-DIR), $(addsuffix .o, $(SRC-TST1)))
 DEPS				:=	$(BUILD:.o=.d)
 PPFLAGS				:=	-MMD -MP -I $(INC) -I $(INCS)
 #LDFLAGS			:=	-L $(LIBFT-DIR)
@@ -185,19 +183,20 @@ $(BUILD-DIR)%.o: $(DIR-SRC)%.c
 
 clean:
 	@$(RM) $(BUILD-DIR)
+	$(END-RULE)
 
 fclean:	 clean
 	@$(RM) $(NAME)
+	$(END-RULE)
 
 re:	fclean	all
+	$(END-RULE)
 
 
 test:	$(NAME) $(BUILD-TST)
 	@$(CC) $(CFLAGS) -o test -I $(INC) -lreadline $(BUILD-TST) $(NAME)
+	$(END-RULE)
 #@$(MAKE) fclean
-
-test1:	$(NAME) $(BUILD-TST1)
-	@$(CC) $(CFLAGS) -o test1 -I $(INC) -lreadline $(BUILD-TST1) $(NAME)
 
 info-%:
 	@$(MAKE) --dry-run --always-make $* | grep -v "info"

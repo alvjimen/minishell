@@ -6,13 +6,12 @@
 /*   By: jvasquez <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/20 16:25:29 by jvasquez          #+#    #+#             */
-/*   Updated: 2023/01/20 16:25:32 by jvasquez         ###   ########.fr       */
+/*   Updated: 2023/04/19 12:05:00 by alvjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-//Return the array dimention
 int	ft_sarrsize(char **arr)
 {
 	int	size;

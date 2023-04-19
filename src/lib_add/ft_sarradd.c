@@ -6,13 +6,12 @@
 /*   By: jvasquez <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/20 16:41:24 by jvasquez          #+#    #+#             */
-/*   Updated: 2023/04/09 20:46:55 by alvjimen         ###   ########.fr       */
+/*   Updated: 2023/04/19 12:02:54 by alvjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-//Adds an item to a string array
 char	**ft_sarradd(char **arr, char *string)
 {
 	int		size;
@@ -20,8 +19,7 @@ char	**ft_sarradd(char **arr, char *string)
 
 	if (!string)
 		return (arr);
-	size = ft_sarrsize(arr) + 2;
-	new_arr = malloc(sizeof(char *) * (size));
+	new_arr = malloc(sizeof(char *) * (ft_sarrsize(arr) + 2));
 	if (!new_arr)
 	{
 		ft_sarrfree(&arr);

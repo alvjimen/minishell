@@ -6,7 +6,7 @@
 /*   By: alvjimen <alvjimen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/26 17:26:06 by alvjimen          #+#    #+#             */
-/*   Updated: 2023/04/16 07:43:45 by alvjimen         ###   ########.fr       */
+/*   Updated: 2023/04/19 12:43:19 by alvjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "lxr.h"
@@ -340,14 +340,17 @@ char	**ft_wordsplit_join(char **old, char *str, char **regex)
 	}
 	else
 	{
-		*old = ft_strdup(words[counter]);
-		if (!*old)
+		if (words[counter])
 		{
-			ft_sarrfree(&regex);
-			ft_sarrfree(&words);
-			free(join);
-			join = NULL;
-			return (NULL);
+			*old = ft_strdup(words[counter]);
+			if (!*old)
+			{
+				ft_sarrfree(&regex);
+				ft_sarrfree(&words);
+				free(join);
+				join = NULL;
+				return (NULL);
+			}	
 		}
 		regex = ft_sarradd(regex, *old);
 		free(*old);

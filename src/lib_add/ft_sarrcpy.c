@@ -6,13 +6,12 @@
 /*   By: jvasquez <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/20 16:21:10 by jvasquez          #+#    #+#             */
-/*   Updated: 2023/04/05 11:34:28 by alvjimen         ###   ########.fr       */
+/*   Updated: 2023/04/19 12:04:09 by alvjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-//Copy one string array
 char	**ft_sarrcpy(char **arr)
 {
 	int		i;

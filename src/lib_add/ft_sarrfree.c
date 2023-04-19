@@ -6,13 +6,12 @@
 /*   By: jvasquez <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/20 16:48:58 by jvasquez          #+#    #+#             */
-/*   Updated: 2023/01/20 16:49:00 by jvasquez         ###   ########.fr       */
+/*   Updated: 2023/04/19 12:04:18 by alvjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-//Free one string array
 void	ft_sarrfree(char ***arr)
 {
 	int	i;
