@@ -1,6 +1,7 @@
+printing$
 Token ASSIGNMENT_WORD:$
 a=a$
-Token ASSIGNMENT_WORD:$
+str$
+a=a$
 b=b$
-Token ASSIGNMENT_WORD:$
 c=c$

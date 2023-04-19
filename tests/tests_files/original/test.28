@@ -1,2 +1,5 @@
+printing$
 Token WORD:$
-"A		 |    B"$
+A		 |    B$
+str$
+A		 |    B$

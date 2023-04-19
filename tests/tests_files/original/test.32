@@ -1,2 +1,12 @@
+Token WORD:$
+hola$
 Token PAREN:$
-(hola (a))$
+(a)$
+Token WORD:$
+a$
+printing$
+Token WORD:$
+hola$
+str$
+hola$
+a$

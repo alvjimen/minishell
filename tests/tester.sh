@@ -60,6 +60,10 @@ test_syntax=(
 	"()"
 )
 
+test_regex=(
+	"\"e\"*"
+)
+
 function check_files()
 {
 	local	ok=0;
@@ -119,6 +123,11 @@ do
 check_files "$name"
 done
 yellow_text "Syntax analyzer"
+for name in "${test_syntax[@]}"
+do
+check_files "$name"
+done
+yellow_text "Regex"
 for name in "${test_syntax[@]}"
 do
 check_files "$name"

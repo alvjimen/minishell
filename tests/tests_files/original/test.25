@@ -1,10 +1,9 @@
+printing$
 Token WORD:$
-a"hola"a$
-Token WORD:$
+aholaa$
+str$
+aholaa$
 Bien$
-Token WORD:$
 Gracias$
-Token WORD:$
 por$
-Token WORD:$
 preguntar$

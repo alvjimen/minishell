@@ -1,2 +1,5 @@
+printing$
 Token ASSIGNMENT_WORD:$
-a+="hola que tal  esta todo"$
+a+=hola que tal  esta todo$
+str$
+a+=hola que tal  esta todo$

@@ -6,7 +6,7 @@
 /*   By: alvjimen <alvjimen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/28 18:36:15 by alvjimen          #+#    #+#             */
-/*   Updated: 2023/04/18 14:12:25 by alvjimen         ###   ########.fr       */
+/*   Updated: 2023/04/19 13:49:32 by alvjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@ typedef enum e_tokens
 	PARENTHESIS,
 	OPERATOR,
 	ERROR,
+	SYNTAX_ERROR,
 	AMBIGUOUS
 }	t_tokens;
 

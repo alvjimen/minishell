@@ -1,2 +1,7 @@
-Token PAREN:$
-(a)$
+Token WORD:$
+a$
+printing$
+Token WORD:$
+a$
+str$
+a$

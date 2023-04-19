@@ -1,5 +1,10 @@
+printing$
 Token ASSIGNMENT_WORD:$
+a=echo$
+str$
 a=echo$
 |$
 Token WORD:$
+cat$
+str$
 cat$

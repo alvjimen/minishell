@@ -6,7 +6,7 @@
 #    By: alvjimen <alvjimen@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/01/31 19:37:18 by alvjimen          #+#    #+#              #
-#    Updated: 2023/04/19 12:01:16 by alvjimen         ###   ########.fr        #
+#    Updated: 2023/04/19 13:42:28 by alvjimen         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -34,7 +34,7 @@ END					:=	m
 
 # UTENSILS
 SHELL				:=	/bin/sh
-NAME				:=	mini_shell
+NAME				:=	mini_shell.a
 RM					:=	rm -rf
 # @D take the part of the directory
 DIR_DUP				=	mkdir -p $(@D)
@@ -158,7 +158,7 @@ INC					:=	./include/
 BUILD-DIR			:=	./.build/
 CC					:=	clang
 CFLAGS				:=	-Wall -Werror -Wextra -g3 -std=c89 -pedantic\
-						-fsanitize=undefined -fsanitize=address #-O2
+						#-fsanitize=undefined -fsanitize=address #-O2
 BUILD				:=	$(addprefix $(BUILD-DIR), $(addsuffix .o, $(SRC)))
 BUILD-TST			:=	$(addprefix $(BUILD-DIR), $(addsuffix .o, $(SRC-TST)))
 DEPS				:=	$(BUILD:.o=.d)
@@ -186,7 +186,7 @@ clean:
 	$(END-RULE)
 
 fclean:	 clean
-	@$(RM) $(NAME)
+	@$(RM) $(NAME) test
 	$(END-RULE)
 
 re:	fclean	all
@@ -196,7 +196,7 @@ re:	fclean	all
 test:	$(NAME) $(BUILD-TST)
 	@$(CC) $(CFLAGS) -o test -I $(INC) -lreadline $(BUILD-TST) $(NAME)
 	$(END-RULE)
-#@$(MAKE) fclean
+
 
 info-%:
 	@$(MAKE) --dry-run --always-make $* | grep -v "info"
@@ -204,10 +204,7 @@ info-%:
 print-%:
 	@$(info '$*'='$($*)')
 
-TEST-DIR	=	tests
 tests: test
 	@tests/tester.sh
 
-tester: test
-	@tests/tester.sh 1
 .PHONY: all clean fclean re tester tests info-% print-% 

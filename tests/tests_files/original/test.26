@@ -1,4 +1,6 @@
+printing$
 Token WORD:$
-a"ho"'adios'a$
-Token WORD:$
+ahoadiosa$
+str$
+ahoadiosa$
 word$
