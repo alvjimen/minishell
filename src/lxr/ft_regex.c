@@ -6,7 +6,7 @@
 /*   By: alvjimen <alvjimen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/26 17:26:06 by alvjimen          #+#    #+#             */
-/*   Updated: 2023/04/20 19:01:27 by alvjimen         ###   ########.fr       */
+/*   Updated: 2023/04/20 19:09:38 by alvjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "lxr.h"
@@ -444,6 +444,22 @@ char	**ft_regex_quotes_loop(t_quotes *quote, char ***regex, char **old, size_t *
 	return (*regex);
 }
 
+char	**ft_check_post_loop(t_quotes *quote, char ***regex, char **old, size_t counter)
+{
+	if (!quote->last_unquote)
+	{
+		*regex = ft_sarradd(*regex, *old);
+		free(*old);
+		return (*regex);
+	}
+	if (!*old && counter)
+	{
+		ft_sarrfree(regex);
+		return (NULL);
+	}
+	return ((char **)quote);
+}
+
 char	**ft_regex_quotes(t_quotes *quote)
 {
 	char	**regex;
@@ -463,17 +479,9 @@ char	**ft_regex_quotes(t_quotes *quote)
 	ft_regex_quotes_loop(quote, &regex, &old, &counter);
 	/*End loop */
 	/*Start ft_check_post_loop*/
-	if (!quote->last_unquote)
-	{
-		regex = ft_sarradd(regex, old);
-		free(old);
-		return (regex);
-	}
-	if (!old && counter)
-	{
-		ft_sarrfree(&regex);
-		return (NULL);
-	}
+	join = (char *)ft_check_post_loop(quote, &regex, &old, counter);
+	if (join != (char *)quote)
+		return ((char **)join);
 	/*End ft_check_post_loop*/
 	/*Start adding last quote*/
 	join = old;
