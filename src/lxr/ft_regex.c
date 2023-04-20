@@ -6,7 +6,7 @@
 /*   By: alvjimen <alvjimen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/26 17:26:06 by alvjimen          #+#    #+#             */
-/*   Updated: 2023/04/20 12:40:25 by alvjimen         ###   ########.fr       */
+/*   Updated: 2023/04/20 13:15:06 by alvjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "lxr.h"
@@ -261,6 +261,46 @@ char	**ft_wordsplit_join_checks_error(char **regex, char **old)
 	return (NULL);
 }
 
+char	**ft_wordsplit_join_first_regex_error(char **regex, char **words, int flag)
+{
+	if (flag > 1)
+		ft_sarrfree(&regex);
+	if (flag > 0)
+		ft_sarrfree(&words);
+	return (NULL);
+}
+
+char	**ft_wordsplit_join_first_regex_star(char **regex, char **old,
+		char **words)
+{
+	regex = ft_sarradd(regex, *old);
+	free(*old);
+	*old = NULL;
+	if (!regex)
+		return (ft_wordsplit_join_first_regex_error(regex, words, 1));
+	return (regex);
+}
+
+char	**ft_wordsplit_join_first_regex(char **regex, char **old, char **words,
+		size_t *counter)
+{
+	char	*join;
+
+	if (old && *old)
+		join = ft_strjoin(*old, words[counter[0]++]);
+	else
+		join = ft_strjoin("", words[counter[0]++]);
+	free(*old);
+	*old = NULL;
+	if (!join)
+		return (ft_wordsplit_join_first_regex_error(regex, words, 2));
+	regex = ft_sarradd(regex, join);
+	free(join);
+	if (!regex)
+		ft_sarrfree(&words);
+	return (regex);
+}
+
 char	**ft_wordsplit_join(char **old, char *str, char **regex)
 {
 	char	**words;
@@ -278,12 +318,19 @@ char	**ft_wordsplit_join(char **old, char *str, char **regex)
 	/*End the check part*/
 	/*Start first regex*/
 	if (*str == '*')
+		regex = ft_wordsplit_join_first_regex_star(regex, old, words);
+	else
+		regex = ft_wordsplit_join_first_regex(regex, old, words, &counter);
+	if (!regex)
+		return (regex);
+	/*
+	if (*str == '*')
 	{
 		regex = ft_sarradd(regex, *old);
 		free(*old);
 		*old = NULL;
 		if (!regex)
-		{/*ft_error_first_regex*/
+		{ft_error_first_regex
 			ft_sarrfree(&words);
 			return (NULL);
 		}
@@ -297,7 +344,7 @@ char	**ft_wordsplit_join(char **old, char *str, char **regex)
 		free(*old);
 		*old = NULL;
 		if (!join)
-		{/*ft_error_first_regex*/
+		{ft_error_first_regex
 			ft_sarrfree(&regex);
 			ft_sarrfree(&words);
 			return (NULL);
@@ -310,6 +357,7 @@ char	**ft_wordsplit_join(char **old, char *str, char **regex)
 			return (NULL);
 		}
 	}
+	*/
 	/*End first regex*/
 	while (words[counter] && words[counter + 1])
 	{
