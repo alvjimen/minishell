@@ -6,7 +6,7 @@
 /*   By: alvjimen <alvjimen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/26 17:26:06 by alvjimen          #+#    #+#             */
-/*   Updated: 2023/04/20 11:21:24 by alvjimen         ###   ########.fr       */
+/*   Updated: 2023/04/20 11:44:38 by alvjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "lxr.h"
@@ -102,7 +102,7 @@ int	ft_regex_first(char **matched, char *regex, char *split, size_t *counter)
 		return (SUCCESS);
 	return (NOT_TOKEN);
 }
-/*need to calculate the len of the split*/
+
 int	ft_regex(char *regex, char *matched)
 {
 	size_t	len;
@@ -179,6 +179,25 @@ int	ft_regex_bash(char ***regex, char *matched, char *str)
 	return (FAILURE);
 }
 
+char	**ft_regex_fail(t_quotes *quotes, char *str, char ***ls)
+{/*when regex fail*/
+	str = ft_join_quotes(quotes);
+	if (!str)
+	{
+		ft_sarrfree(ls);
+		ft_destroy_quotes(&quotes);
+		return (NULL);
+	}
+	*ls = ft_sarradd(*ls, str);
+	free(str);
+	if (!*ls)
+	{
+		ft_destroy_quotes(&quotes);
+		return (NULL);
+	}
+	return (*ls);
+}
+
 char	**ft_regex_ls(t_quotes *quotes, char *str)
 {
 	char	**ls;
@@ -218,25 +237,8 @@ char	**ft_regex_ls(t_quotes *quotes, char *str)
 		}
 	}
 	ft_sarrfree(&regex);
-	if (ls && !ls[0])
-	{
-		str = ft_join_quotes(quotes);
-		if (!str)
-		{
-			ft_sarrfree(&ls);
-			ft_sarrfree(&regex);
-			ft_destroy_quotes(&quotes);
-			return (NULL);
-		}
-		ls = ft_sarradd(ls, str);
-		if (!ls)
-		{
-			ft_sarrfree(&regex);
-			ft_destroy_quotes(&quotes);
-			return (NULL);
-		}
-	}
-	ft_sarrfree(&regex);
+	if (ls && !ls[0] && ft_regex_fail(quotes, str, &ls) == NULL)
+		return (NULL);
 	return (ls);
 }
 /*
