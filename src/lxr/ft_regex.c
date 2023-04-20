@@ -6,7 +6,7 @@
 /*   By: alvjimen <alvjimen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/26 17:26:06 by alvjimen          #+#    #+#             */
-/*   Updated: 2023/04/20 18:50:12 by alvjimen         ###   ########.fr       */
+/*   Updated: 2023/04/20 19:01:27 by alvjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "lxr.h"
@@ -418,6 +418,32 @@ void	ft_regex_quotes_loop_last_step(char **join, char **old,
 	counter[0]++;
 }
 
+char	**ft_regex_quotes_loop(t_quotes *quote, char ***regex, char **old, size_t *counter)
+{
+	char *join;
+
+	join = NULL;
+	while (*counter < quote->counter)
+	{
+		if (ft_strchr(quote->prev_quotes[*counter], '*'))
+		{
+			*regex = ft_wordsplit_join(old, quote->prev_quotes[*counter], *regex);
+			if (!*regex)
+				return (NULL);
+		}
+		else
+		{
+			ft_join_(*old, quote->prev_quotes[*counter], &join);
+			if (!join)
+				return (NULL);
+		}
+		ft_regex_quotes_loop_last_step(&join, old, quote->inner_quotes[*counter], counter);
+		if (!join)
+			return (NULL);
+	}
+	return (*regex);
+}
+
 char	**ft_regex_quotes(t_quotes *quote)
 {
 	char	**regex;
@@ -433,50 +459,24 @@ char	**ft_regex_quotes(t_quotes *quote)
 	if (ft_regex_quotes_check(quote, &quoted_last) == NULL)
 		return (NULL);
 	/*End checks*/
-	/*Start loop*/
-	while (counter < quote->counter)
-	{
-		if (ft_strchr(quote->prev_quotes[counter], '*'))
-		{
-			regex = ft_wordsplit_join(&old, quote->prev_quotes[counter], regex);
-			if (!regex)
-				return (NULL);
-		}
-		else
-		{
-			ft_join_(old, quote->prev_quotes[counter], &join);
-			if (!join)
-				return (NULL);
-		}
-		ft_regex_quotes_loop_last_step(&join, &old, quote->inner_quotes[counter], &counter);
-		if (!join)
-			return (NULL);
-		/*
-		old = join;
-		ft_join_(old, quote->inner_quotes[counter], &join);
-		free(old);
-		if (!join)
-			return (NULL);
-		old = join;
-		counter++;
-		*/
-	}
+	/*Start loop */
+	ft_regex_quotes_loop(quote, &regex, &old, &counter);
 	/*End loop */
 	/*Start ft_check_post_loop*/
 	if (!quote->last_unquote)
 	{
-		regex = ft_sarradd(regex, join);
-		free(join);
+		regex = ft_sarradd(regex, old);
+		free(old);
 		return (regex);
 	}
-	if (!join && counter)
+	if (!old && counter)
 	{
 		ft_sarrfree(&regex);
 		return (NULL);
 	}
 	/*End ft_check_post_loop*/
 	/*Start adding last quote*/
-	old = join;
+	join = old;
 	if (quoted_last && ft_strchr(quote->last_unquote, '*'))
 		regex = ft_wordsplit_join(&old, quote->last_unquote, regex);
 	else
