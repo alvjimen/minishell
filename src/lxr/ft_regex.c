@@ -6,7 +6,7 @@
 /*   By: alvjimen <alvjimen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/26 17:26:06 by alvjimen          #+#    #+#             */
-/*   Updated: 2023/04/19 21:09:10 by alvjimen         ###   ########.fr       */
+/*   Updated: 2023/04/20 11:21:24 by alvjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "lxr.h"
@@ -94,6 +94,14 @@ int	ft_clean_exit(char ***split, int value)
 	return (value);
 }
 
+int	ft_regex_first(char **matched, char *regex, char *split, size_t *counter)
+{
+	if (*regex != '*' && !ft_start_notstar(matched, split, counter))
+		return (FAILURE);
+	else if (*regex == '*' && ft_just_asterisk(regex) == SUCCESS)
+		return (SUCCESS);
+	return (NOT_TOKEN);
+}
 /*need to calculate the len of the split*/
 int	ft_regex(char *regex, char *matched)
 {
@@ -110,15 +118,15 @@ int	ft_regex(char *regex, char *matched)
 	split = ft_split(regex, '*');
 	if (!split)
 		return (FAILURE);
-	if (*regex != '*' && !ft_start_notstar(&matched, split[counter], &counter))
+	if (ft_regex_first(&matched, regex, split[counter], &counter) == FAILURE)
 		return (FAILURE);
-	else if (*regex == '*' && ft_just_asterisk(regex) == SUCCESS)
-		return (SUCCESS);
 	matched = ft_interstar(split, &counter, matched);
 	if (!matched)
 		return (FAILURE);
 	len = ft_strlen(regex);
-	if (regex[len - 1] == '*')
+	if (len > 0)
+		len--;
+	if (regex[len] == '*')
 		return (ft_end_star(matched, split[counter], split) == FAILURE);
 	return (ft_end_notstar(matched, split[counter], &split, matched_copy));
 }
