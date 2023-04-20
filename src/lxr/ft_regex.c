@@ -6,7 +6,7 @@
 /*   By: alvjimen <alvjimen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/26 17:26:06 by alvjimen          #+#    #+#             */
-/*   Updated: 2023/04/20 18:34:39 by alvjimen         ###   ########.fr       */
+/*   Updated: 2023/04/20 18:50:12 by alvjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "lxr.h"
@@ -392,6 +392,7 @@ char	**ft_regex_quotes_check(t_quotes *quote, int *quoted_last)
 		return (NULL);
 	return ((char **)quote);
 }
+
 void	ft_join_(char *old, char *str, char **join)
 {
 	if (!old)
@@ -405,6 +406,17 @@ void	*ft_regex_quotes_loop_prev_quotes(t_quotes *quote, char **old,
 {
 }
 */
+void	ft_regex_quotes_loop_last_step(char **join, char **old,
+		char *str, size_t *counter)
+{
+	*old = *join;
+	ft_join_(*old, str, join);
+	free(*old);
+	if (!*join)
+		return ;
+	*old = *join;
+	counter[0]++;
+}
 
 char	**ft_regex_quotes(t_quotes *quote)
 {
@@ -433,26 +445,21 @@ char	**ft_regex_quotes(t_quotes *quote)
 		else
 		{
 			ft_join_(old, quote->prev_quotes[counter], &join);
-			/*
-			if (!old)
-				join = ft_strjoin("", quote->prev_quotes[counter]);
-			else
-				join = ft_strjoin(old, quote->prev_quotes[counter]);
-			free(old);
-			*/
 			if (!join)
 				return (NULL);
 		}
+		ft_regex_quotes_loop_last_step(&join, &old, quote->inner_quotes[counter], &counter);
+		if (!join)
+			return (NULL);
+		/*
 		old = join;
-		if (!old)
-			join = ft_strjoin("", quote->inner_quotes[counter]);
-		else
-			join = ft_strjoin(old, quote->inner_quotes[counter]);
+		ft_join_(old, quote->inner_quotes[counter], &join);
 		free(old);
 		if (!join)
 			return (NULL);
 		old = join;
 		counter++;
+		*/
 	}
 	/*End loop */
 	/*Start ft_check_post_loop*/
