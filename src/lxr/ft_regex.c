@@ -6,7 +6,7 @@
 /*   By: alvjimen <alvjimen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/26 17:26:06 by alvjimen          #+#    #+#             */
-/*   Updated: 2023/04/20 19:09:38 by alvjimen         ###   ########.fr       */
+/*   Updated: 2023/04/20 19:36:33 by alvjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "lxr.h"
@@ -460,6 +460,32 @@ char	**ft_check_post_loop(t_quotes *quote, char ***regex, char **old, size_t cou
 	return ((char **)quote);
 }
 
+char	**ft_regex_quotes_last_unquote(int quoted_last, t_quotes *quote, char ***regex, char **old)
+{
+	char	*join;
+
+	join = NULL;
+	if (quoted_last && ft_strchr(quote->last_unquote, '*'))
+		*regex = ft_wordsplit_join(old, quote->last_unquote, *regex);
+	else
+	{
+		/*ft_join_(*old, quote->prev_quotes[*counter], &join);*/
+		if (!*old)
+			join = ft_strjoin("", quote->last_unquote);
+		else
+			join = ft_strjoin(*old, quote->last_unquote);
+		free(*old);
+		if (!join)
+		{
+			ft_sarrfree(regex);
+			return (NULL);
+		}
+		*regex = ft_sarradd(*regex, join);
+		free(join);
+	}
+	return (*regex);
+}
+
 char	**ft_regex_quotes(t_quotes *quote)
 {
 	char	**regex;
@@ -484,7 +510,11 @@ char	**ft_regex_quotes(t_quotes *quote)
 		return ((char **)join);
 	/*End ft_check_post_loop*/
 	/*Start adding last quote*/
-	join = old;
+	/*join = old;*/
+	join = (char *)ft_regex_quotes_last_unquote(quoted_last, quote, &regex, &old);
+	if (!join)
+		return ((char **)join);
+	/*
 	if (quoted_last && ft_strchr(quote->last_unquote, '*'))
 		regex = ft_wordsplit_join(&old, quote->last_unquote, regex);
 	else
@@ -502,6 +532,7 @@ char	**ft_regex_quotes(t_quotes *quote)
 		regex = ft_sarradd(regex, join);
 		free(join);
 	}
+	*/
 	/*End adding last quote*/
 	return (regex);
 }
