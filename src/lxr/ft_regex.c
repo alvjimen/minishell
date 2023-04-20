@@ -6,7 +6,7 @@
 /*   By: alvjimen <alvjimen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/26 17:26:06 by alvjimen          #+#    #+#             */
-/*   Updated: 2023/04/20 17:45:01 by alvjimen         ###   ########.fr       */
+/*   Updated: 2023/04/20 17:47:13 by alvjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "lxr.h"
@@ -404,14 +404,8 @@ char	**ft_regex_quotes(t_quotes *quote)
 	if (!quote)
 		return (NULL);
 	/*Start checks*/
-	/*old = NULL;
-	join = NULL;
-	regex = NULL;
-	counter = 0;
-	*/
 	ft_regex_quotes_set(&old, &join, &regex, &counter);
-	quoted_last = !ft_char_quotes(quote->last_unquote[0]);
-	if (ft_quotes_unquoting(quote) == FAILURE)
+	if (ft_regex_quotes_check(quote, &quoted_last) == NULL)
 		return (NULL);
 	/*End checks*/
 	while (counter < quote->counter)
