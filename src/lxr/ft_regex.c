@@ -6,7 +6,7 @@
 /*   By: alvjimen <alvjimen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/26 17:26:06 by alvjimen          #+#    #+#             */
-/*   Updated: 2023/04/20 11:44:38 by alvjimen         ###   ########.fr       */
+/*   Updated: 2023/04/20 12:40:25 by alvjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "lxr.h"
@@ -198,6 +198,38 @@ char	**ft_regex_fail(t_quotes *quotes, char *str, char ***ls)
 	return (*ls);
 }
 
+void	*ft_regex_clean_ls(char ***ls, char ***regex, char *str,
+		t_quotes *quotes)
+{
+	size_t	index;
+
+	index = 0;
+	while (ls[0][index])
+	{
+		if (ft_regex_bash(regex, ls[0][index], str) == SUCCESS)
+			index++;
+		else
+		{
+			ls[0] = ft_sarrrmi(index, ls[0]);
+			if (ls[0] && regex[0])
+				continue ;
+			ft_sarrfree(regex);
+			ft_destroy_quotes(&quotes);
+			return (NULL);
+		}
+	}
+	return (*ls);
+}
+
+char	**ft_return_regex_ls(char ***ls, char ***regex, int flag)
+{
+	if (flag > 0)
+		ft_sarrfree(ls);
+	if (flag > 1)
+		ft_sarrfree(regex);
+	return (NULL);
+}
+
 char	**ft_regex_ls(t_quotes *quotes, char *str)
 {
 	char	**ls;
@@ -211,86 +243,47 @@ char	**ft_regex_ls(t_quotes *quotes, char *str)
 		return (NULL);
 	regex = ft_regex_quotes(quotes);
 	if (!regex)
-	{
-		ft_sarrfree(&ls);
-		return (NULL);
-	}
+		return (ft_return_regex_ls(&ls, &regex, 1));
 	if (ft_quotes_unquoting(quotes) == FAILURE)
-	{
-		ft_sarrfree(&ls);
-		ft_sarrfree(&regex);
+		return (ft_return_regex_ls(&ls, &regex, 1));
+	if (ft_regex_clean_ls(&ls, &regex, str, quotes) == NULL)
 		return (NULL);
-	}
-	index = 0;
-	while (ls[index])
-	{
-		if (ft_regex_bash(&regex, ls[index], str) == SUCCESS)
-			index++;
-		else
-		{
-			ls = ft_sarrrmi(index, ls);
-			if (ls && regex)
-				continue ;
-			ft_sarrfree(&regex);
-			ft_destroy_quotes(&quotes);
-			return (NULL);
-		}
-	}
 	ft_sarrfree(&regex);
-	if (ls && !ls[0] && ft_regex_fail(quotes, str, &ls) == NULL)
-		return (NULL);
+	if (ls && !ls[0])
+		return (ft_regex_fail(quotes, str, &ls));
 	return (ls);
 }
-/*
-if (ls && !ls[0])
+
+char	**ft_wordsplit_join_checks_error(char **regex, char **old)
 {
-	str = ft_join_quotes(quotes);
-	if (str)
-		ft_sarradd(content->str, 
+	ft_sarrfree(&regex);
+	free(*old);
+	return (NULL);
 }
-*/
 
 char	**ft_wordsplit_join(char **old, char *str, char **regex)
 {
 	char	**words;
-	char	**ls;
 	char	*join;
 	size_t	len_str;
 	size_t	counter;
 
 	counter = 0;
+	/*Start the check part*/
 	words = ft_split(str, '*');
 	if (!words)
-	{
-		ft_sarrfree(&regex);
-		free(*old);
-		return (NULL);
-	}
+		return (ft_wordsplit_join_checks_error(regex, old));
 	if (!regex && old && !*old)
 		return (words);
-	/*
-	if (words[0] == NULL)
-	{
-		ft_sarrfree(&words);
-		if (!old || !*old)
-			regex = ft_sarradd(regex, str);
-		else
-			regex = ft_sarradd(regex, *old);
-		free(*old);
-		*old = NULL;
-		if (!regex)
-			return (NULL);
-		return (regex);
-	}
-	*/
-	len_str = ft_strlen(str);
+	/*End the check part*/
+	/*Start first regex*/
 	if (*str == '*')
 	{
 		regex = ft_sarradd(regex, *old);
 		free(*old);
 		*old = NULL;
 		if (!regex)
-		{
+		{/*ft_error_first_regex*/
 			ft_sarrfree(&words);
 			return (NULL);
 		}
@@ -304,7 +297,7 @@ char	**ft_wordsplit_join(char **old, char *str, char **regex)
 		free(*old);
 		*old = NULL;
 		if (!join)
-		{
+		{/*ft_error_first_regex*/
 			ft_sarrfree(&regex);
 			ft_sarrfree(&words);
 			return (NULL);
@@ -317,6 +310,7 @@ char	**ft_wordsplit_join(char **old, char *str, char **regex)
 			return (NULL);
 		}
 	}
+	/*End first regex*/
 	while (words[counter] && words[counter + 1])
 	{
 		regex = ft_sarradd(regex, words[counter]);
@@ -326,6 +320,7 @@ char	**ft_wordsplit_join(char **old, char *str, char **regex)
 			return (NULL);
 		}
 	}
+	len_str = ft_strlen(str);
 	if (len_str > 1 && str[len_str - 1] == '*')
 	{
 		regex = ft_sarradd(regex, words[counter]);
