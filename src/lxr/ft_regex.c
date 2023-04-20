@@ -6,7 +6,7 @@
 /*   By: alvjimen <alvjimen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/26 17:26:06 by alvjimen          #+#    #+#             */
-/*   Updated: 2023/04/20 13:43:58 by alvjimen         ###   ########.fr       */
+/*   Updated: 2023/04/20 17:45:01 by alvjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "lxr.h"
@@ -376,6 +376,23 @@ int	ft_isany_star(t_quotes *quotes)
 	return (FAILURE);
 }
 
+void	ft_regex_quotes_set(char **old, char **join, char ***regex,
+		size_t *counter)
+{
+	*old = NULL;
+	*join = NULL;
+	*regex = NULL;
+	*counter = 0;
+}
+
+char	**ft_regex_quotes_check(t_quotes *quote, int *quoted_last)
+{
+	*quoted_last = !ft_char_quotes(quote->last_unquote[0]);
+	if (ft_quotes_unquoting(quote) == FAILURE)
+		return (NULL);
+	return ((char **)quote);
+}
+
 char	**ft_regex_quotes(t_quotes *quote)
 {
 	char	**regex;
@@ -386,13 +403,17 @@ char	**ft_regex_quotes(t_quotes *quote)
 
 	if (!quote)
 		return (NULL);
-	old = NULL;
+	/*Start checks*/
+	/*old = NULL;
 	join = NULL;
 	regex = NULL;
 	counter = 0;
+	*/
+	ft_regex_quotes_set(&old, &join, &regex, &counter);
 	quoted_last = !ft_char_quotes(quote->last_unquote[0]);
 	if (ft_quotes_unquoting(quote) == FAILURE)
 		return (NULL);
+	/*End checks*/
 	while (counter < quote->counter)
 	{
 		if (ft_strchr(quote->prev_quotes[counter], '*'))
@@ -423,6 +444,7 @@ char	**ft_regex_quotes(t_quotes *quote)
 		counter++;
 	}
 	old = join;
+	/*Start ft_check_post_loop*/
 	if (!quote->last_unquote)
 	{
 		regex = ft_sarradd(regex, join);
@@ -434,6 +456,7 @@ char	**ft_regex_quotes(t_quotes *quote)
 		ft_sarrfree(&regex);
 		return (NULL);
 	}
+	/*End ft_check_post_loop*/
 	old = join;
 	if (quoted_last && ft_strchr(quote->last_unquote, '*'))
 	{
