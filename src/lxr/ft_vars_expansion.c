@@ -6,7 +6,7 @@
 /*   By: alvjimen <alvjimen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/21 12:45:06 by alvjimen          #+#    #+#             */
-/*   Updated: 2023/04/21 20:32:00 by alvjimen         ###   ########.fr       */
+/*   Updated: 2023/04/21 20:37:08 by alvjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "lxr.h"
@@ -84,14 +84,14 @@ char	*ft_after_var(t_lxr **lxr, char **name,
 }
 
 /*Join the previos var with the value of the var*/
-char	*ft_join_str(t_lxr **lxr, char **name, char **value, char **tmp)
+char	*ft_join_str(t_lxr **lxr, t_vars *vars)
 {
-	name[0] = ft_strjoin(tmp[0], value[0]);
-	free(tmp[0]);
-	free(value[0]);
-	tmp[0] = NULL;
-	value[0] = NULL;
-	if (!name[0])
+	vars->name = ft_strjoin(vars->tmp, vars->value);
+	free(vars->tmp);
+	free(vars->value);
+	vars->tmp = NULL;
+	vars->value = NULL;
+	if (!vars->name)
 	{
 		free(lxr[0]);
 		return (NULL);
@@ -99,10 +99,10 @@ char	*ft_join_str(t_lxr **lxr, char **name, char **value, char **tmp)
 	if (VAR)
 	{
 		ft_putstr_fd("join of all the token: ", 1);
-		ft_putstr_fd(*name, 1);
+		ft_putstr_fd(vars->name, 1);
 		ft_putstr_fd("\n", 1);
 	}
-	return (name[0]);
+	return (vars->name);
 }
 
 char	*ft_dollar_expansion(t_lxr **lxr, t_vars *vars)
@@ -122,7 +122,7 @@ char	*ft_dollar_expansion(t_lxr **lxr, t_vars *vars)
 		return (NULL);
 	if (ft_after_var(lxr, &vars->name, &vars->value, &vars->tmp) == NULL)
 		return (NULL);
-	if (ft_join_str(lxr, &vars->name, &vars->value, &vars->tmp) == NULL)
+	if (ft_join_str(lxr, vars) == NULL)
 		return (NULL);
 	lxr[0]->str = vars->name;
 	vars->name = NULL;
