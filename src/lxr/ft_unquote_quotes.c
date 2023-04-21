@@ -6,7 +6,7 @@
 /*   By: alvjimen <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/01 19:18:10 by alvjimen          #+#    #+#             */
-/*   Updated: 2023/04/20 11:20:20 by alvjimen         ###   ########.fr       */
+/*   Updated: 2023/04/21 14:01:37 by alvjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "lxr.h"
@@ -72,6 +72,18 @@ t_quotes	*ft_init_quotes(t_lxr *lxr)
 	return (quotes);
 }
 
+void	*ft_expand_outside_last(t_quotes *quotes)
+{
+	char *str;
+
+	str = ft_vars_expansion(quotes->last_unquote);
+	if (!str)
+		return (NULL);
+	else if (str != quotes->last_unquote)
+		free(quotes->last_unquote);
+	quotes->last_unquote = str;
+	return (quotes);
+}
 void	*ft_expand_outside(t_quotes *quotes)
 {
 	size_t	counter;
@@ -92,14 +104,8 @@ void	*ft_expand_outside(t_quotes *quotes)
 		counter++;
 	}
 	if (quotes->last_unquote && !ft_char_quotes(*quotes->last_unquote))
-	{
-		str = ft_vars_expansion(quotes->last_unquote);
-		if (!str)
+		if (ft_expand_outside_last(quotes) == NULL)
 			return (NULL);
-		else if (str != quotes->last_unquote)
-			free(quotes->last_unquote);
-		quotes->last_unquote = str;
-	}
 	return ((void *)quotes);
 }
 
