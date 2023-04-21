@@ -6,7 +6,7 @@
 /*   By: alvjimen <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/01 19:18:10 by alvjimen          #+#    #+#             */
-/*   Updated: 2023/04/21 16:59:13 by alvjimen         ###   ########.fr       */
+/*   Updated: 2023/04/21 17:05:04 by alvjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "lxr.h"
@@ -274,8 +274,10 @@ char	*ft_unquote_quotes_regex_expand_outside(t_lxr **lxr, t_tkn *content)
 	return (str);
 }
 
-void	*ft_unquote_quotes_regex_new_tkns(t_lxr *lxr, t_tkn *content)
+void	*ft_unquote_quotes_regex_new_tkns(t_lxr *lxr, t_tkn *content, char *str)
 {
+	ft_bzero(lxr, sizeof(t_lxr));
+	lxr->str = str;
 	if (ft_get_tokens(lxr) != SUCCESS)
 	{
 		free(lxr->str);
@@ -293,6 +295,19 @@ void	*ft_unquote_quotes_regex_new_tkns(t_lxr *lxr, t_tkn *content)
 	return (lxr->str);
 }
 
+void	ft_unquote_quotes_regex_set_filename(t_lxr *lxr, t_tkn *content)
+{
+	if (content->token == FILENAME || content->token == HDFILENAME)
+	{
+		if (content->token == FILENAME)
+			ft_lstiter((t_list *)lxr->btree, ft_set_filename);
+		else if (content->token == HDFILENAME)
+			ft_lstiter((t_list *)lxr->btree, ft_set_hdfilename);
+		if (ft_lstsize((t_list *)lxr->btree) > 1)
+			ft_lstiter((t_list *)lxr->btree, ft_set_ambiguous);
+	}
+}
+
 /*This function  should be called by ft_modify_root_conserve_branchs*/
 void	ft_unquote_quotes_regex(t_btree **root)
 {
@@ -307,25 +322,9 @@ void	ft_unquote_quotes_regex(t_btree **root)
 	str = ft_unquote_quotes_regex_expand_outside(&lxr, content);
 	if (str == NULL)
 		return ;
-	/* Start like ft_init_lxr*/
-	ft_bzero(lxr, sizeof(t_lxr));
-	lxr->str = str;
-	/* End*/
-	/* Start check if new tokens*/
-	if (ft_unquote_quotes_regex_new_tkns(lxr, content) == NULL)
+	if (ft_unquote_quotes_regex_new_tkns(lxr, content, str) == NULL)
 		return ;
-	/*End check if new tokens*/
-	/*Start set filename || hdfilename*/
-	if (content->token == FILENAME || content->token == HDFILENAME)
-	{
-		if (content->token == FILENAME)
-			ft_lstiter((t_list *)lxr->btree, ft_set_filename);
-		else if (content->token == HDFILENAME)
-			ft_lstiter((t_list *)lxr->btree, ft_set_hdfilename);
-		if (ft_lstsize((t_list *)lxr->btree) > 1)
-			ft_lstiter((t_list *)lxr->btree, ft_set_ambiguous);
-	}
-	/*End set filename*/
+	ft_unquote_quotes_regex_set_filename(lxr, content);
 	ft_btree_delone(root[0], ft_destroy_tkn);
 	root[0] = NULL;
 	*root = lxr->btree;
