@@ -6,7 +6,7 @@
 /*   By: alvjimen <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/07 17:17:24 by alvjimen          #+#    #+#             */
-/*   Updated: 2023/03/22 19:09:56 by alvjimen         ###   ########.fr       */
+/*   Updated: 2023/04/21 13:27:04 by alvjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "lxr.h"
@@ -48,8 +48,13 @@ int	ft_get_tokens(t_lxr *lxr)
 		if (result == NOT_TOKEN)
 			return (NOT_TOKEN);
 		else if (result)
-			if (ft_token_varname(lxr) == NOT_TOKEN)
+		{
+			result = ft_token_varname(lxr);
+			if (result == NOT_TOKEN)
 				return (NOT_TOKEN);
+			else if (result == FAILURE)
+				return (FAILURE);
+		}
 		if (ft_add_to_lst(lxr) == NULL)
 			return (FAILURE);
 	}

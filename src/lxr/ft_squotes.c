@@ -6,7 +6,7 @@
 /*   By: alvjimen <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/05 18:58:26 by alvjimen          #+#    #+#             */
-/*   Updated: 2023/04/21 12:59:35 by alvjimen         ###   ########.fr       */
+/*   Updated: 2023/04/21 13:22:28 by alvjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "lxr.h"
@@ -33,7 +33,11 @@ int	ft_squotes(t_lxr *lxr, size_t *counter)
 			lxr->tokens.states ^= SQUOTES;
 			return (SUCCESS);
 		}
+		else if (!lxr->str[lxr->pos + counter[0]])
+		{
+			ft_putstr_fd("Not close squotes\n", 1);
+			return (FAILURE);
+		}
 	}
-	ft_putstr_fd("Not close squotes\n", 1);
-	return (NOT_TOKEN);
+	return (SUCCESS);
 }

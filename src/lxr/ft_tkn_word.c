@@ -6,7 +6,7 @@
 /*   By: alvjimen <alvjimen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/06 12:54:12 by alvjimen          #+#    #+#             */
-/*   Updated: 2023/03/16 18:54:06 by alvjimen         ###   ########.fr       */
+/*   Updated: 2023/04/21 13:23:11 by alvjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "lxr.h"
@@ -22,8 +22,8 @@ int	ft_token_word(t_lxr	*lxr, size_t *counter)
 		&& !ft_char_ifs(lxr->str[lxr->pos + *counter])
 		&& !ft_char_operator(lxr, counter))
 	{
-		if (ft_quotes(lxr, counter) == NOT_TOKEN)
-			return (NOT_TOKEN);
+		if (ft_quotes(lxr, counter) == FAILURE)
+			return (FAILURE);
 		counter[0]++;
 	}
 	if (ft_char_operator(lxr, counter) || !lxr->str[lxr->pos + *counter]
