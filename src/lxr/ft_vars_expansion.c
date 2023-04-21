@@ -6,7 +6,7 @@
 /*   By: alvjimen <alvjimen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/21 12:45:06 by alvjimen          #+#    #+#             */
-/*   Updated: 2023/04/21 20:37:08 by alvjimen         ###   ########.fr       */
+/*   Updated: 2023/04/21 20:40:01 by alvjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "lxr.h"
@@ -57,19 +57,18 @@ char	*ft_join_previos_with_var_value(t_lxr **lxr, char **name,
 }
 
 /*Get the after var with the value of the var*/
-char	*ft_after_var(t_lxr **lxr, char **name,
-		char **value, char **tmp)
+char	*ft_after_var(t_lxr **lxr, t_vars *vars)
 {
 	char	*aux;
 
-	name = NULL;
+	vars->name = NULL;
 	aux = lxr[0]->str + lxr[0]->pos + lxr[0]->counter;
-	*value = ft_substr(lxr[0]->str, lxr[0]->pos + lxr[0]->counter,
+	vars->value = ft_substr(lxr[0]->str, lxr[0]->pos + lxr[0]->counter,
 			ft_strlen(aux));
-	if (!value[0])
+	if (!vars->value)
 	{
-		free(tmp[0]);
-		*tmp = NULL;
+		free(vars->tmp);
+		vars->tmp = NULL;
 		free(lxr[0]);
 		*lxr = NULL;
 		return (NULL);
@@ -77,10 +76,10 @@ char	*ft_after_var(t_lxr **lxr, char **name,
 	if (VAR)
 	{
 		ft_putstr_fd("after var: ", 1);
-		ft_putstr_fd(*value, 1);
+		ft_putstr_fd(vars->value, 1);
 		ft_putstr_fd("\n", 1);
 	}
-	return (*value);
+	return (vars->value);
 }
 
 /*Join the previos var with the value of the var*/
@@ -120,7 +119,7 @@ char	*ft_dollar_expansion(t_lxr **lxr, t_vars *vars)
 		return (NULL);
 	if (ft_join_previos_with_var_value(lxr, &vars->name, &vars->value, &vars->tmp) == NULL)
 		return (NULL);
-	if (ft_after_var(lxr, &vars->name, &vars->value, &vars->tmp) == NULL)
+	if (ft_after_var(lxr, vars) == NULL)
 		return (NULL);
 	if (ft_join_str(lxr, vars) == NULL)
 		return (NULL);
