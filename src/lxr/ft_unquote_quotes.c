@@ -6,7 +6,7 @@
 /*   By: alvjimen <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/01 19:18:10 by alvjimen          #+#    #+#             */
-/*   Updated: 2023/04/21 14:37:33 by alvjimen         ###   ########.fr       */
+/*   Updated: 2023/04/21 14:47:24 by alvjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "lxr.h"
@@ -193,45 +193,58 @@ char	*ft_unquote(char *str)
 	return (tmp);
 }
 
+char	*ft_quotes_unquoting_loop(t_quotes *quotes)
+{
+	char	*str;
+	char	*tmp;
+	size_t	counter;
+
+	counter = 0;
+	tmp = (char *)quotes;
+	while (counter < quotes->counter)
+	{
+		str = quotes->inner_quotes[counter];
+		if (!str)
+			return (NULL);
+		tmp = ft_unquote(str);
+		if (!tmp)
+			return (NULL);
+		quotes->inner_quotes[counter++] = tmp;
+		free(str);
+	}
+	return (tmp);
+}
+
 int	ft_quotes_unquoting(t_quotes *quotes)
 {
 	char	*str;
 	char	*tmp;
 	size_t	counter;
-	size_t	len;
 
-	counter = 0;
 	if (!quotes)
 		return (FAILURE);
+		/*
+	counter = 0;
 	while (counter < quotes->counter)
 	{
 		str = quotes->inner_quotes[counter];
 		if (!str)
 			return (FAILURE);
-		/*
-		len = ft_strlen(str);
-		if (len <= 2)
-			tmp = ft_strdup("");
-		else
-			tmp = ft_substr(str, 1, len - 2);
-		*/
 		tmp = ft_unquote(str);
 		if (!tmp)
 			return (FAILURE);
-		quotes->inner_quotes[counter] = tmp;
-		counter++;
+		quotes->inner_quotes[counter++] = tmp;
 		free(str);
 	}
+	*/
+	if (ft_quotes_unquoting_loop(quotes) == NULL)
+		return (FAILURE);
 	if (ft_char_quotes(quotes->last_unquote[0]))
 	{
 		str = quotes->last_unquote;
 		if (!str)
 			return (FAILURE);
-		len = ft_strlen(str);
-		if (len <= 2)
-			tmp = ft_strdup("");
-		else
-			tmp = ft_substr(str, 1, len - 2);
+		tmp = ft_unquote(str);
 		if (!tmp)
 			return (FAILURE);
 		quotes->last_unquote = tmp;
