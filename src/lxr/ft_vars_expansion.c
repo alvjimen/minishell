@@ -6,30 +6,29 @@
 /*   By: alvjimen <alvjimen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/21 12:45:06 by alvjimen          #+#    #+#             */
-/*   Updated: 2023/04/21 20:42:20 by alvjimen         ###   ########.fr       */
+/*   Updated: 2023/04/21 20:46:44 by alvjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "lxr.h"
 
-char	*ft_previous_var(t_lxr **lxr, char **name, char **value,
-		char **tmp)
+char	*ft_previous_var(t_lxr **lxr, t_vars *vars)
 {
-	*value = ft_var_value(NULL, *name);
-	free(*name);
-	*name = NULL;
-	if (!*value)
+	vars->value = ft_var_value(NULL, vars->name);
+	free(vars->name);
+	vars->name = NULL;
+	if (!vars->value)
 	{
 		free(*lxr);
 		return (NULL);
 	}
-	*tmp = ft_substr(lxr[0]->str, 0, lxr[0]->pos);
-	if (!*tmp)
+	vars->tmp = ft_substr(lxr[0]->str, 0, lxr[0]->pos);
+	if (!vars->tmp)
 	{
-		free(*value);
+		free(vars->value);
 		free(*lxr);
 		return (NULL);
 	}
-	return (*tmp);
+	return (vars->tmp);
 }
 
 	/*Join the previos var with the value of the var*/
@@ -114,7 +113,7 @@ char	*ft_dollar_expansion(t_lxr **lxr, t_vars *vars)
 		lxr[0]->pos++;
 		return (lxr[0]->str);
 	}
-	if (ft_previous_var(lxr, &vars->name, &vars->value, &vars->tmp) == NULL)
+	if (ft_previous_var(lxr, vars) == NULL)
 		return (NULL);
 	if (ft_join_previos_with_var_value(lxr, vars) == NULL)
 		return (NULL);
