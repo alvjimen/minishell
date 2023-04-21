@@ -6,7 +6,7 @@
 /*   By: alvjimen <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/01 19:18:10 by alvjimen          #+#    #+#             */
-/*   Updated: 2023/04/21 14:08:35 by alvjimen         ###   ########.fr       */
+/*   Updated: 2023/04/21 14:16:35 by alvjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "lxr.h"
@@ -110,6 +110,27 @@ void	*ft_expand_outside(t_quotes *quotes)
 	return ((void *)quotes);
 }
 
+void	*ft_join_quotes_loop(t_quotes *quotes, char **old, char **join)
+{
+	size_t	counter;
+
+	counter = 0;
+	while (counter < quotes->counter)
+	{
+		ft_join_(*old, quotes->prev_quotes[counter], join);
+		free(*old);
+		if (!*join)
+			return (NULL);
+		*old = *join;
+		*join = ft_strjoin(*old, quotes->inner_quotes[counter++]);
+		free(*old);
+		if (!*join)
+			return (NULL);
+		*old = *join;
+	}
+	return (*join);
+}
+
 void	*ft_join_quotes(t_quotes *quotes)
 {
 	char	*old;
@@ -121,36 +142,12 @@ void	*ft_join_quotes(t_quotes *quotes)
 	counter = 0;
 	if (!quotes)
 		return (NULL);
-	while (counter < quotes->counter)
-	{
-		ft_join_(old, quotes->prev_quotes[counter], &join);
-		/*
-		if (!old)
-			join = ft_strjoin("", quotes->prev_quotes[counter]);
-		else
-			join = ft_strjoin(old, quotes->prev_quotes[counter]);
-		*/
-		free(old);
-		if (!join)
-			return (NULL);
-		old = join;
-		join = ft_strjoin(old, quotes->inner_quotes[counter]);
-		free(old);
-		if (!join)
-			return (NULL);
-		old = join;
-		counter++;
-	}
-	old = join;
+	if (ft_join_quotes_loop(quotes, &old, &join) == NULL)
+		return (NULL);
 	if (!quotes->last_unquote)
 		return (join);
-	if (!old)
-		join = ft_strjoin("", quotes->last_unquote);
-	else
-		join = ft_strjoin(old, quotes->last_unquote);
+	ft_join_(old, quotes->last_unquote, &join);
 	free(old);
-	if (!join)
-		return (NULL);
 	return (join);
 }
 
