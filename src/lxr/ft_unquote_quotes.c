@@ -6,7 +6,7 @@
 /*   By: alvjimen <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/01 19:18:10 by alvjimen          #+#    #+#             */
-/*   Updated: 2023/04/21 17:18:40 by alvjimen         ###   ########.fr       */
+/*   Updated: 2023/04/21 18:02:35 by alvjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "lxr.h"
@@ -240,8 +240,7 @@ int	ft_quotes_unquoting(t_quotes *quotes)
 	return (SUCCESS);
 }
 
-char	*ft_unquote_quotes_regex_expand(t_lxr **lxr, t_tkn *content,
-		void *(*f)(t_quotes *))
+char	*ft_unquote_quotes_regex_expand_outside(t_lxr **lxr, t_tkn *content)
 {
 	t_quotes	*quotes;
 	char		*str;
@@ -259,7 +258,7 @@ char	*ft_unquote_quotes_regex_expand(t_lxr **lxr, t_tkn *content,
 		content->token = ERROR;
 		return (NULL);
 	}
-	if (content->token != HDFILENAME && f(quotes) == NULL)
+	if (content->token != HDFILENAME && ft_expand_outside(quotes) == NULL)
 	{
 		free(*lxr);
 		ft_destroy_quotes(&quotes);
@@ -321,6 +320,51 @@ void	*ft_unquote_quotes_regex_new_root(t_lxr **lxr, t_btree **root)
 	return (root);
 }
 
+t_quotes	*ft_unquote_quotes_regex_expand_inside(t_lxr **lxr, t_tkn *content)
+{
+	t_quotes	*quotes;
+	char		*str;
+
+	*lxr = ft_init_lxr(content->value);
+	if (!*lxr)
+	{
+		content->token = ERROR;
+		return (NULL);
+	}
+	quotes = ft_init_quotes(*lxr);
+	if (!quotes)
+	{
+		free(*lxr);
+		content->token = ERROR;
+		return (NULL);
+	}
+	if (content->token != HDFILENAME && ft_expand_inside_quotes(quotes) == NULL)
+	{
+		free(*lxr);
+		ft_destroy_quotes(&quotes);
+		content->token = ERROR;
+	}
+	return (quotes);
+}
+
+void	ft_unquote_quotes_regex_expand_regex(t_tkn *content, t_quotes *quotes, t_lxr *lxr)
+{
+	content->regex = ft_regex_ls(quotes, lxr->str);
+	ft_destroy_quotes(&quotes);
+	free(content->value);
+	content->value = NULL;
+	free(lxr);
+	if (!content->regex)
+	{
+		content->token = ERROR;
+		return ;
+	}
+	content->value = ft_strdup(content->regex[0]);
+	if (!content->value)
+		content->token = ERROR;
+	return ;
+}
+
 /*This function  should be called by ft_modify_root_conserve_branchs*/
 void	ft_unquote_quotes_regex(t_btree **root)
 {
@@ -332,7 +376,7 @@ void	ft_unquote_quotes_regex(t_btree **root)
 	if (!root || !*root || !root[0]->content)
 		return ;
 	content = root[0]->content;
-	str = ft_unquote_quotes_regex_expand(&lxr, content, ft_expand_outside);
+	str = ft_unquote_quotes_regex_expand_outside(&lxr, content);
 	if (str == NULL)
 		return ;
 	if (ft_unquote_quotes_regex_new_tkns(lxr, content, str) == NULL)
@@ -340,30 +384,15 @@ void	ft_unquote_quotes_regex(t_btree **root)
 	ft_unquote_quotes_regex_set_filename(lxr, content);
 	if (ft_unquote_quotes_regex_new_root(&lxr, root) == NULL)
 		return ;
-	/*ft_unquote_quotes_regex_expand_inside*/
 	content = root[0]->content;
-	lxr = ft_init_lxr(content->value);
-	if (!lxr)
-	{
-		content->token = ERROR;
-		return ;
-	}
-	quotes = ft_init_quotes(lxr);
+	quotes = ft_unquote_quotes_regex_expand_inside(&lxr, content);
 	if (!quotes)
-	{
-		free(lxr);
-		content->token = ERROR;
 		return ;
-	}
-	if (content->token != HDFILENAME && ft_expand_inside_quotes(quotes) == NULL)
-	{
-		content->token = ERROR;
-		ft_destroy_quotes(&quotes);
-		free(lxr);
-		return ;
-	}
+	/*Start ft_last_step*/
 	if (ft_isany_star(quotes) == SUCCESS)
+	/*Start ft_expand_regex*/
 	{
+		/*
 		content->regex = ft_regex_ls(quotes, lxr->str);
 		ft_destroy_quotes(&quotes);
 		free(content->value);
@@ -378,7 +407,12 @@ void	ft_unquote_quotes_regex(t_btree **root)
 		if (!content->value)
 			content->token = ERROR;
 		return ;
+		*/
+		ft_unquote_quotes_regex_expand_regex(content, quotes, lxr);
+		return ;
+		/*return ;*/
 	}
+	/*End ft_expand_regex*/
 	if (ft_quotes_unquoting(quotes))
 	{
 		content->token = ERROR;
@@ -398,6 +432,7 @@ void	ft_unquote_quotes_regex(t_btree **root)
 	content->value = str;
 	ft_destroy_quotes(&quotes);
 	free(lxr);
+	/*ft_last_step*/
 	return ;
 }
 
