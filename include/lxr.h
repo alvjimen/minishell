@@ -6,7 +6,7 @@
 /*   By: alvjimen <alvjimen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/28 18:36:15 by alvjimen          #+#    #+#             */
-/*   Updated: 2023/04/21 20:26:12 by alvjimen         ###   ########.fr       */
+/*   Updated: 2023/04/21 20:54:27 by alvjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -171,4 +171,5 @@ void		ft_expand_vars_regex_unquote(t_btree **root);
 void		ft_print_btree(t_btree *root);
 void		ft_btree_destroy(t_btree **root);
 char		*ft_var_value(char **sarr, char *var_name);
+char		*ft_dollar_expansion(t_lxr **lxr, t_vars *vars);
 #endif
