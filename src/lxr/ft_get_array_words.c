@@ -6,16 +6,30 @@
 /*   By: alvjimen <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/30 18:13:42 by alvjimen          #+#    #+#             */
-/*   Updated: 2023/04/18 13:54:51 by alvjimen         ###   ########.fr       */
+/*   Updated: 2023/04/21 12:45:09 by alvjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "lxr.h"
+
+char	**ft_lst_to_sarr_regex(char ***words,  char **regex)
+{
+	size_t	counter;
+
+	counter = 0;
+	while (regex[counter])
+	{
+		*words = ft_sarradd(*words, regex[counter]);
+		if (!*words)
+			return (NULL);
+		counter++;
+	}
+	return (*words);
+}
 
 char	**ft_lst_to_sarr(t_list *node, int *error)
 {
 	char	**words;
 	t_tkn	*content;
-	size_t	counter;
 
 	words = NULL;
 	while (node)
@@ -28,7 +42,8 @@ char	**ft_lst_to_sarr(t_list *node, int *error)
 			*error = content->token;
 		if (content->regex)
 		{
-			counter = 0;
+			ft_lst_to_sarr_regex(&words, content->regex);
+			/*
 			while (content->regex[counter])
 			{
 				words = ft_sarradd(words, content->regex[counter]);
@@ -36,6 +51,7 @@ char	**ft_lst_to_sarr(t_list *node, int *error)
 					return (NULL);
 				counter++;
 			}
+			*/
 		}
 		else
 			words = ft_sarradd(words, content->value);
