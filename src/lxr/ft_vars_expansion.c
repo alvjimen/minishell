@@ -6,7 +6,7 @@
 /*   By: alvjimen <alvjimen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/21 12:45:06 by alvjimen          #+#    #+#             */
-/*   Updated: 2023/04/21 20:40:01 by alvjimen         ###   ########.fr       */
+/*   Updated: 2023/04/21 20:42:20 by alvjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "lxr.h"
@@ -33,27 +33,26 @@ char	*ft_previous_var(t_lxr **lxr, char **name, char **value,
 }
 
 	/*Join the previos var with the value of the var*/
-char	*ft_join_previos_with_var_value(t_lxr **lxr, char **name,
-		char **value, char **tmp)
+char	*ft_join_previos_with_var_value(t_lxr **lxr, t_vars *vars)
 {
-	*name = ft_strjoin(*tmp, *value);
-	free(*tmp);
-	*tmp = NULL;
-	free(*value);
-	*value = NULL;
-	if (!*name)
+	vars->name = ft_strjoin(vars->tmp, vars->value);
+	free(vars->tmp);
+	vars->tmp = NULL;
+	free(vars->value);
+	vars->value = NULL;
+	if (!vars->name)
 	{
 		free(*lxr);
 		return (NULL);
 	}
-	*tmp = *name;
+	vars->tmp = vars->name;
 	if (VAR)
 	{
 		ft_putstr_fd("join prev + var: ", 1);
-		ft_putstr_fd(*tmp, 1);
+		ft_putstr_fd(vars->tmp, 1);
 		ft_putstr_fd("\n", 1);
 	}
-	return (*name);
+	return (vars->name);
 }
 
 /*Get the after var with the value of the var*/
@@ -117,7 +116,7 @@ char	*ft_dollar_expansion(t_lxr **lxr, t_vars *vars)
 	}
 	if (ft_previous_var(lxr, &vars->name, &vars->value, &vars->tmp) == NULL)
 		return (NULL);
-	if (ft_join_previos_with_var_value(lxr, &vars->name, &vars->value, &vars->tmp) == NULL)
+	if (ft_join_previos_with_var_value(lxr, vars) == NULL)
 		return (NULL);
 	if (ft_after_var(lxr, vars) == NULL)
 		return (NULL);
