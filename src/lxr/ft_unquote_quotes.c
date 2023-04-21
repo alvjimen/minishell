@@ -6,7 +6,7 @@
 /*   By: alvjimen <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/01 19:18:10 by alvjimen          #+#    #+#             */
-/*   Updated: 2023/04/21 16:50:02 by alvjimen         ###   ########.fr       */
+/*   Updated: 2023/04/21 16:59:13 by alvjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "lxr.h"
@@ -273,6 +273,26 @@ char	*ft_unquote_quotes_regex_expand_outside(t_lxr **lxr, t_tkn *content)
 	}
 	return (str);
 }
+
+void	*ft_unquote_quotes_regex_new_tkns(t_lxr *lxr, t_tkn *content)
+{
+	if (ft_get_tokens(lxr) != SUCCESS)
+	{
+		free(lxr->str);
+		free(lxr);
+		content->token = ERROR;
+		return (NULL);
+	}
+	if (!lxr->str[0])
+	{
+		free(lxr);
+		free(content->value);
+		content->value = lxr->str;
+		return (NULL);
+	}
+	return (lxr->str);
+}
+
 /*This function  should be called by ft_modify_root_conserve_branchs*/
 void	ft_unquote_quotes_regex(t_btree **root)
 {
@@ -284,62 +304,16 @@ void	ft_unquote_quotes_regex(t_btree **root)
 	if (!root || !*root || !root[0]->content)
 		return ;
 	content = root[0]->content;
-	/*	Start ft_unquote_quotes_regex_expand_outside
-		ft_init_lxr && ft_init_quotes && expand outside && ft_join_quotes &&
-		if necessary
-	 */
 	str = ft_unquote_quotes_regex_expand_outside(&lxr, content);
-	/*
-	lxr = ft_init_lxr(content->value);
-	if (!lxr)
-	{
-		content->token = ERROR;
-		return ;
-	}
-	quotes = ft_init_quotes(lxr);
-	if (!quotes)
-	{
-		free(lxr);
-		content->token = ERROR;
-		return ;
-	}
-	if (content->token != HDFILENAME && ft_expand_outside(quotes) == NULL)
-	{
-		free(lxr);
-		ft_destroy_quotes(&quotes);
-		content->token = ERROR;
-	}
-	str = ft_join_quotes(quotes);
-	ft_destroy_quotes(&quotes);
-	*/
 	if (str == NULL)
 		return ;
-		/*
-	{
-		free(lxr);
-		content->token = ERROR;
-		return ;
-	}
-	*/
-	/* End ft_unquote_quotes_regex_expand_outside*/
 	/* Start like ft_init_lxr*/
 	ft_bzero(lxr, sizeof(t_lxr));
 	lxr->str = str;
 	/* End*/
 	/* Start check if new tokens*/
-	if (ft_get_tokens(lxr) != SUCCESS)
-	{
-		free(lxr);
-		content->token = ERROR;
+	if (ft_unquote_quotes_regex_new_tkns(lxr, content) == NULL)
 		return ;
-	}
-	if (!str[0])
-	{
-		free(lxr);
-		free(content->value);
-		content->value = str;
-		return ;
-	}
 	/*End check if new tokens*/
 	/*Start set filename || hdfilename*/
 	if (content->token == FILENAME || content->token == HDFILENAME)
