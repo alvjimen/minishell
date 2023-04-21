@@ -6,7 +6,7 @@
 /*   By: alvjimen <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/01 19:18:10 by alvjimen          #+#    #+#             */
-/*   Updated: 2023/04/21 14:16:35 by alvjimen         ###   ########.fr       */
+/*   Updated: 2023/04/21 14:37:33 by alvjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "lxr.h"
@@ -128,7 +128,7 @@ void	*ft_join_quotes_loop(t_quotes *quotes, char **old, char **join)
 			return (NULL);
 		*old = *join;
 	}
-	return (*join);
+	return (join);
 }
 
 void	*ft_join_quotes(t_quotes *quotes)
@@ -180,6 +180,19 @@ void	*ft_expand_inside_quotes(t_quotes *quotes)
 	return (quotes);
 }
 
+char	*ft_unquote(char *str)
+{
+	char	*tmp;
+	size_t	len;
+
+	len = ft_strlen(str);
+	if (len <= 2)
+		tmp = ft_strdup("");
+	else
+		tmp = ft_substr(str, 1, len - 2);
+	return (tmp);
+}
+
 int	ft_quotes_unquoting(t_quotes *quotes)
 {
 	char	*str;
@@ -195,11 +208,14 @@ int	ft_quotes_unquoting(t_quotes *quotes)
 		str = quotes->inner_quotes[counter];
 		if (!str)
 			return (FAILURE);
+		/*
 		len = ft_strlen(str);
 		if (len <= 2)
 			tmp = ft_strdup("");
 		else
 			tmp = ft_substr(str, 1, len - 2);
+		*/
+		tmp = ft_unquote(str);
 		if (!tmp)
 			return (FAILURE);
 		quotes->inner_quotes[counter] = tmp;
@@ -247,17 +263,20 @@ void	ft_unquote_quotes_regex(t_btree **root)
 	quotes = ft_init_quotes(lxr);
 	if (!quotes)
 	{
+		free(lxr);
 		content->token = ERROR;
 		return ;
 	}
 	if (content->token != HDFILENAME && ft_expand_outside(quotes) == NULL)
 	{
+		free(lxr);
 		ft_destroy_quotes(&quotes);
 		content->token = ERROR;
 	}
 	str = ft_join_quotes(quotes);
 	if (str == NULL)
 	{
+		free(lxr);
 		ft_destroy_quotes(&quotes);
 		content->token = ERROR;
 		return ;
@@ -270,12 +289,14 @@ void	ft_unquote_quotes_regex(t_btree **root)
 	lxr->str = str;
 	if (ft_get_tokens(lxr) != SUCCESS)
 	{
+		free(lxr);
 		ft_destroy_quotes(&quotes);
 		content->token = ERROR;
 		return ;
 	}
 	if (!str[0])
 	{
+		free(lxr);
 		free(content->value);
 		content->value = str;
 		return ;
@@ -309,6 +330,7 @@ void	ft_unquote_quotes_regex(t_btree **root)
 	quotes = ft_init_quotes(lxr);
 	if (!quotes)
 	{
+		free(lxr);
 		content->token = ERROR;
 		return ;
 	}
