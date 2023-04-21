@@ -6,7 +6,7 @@
 /*   By: alvjimen <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/01 19:18:10 by alvjimen          #+#    #+#             */
-/*   Updated: 2023/04/21 17:12:49 by alvjimen         ###   ########.fr       */
+/*   Updated: 2023/04/21 17:18:40 by alvjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "lxr.h"
@@ -240,7 +240,8 @@ int	ft_quotes_unquoting(t_quotes *quotes)
 	return (SUCCESS);
 }
 
-char	*ft_unquote_quotes_regex_expand_outside(t_lxr **lxr, t_tkn *content)
+char	*ft_unquote_quotes_regex_expand(t_lxr **lxr, t_tkn *content,
+		void *(*f)(t_quotes *))
 {
 	t_quotes	*quotes;
 	char		*str;
@@ -258,7 +259,7 @@ char	*ft_unquote_quotes_regex_expand_outside(t_lxr **lxr, t_tkn *content)
 		content->token = ERROR;
 		return (NULL);
 	}
-	if (content->token != HDFILENAME && ft_expand_outside(quotes) == NULL)
+	if (content->token != HDFILENAME && f(quotes) == NULL)
 	{
 		free(*lxr);
 		ft_destroy_quotes(&quotes);
@@ -319,6 +320,7 @@ void	*ft_unquote_quotes_regex_new_root(t_lxr **lxr, t_btree **root)
 		return (NULL);
 	return (root);
 }
+
 /*This function  should be called by ft_modify_root_conserve_branchs*/
 void	ft_unquote_quotes_regex(t_btree **root)
 {
@@ -330,7 +332,7 @@ void	ft_unquote_quotes_regex(t_btree **root)
 	if (!root || !*root || !root[0]->content)
 		return ;
 	content = root[0]->content;
-	str = ft_unquote_quotes_regex_expand_outside(&lxr, content);
+	str = ft_unquote_quotes_regex_expand(&lxr, content, ft_expand_outside);
 	if (str == NULL)
 		return ;
 	if (ft_unquote_quotes_regex_new_tkns(lxr, content, str) == NULL)
@@ -338,17 +340,7 @@ void	ft_unquote_quotes_regex(t_btree **root)
 	ft_unquote_quotes_regex_set_filename(lxr, content);
 	if (ft_unquote_quotes_regex_new_root(&lxr, root) == NULL)
 		return ;
-	/*Start change new root*/
-	/*
-	ft_btree_delone(root[0], ft_destroy_tkn);
-	root[0] = NULL;
-	*root = lxr->btree;
-	free(lxr);
-	free(str);
-	if (!*root || !root[0]->content)
-		return ;
-		*/
-	/*End change new root*/
+	/*ft_unquote_quotes_regex_expand_inside*/
 	content = root[0]->content;
 	lxr = ft_init_lxr(content->value);
 	if (!lxr)
