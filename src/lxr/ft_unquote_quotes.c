@@ -6,7 +6,7 @@
 /*   By: alvjimen <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/01 19:18:10 by alvjimen          #+#    #+#             */
-/*   Updated: 2023/04/21 18:11:41 by alvjimen         ###   ########.fr       */
+/*   Updated: 2023/04/21 18:21:32 by alvjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "lxr.h"
@@ -240,6 +240,20 @@ int	ft_quotes_unquoting(t_quotes *quotes)
 	return (SUCCESS);
 }
 
+char	*ft_unquote_quotes_error(t_tkn *content, t_lxr **lxr, t_quotes **quotes,
+		int flag)
+{
+	if (flag > 0)
+	{
+		free(*lxr);
+		*lxr = NULL;
+	}
+	if (flag > 1)
+		ft_destroy_quotes(quotes);
+	content->token = ERROR;
+	return (NULL);
+}
+
 char	*ft_unquote_quotes_regex_expand_outside(t_lxr **lxr, t_tkn *content)
 {
 	t_quotes	*quotes;
@@ -247,30 +261,16 @@ char	*ft_unquote_quotes_regex_expand_outside(t_lxr **lxr, t_tkn *content)
 
 	*lxr = ft_init_lxr(content->value);
 	if (!*lxr)
-	{
-		content->token = ERROR;
-		return (NULL);
-	}
+		return (ft_unquote_quotes_error(content, lxr, NULL, 0));
 	quotes = ft_init_quotes(*lxr);
 	if (!quotes)
-	{
-		free(*lxr);
-		content->token = ERROR;
-		return (NULL);
-	}
+		return (ft_unquote_quotes_error(content, lxr, NULL, 1));
 	if (content->token != HDFILENAME && ft_expand_outside(quotes) == NULL)
-	{
-		free(*lxr);
-		ft_destroy_quotes(&quotes);
-		content->token = ERROR;
-	}
+		return (ft_unquote_quotes_error(content, lxr, &quotes, 1));
 	str = ft_join_quotes(quotes);
 	ft_destroy_quotes(&quotes);
 	if (str == NULL)
-	{
-		free(*lxr);
-		content->token = ERROR;
-	}
+		ft_unquote_quotes_error(content, lxr, NULL, 1);
 	return (str);
 }
 
@@ -347,7 +347,8 @@ t_quotes	*ft_unquote_quotes_regex_expand_inside(t_lxr **lxr, t_tkn *content)
 	return (quotes);
 }
 
-void	ft_unquote_quotes_regex_expand_regex(t_tkn *content, t_quotes *quotes, t_lxr *lxr)
+void	ft_unquote_quotes_regex_expand_regex(t_tkn *content, t_quotes *quotes,
+		t_lxr *lxr)
 {
 	content->regex = ft_regex_ls(quotes, lxr->str);
 	ft_destroy_quotes(&quotes);
@@ -365,7 +366,8 @@ void	ft_unquote_quotes_regex_expand_regex(t_tkn *content, t_quotes *quotes, t_lx
 	return ;
 }
 
-void	ft_unquote_quotes_regex_unquote(t_tkn *content, t_quotes *quotes, t_lxr *lxr)
+void	ft_unquote_quotes_regex_unquote(t_tkn *content, t_quotes *quotes,
+		t_lxr *lxr)
 {
 	char	*str;
 
@@ -413,36 +415,10 @@ void	ft_unquote_quotes_regex(t_btree **root)
 	quotes = ft_unquote_quotes_regex_expand_inside(&lxr, content);
 	if (!quotes)
 		return ;
-	/*Start ft_last_step*/
 	if (ft_isany_star(quotes) == SUCCESS)
 		ft_unquote_quotes_regex_expand_regex(content, quotes, lxr);
 	else
 		ft_unquote_quotes_regex_unquote(content, quotes, lxr);
-	return ;
-	/*Start unquoting str and adding to token->value*/
-	ft_unquote_quotes_regex_unquote(content, quotes, lxr);
-	/*
-	if (ft_quotes_unquoting(quotes))
-	{
-		content->token = ERROR;
-		ft_destroy_quotes(&quotes);
-		free(lxr);
-		return ;
-	}
-	str = ft_join_quotes(quotes);
-	if (str == NULL)
-	{
-		ft_destroy_quotes(&quotes);
-		content->token = ERROR;
-		free(lxr);
-		return ;
-	}
-	free(lxr->str);
-	content->value = str;
-	ft_destroy_quotes(&quotes);
-	free(lxr);
-	*/
-	/*End ft_last_step*/
 	return ;
 }
 
