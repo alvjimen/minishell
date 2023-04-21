@@ -6,7 +6,7 @@
 #    By: alvjimen <alvjimen@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/01/31 19:37:18 by alvjimen          #+#    #+#              #
-#    Updated: 2023/04/19 13:42:28 by alvjimen         ###   ########.fr        #
+#    Updated: 2023/04/21 14:52:19 by alvjimen         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -122,6 +122,7 @@ SRC-LIB_ADD			:=	ft_split\
 						ft_strncmp\
 						ft_swap\
 						ft_strchr\
+						ft_bzero\
 						$(SRC-LST)
 						
 SRC-TST				:=	test

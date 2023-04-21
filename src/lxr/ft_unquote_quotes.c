@@ -6,7 +6,7 @@
 /*   By: alvjimen <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/01 19:18:10 by alvjimen          #+#    #+#             */
-/*   Updated: 2023/04/21 14:47:24 by alvjimen         ###   ########.fr       */
+/*   Updated: 2023/04/21 14:51:53 by alvjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "lxr.h"
@@ -223,20 +223,6 @@ int	ft_quotes_unquoting(t_quotes *quotes)
 
 	if (!quotes)
 		return (FAILURE);
-		/*
-	counter = 0;
-	while (counter < quotes->counter)
-	{
-		str = quotes->inner_quotes[counter];
-		if (!str)
-			return (FAILURE);
-		tmp = ft_unquote(str);
-		if (!tmp)
-			return (FAILURE);
-		quotes->inner_quotes[counter++] = tmp;
-		free(str);
-	}
-	*/
 	if (ft_quotes_unquoting_loop(quotes) == NULL)
 		return (FAILURE);
 	if (ft_char_quotes(quotes->last_unquote[0]))
@@ -294,11 +280,11 @@ void	ft_unquote_quotes_regex(t_btree **root)
 		content->token = ERROR;
 		return ;
 	}
+	/*
 	lxr->pos = 0;
 	lxr->counter = 0;
-	/*
-		ft_bzero(lxr, sizeof(t_lxr));
 	*/
+	ft_bzero(lxr, sizeof(t_lxr));
 	lxr->str = str;
 	if (ft_get_tokens(lxr) != SUCCESS)
 	{
