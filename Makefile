@@ -6,7 +6,7 @@
 #    By: alvjimen <alvjimen@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/01/31 19:37:18 by alvjimen          #+#    #+#              #
-#    Updated: 2023/04/21 19:58:40 by alvjimen         ###   ########.fr        #
+#    Updated: 2023/04/21 20:01:55 by alvjimen         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -76,6 +76,7 @@ SRC-LXR				:=	ft_lexer\
 						ft_print_btree\
 						ft_btree_destroy\
 						ft_search_funcs\
+						ft_vars_value\
 
 SRC-LST				:=	ft_lstnew_bonus\
 						ft_lstadd_front_bonus\

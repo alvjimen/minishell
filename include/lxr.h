@@ -6,7 +6,7 @@
 /*   By: alvjimen <alvjimen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/28 18:36:15 by alvjimen          #+#    #+#             */
-/*   Updated: 2023/04/19 13:49:32 by alvjimen         ###   ########.fr       */
+/*   Updated: 2023/04/21 20:26:12 by alvjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,6 +100,13 @@ typedef struct s_lxr
 	size_t	counter;
 }	t_lxr;
 
+typedef struct s_vars
+{
+	char	*name;
+	char	*value;
+	char	*tmp;
+}	t_vars;
+
 t_lxr		*ft_init_lxr(char *s);
 size_t		ft_run_ifs(t_lxr *lxr);
 int			ft_char_states(char ch);
@@ -163,4 +170,5 @@ char		**ft_regex_ls(t_quotes *quotes, char *str);
 void		ft_expand_vars_regex_unquote(t_btree **root);
 void		ft_print_btree(t_btree *root);
 void		ft_btree_destroy(t_btree **root);
+char		*ft_var_value(char **sarr, char *var_name);
 #endif

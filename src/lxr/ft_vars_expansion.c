@@ -6,27 +6,10 @@
 /*   By: alvjimen <alvjimen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/21 12:45:06 by alvjimen          #+#    #+#             */
-/*   Updated: 2023/04/21 14:00:10 by alvjimen         ###   ########.fr       */
+/*   Updated: 2023/04/21 20:32:00 by alvjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "lxr.h"
-
-/**/
-char	*ft_var_value(char **sarr, char *var_name)
-{
-	sarr = NULL;
-	var_name = NULL;
-	return (ft_strdup("var value"));
-}
-/**/
-/**a/
-char	*ft_var_value(char **sarr, char *var_name)
-{
-	sarr = NULL;
-	var_name = NULL;
-	return (ft_strdup(""));
-}
-/a**/
 
 char	*ft_previous_var(t_lxr **lxr, char **name, char **value,
 		char **tmp)
@@ -122,50 +105,34 @@ char	*ft_join_str(t_lxr **lxr, char **name, char **value, char **tmp)
 	return (name[0]);
 }
 
-char	*ft_dollar_expansion(t_lxr **lxr, char **name, char **value, char **tmp)
+char	*ft_dollar_expansion(t_lxr **lxr, t_vars *vars)
 {
-	name[0] = ft_get_varname(*lxr);
-	if (!*name)
+	vars->name = ft_get_varname(*lxr);
+	if (!vars->name)
 		return (lxr[0]->str);
-	else if (*tmp == lxr[0]->str)
+	else if (vars->tmp == lxr[0]->str)
 	{
-		free(*name);
+		free(vars->name);
 		lxr[0]->pos++;
 		return (lxr[0]->str);
 	}
-	if (ft_previous_var(lxr, name, value, tmp) == NULL)
+	if (ft_previous_var(lxr, &vars->name, &vars->value, &vars->tmp) == NULL)
 		return (NULL);
-	if (ft_join_previos_with_var_value(lxr, name, value, tmp) == NULL)
+	if (ft_join_previos_with_var_value(lxr, &vars->name, &vars->value, &vars->tmp) == NULL)
 		return (NULL);
-	if (ft_after_var(lxr, name, value, tmp) == NULL)
+	if (ft_after_var(lxr, &vars->name, &vars->value, &vars->tmp) == NULL)
 		return (NULL);
-	if (ft_join_str(lxr, name, value, tmp) == NULL)
+	if (ft_join_str(lxr, &vars->name, &vars->value, &vars->tmp) == NULL)
 		return (NULL);
-	lxr[0]->str = name[0];
-	name[0] = NULL;
+	lxr[0]->str = vars->name;
+	vars->name = NULL;
 	lxr[0]->pos = -1;
 	lxr[0]->counter = 0;
 	return (lxr[0]->str);
 }
 
-void	ft_pointer_set_null(char **p1, char **p2, char **p3, char **p4)
-{
-	if (!p1)
-		return ;
-	*p1 = NULL;
-	if (!p2)
-		return ;
-	*p2 = NULL;
-	if (!p3)
-		return ;
-	*p3 = NULL;
-	if (!p4)
-		return ;
-	*p4 = NULL;
-}
 
-char	*ft_vars_expansion_loop(t_lxr **lxr, char **name, char **value,
-		char **tmp)
+char	*ft_vars_expansion_loop(t_lxr **lxr, t_vars *vars)
 {
 	char	*aux;
 
@@ -180,28 +147,25 @@ char	*ft_vars_expansion_loop(t_lxr **lxr, char **name, char **value,
 		else if (lxr[0]->tokens.states != SQUOTES
 			&& lxr[0]->str[lxr[0]->pos] == '$')
 		{
-			aux = ft_dollar_expansion(lxr, name, value, tmp);
+			aux = ft_dollar_expansion(lxr, vars);
 			if (aux != lxr[0]->str)
 				return (aux);
 		}
 		lxr[0]->pos++;
 	}
-	*tmp = lxr[0]->str;
+	vars->tmp = lxr[0]->str;
 	free(lxr[0]);
-	return (*tmp);
+	return (vars->tmp);
 }
 
 char	*ft_vars_expansion(char *str)
 {
 	t_lxr	*lxr;
-	char	*name;
-	char	*value;
-	char	*tmp;
-	char	*aux;
+	t_vars	vars;
 
-	ft_pointer_set_null(&name, &value, &tmp, &aux);
+	ft_bzero(&vars, sizeof(vars));
 	lxr = ft_init_lxr(str);
 	if (!lxr)
 		return (NULL);
-	return (ft_vars_expansion_loop(&lxr, &name, &value, &tmp));
+	return (ft_vars_expansion_loop(&lxr, &vars));
 }
