@@ -6,7 +6,7 @@
 /*   By: alvjimen <alvjimen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/05 12:31:05 by alvjimen          #+#    #+#             */
-/*   Updated: 2023/03/13 17:49:40 by alvjimen         ###   ########.fr       */
+/*   Updated: 2023/04/21 13:38:01 by alvjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "lxr.h"
@@ -23,5 +23,5 @@ int	ft_quotes(t_lxr *lxr, size_t *counter)
 		return (ft_squotes(lxr, counter));
 	else if (lxr->str[lxr->pos + counter[0]] == '"')
 		return (ft_dquotes(lxr, counter));
-	return (FAILURE);
+	return (NOT_TOKEN);
 }
