@@ -6,7 +6,7 @@
 /*   By: alvjimen <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/01 19:18:10 by alvjimen          #+#    #+#             */
-/*   Updated: 2023/04/21 14:51:53 by alvjimen         ###   ########.fr       */
+/*   Updated: 2023/04/21 16:50:02 by alvjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "lxr.h"
@@ -240,6 +240,39 @@ int	ft_quotes_unquoting(t_quotes *quotes)
 	return (SUCCESS);
 }
 
+char	*ft_unquote_quotes_regex_expand_outside(t_lxr **lxr, t_tkn *content)
+{
+	t_quotes	*quotes;
+	char		*str;
+
+	*lxr = ft_init_lxr(content->value);
+	if (!*lxr)
+	{
+		content->token = ERROR;
+		return (NULL);
+	}
+	quotes = ft_init_quotes(*lxr);
+	if (!quotes)
+	{
+		free(*lxr);
+		content->token = ERROR;
+		return (NULL);
+	}
+	if (content->token != HDFILENAME && ft_expand_outside(quotes) == NULL)
+	{
+		free(*lxr);
+		ft_destroy_quotes(&quotes);
+		content->token = ERROR;
+	}
+	str = ft_join_quotes(quotes);
+	ft_destroy_quotes(&quotes);
+	if (str == NULL)
+	{
+		free(*lxr);
+		content->token = ERROR;
+	}
+	return (str);
+}
 /*This function  should be called by ft_modify_root_conserve_branchs*/
 void	ft_unquote_quotes_regex(t_btree **root)
 {
@@ -248,11 +281,15 @@ void	ft_unquote_quotes_regex(t_btree **root)
 	t_quotes	*quotes;
 	char		*str;
 
-	if (!root || !*root)
+	if (!root || !*root || !root[0]->content)
 		return ;
 	content = root[0]->content;
-	if (!content)
-		return ;
+	/*	Start ft_unquote_quotes_regex_expand_outside
+		ft_init_lxr && ft_init_quotes && expand outside && ft_join_quotes &&
+		if necessary
+	 */
+	str = ft_unquote_quotes_regex_expand_outside(&lxr, content);
+	/*
 	lxr = ft_init_lxr(content->value);
 	if (!lxr)
 	{
@@ -273,23 +310,26 @@ void	ft_unquote_quotes_regex(t_btree **root)
 		content->token = ERROR;
 	}
 	str = ft_join_quotes(quotes);
+	ft_destroy_quotes(&quotes);
+	*/
 	if (str == NULL)
+		return ;
+		/*
 	{
 		free(lxr);
-		ft_destroy_quotes(&quotes);
 		content->token = ERROR;
 		return ;
 	}
-	/*
-	lxr->pos = 0;
-	lxr->counter = 0;
 	*/
+	/* End ft_unquote_quotes_regex_expand_outside*/
+	/* Start like ft_init_lxr*/
 	ft_bzero(lxr, sizeof(t_lxr));
 	lxr->str = str;
+	/* End*/
+	/* Start check if new tokens*/
 	if (ft_get_tokens(lxr) != SUCCESS)
 	{
 		free(lxr);
-		ft_destroy_quotes(&quotes);
 		content->token = ERROR;
 		return ;
 	}
@@ -300,6 +340,8 @@ void	ft_unquote_quotes_regex(t_btree **root)
 		content->value = str;
 		return ;
 	}
+	/*End check if new tokens*/
+	/*Start set filename || hdfilename*/
 	if (content->token == FILENAME || content->token == HDFILENAME)
 	{
 		if (content->token == FILENAME)
@@ -309,17 +351,15 @@ void	ft_unquote_quotes_regex(t_btree **root)
 		if (ft_lstsize((t_list *)lxr->btree) > 1)
 			ft_lstiter((t_list *)lxr->btree, ft_set_ambiguous);
 	}
+	/*End set filename*/
 	ft_btree_delone(root[0], ft_destroy_tkn);
 	root[0] = NULL;
 	*root = lxr->btree;
 	free(lxr);
 	free(str);
-	ft_destroy_quotes(&quotes);
-	if (!*root)
+	if (!*root || !root[0]->content)
 		return ;
 	content = root[0]->content;
-	if (!content)
-		return ;
 	lxr = ft_init_lxr(content->value);
 	if (!lxr)
 	{
