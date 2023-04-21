@@ -6,7 +6,7 @@
 /*   By: alvjimen <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/01 19:18:10 by alvjimen          #+#    #+#             */
-/*   Updated: 2023/04/21 18:02:35 by alvjimen         ###   ########.fr       */
+/*   Updated: 2023/04/21 18:11:41 by alvjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "lxr.h"
@@ -365,6 +365,31 @@ void	ft_unquote_quotes_regex_expand_regex(t_tkn *content, t_quotes *quotes, t_lx
 	return ;
 }
 
+void	ft_unquote_quotes_regex_unquote(t_tkn *content, t_quotes *quotes, t_lxr *lxr)
+{
+	char	*str;
+
+	if (ft_quotes_unquoting(quotes))
+	{
+		content->token = ERROR;
+		ft_destroy_quotes(&quotes);
+		free(lxr);
+		return ;
+	}
+	str = ft_join_quotes(quotes);
+	if (str == NULL)
+	{
+		ft_destroy_quotes(&quotes);
+		content->token = ERROR;
+		free(lxr);
+		return ;
+	}
+	free(lxr->str);
+	content->value = str;
+	ft_destroy_quotes(&quotes);
+	free(lxr);
+}
+
 /*This function  should be called by ft_modify_root_conserve_branchs*/
 void	ft_unquote_quotes_regex(t_btree **root)
 {
@@ -390,29 +415,13 @@ void	ft_unquote_quotes_regex(t_btree **root)
 		return ;
 	/*Start ft_last_step*/
 	if (ft_isany_star(quotes) == SUCCESS)
-	/*Start ft_expand_regex*/
-	{
-		/*
-		content->regex = ft_regex_ls(quotes, lxr->str);
-		ft_destroy_quotes(&quotes);
-		free(content->value);
-		content->value = NULL;
-		free(lxr);
-		if (!content->regex)
-		{
-			content->token = ERROR;
-			return ;
-		}
-		content->value = ft_strdup(content->regex[0]);
-		if (!content->value)
-			content->token = ERROR;
-		return ;
-		*/
 		ft_unquote_quotes_regex_expand_regex(content, quotes, lxr);
-		return ;
-		/*return ;*/
-	}
-	/*End ft_expand_regex*/
+	else
+		ft_unquote_quotes_regex_unquote(content, quotes, lxr);
+	return ;
+	/*Start unquoting str and adding to token->value*/
+	ft_unquote_quotes_regex_unquote(content, quotes, lxr);
+	/*
 	if (ft_quotes_unquoting(quotes))
 	{
 		content->token = ERROR;
@@ -432,7 +441,8 @@ void	ft_unquote_quotes_regex(t_btree **root)
 	content->value = str;
 	ft_destroy_quotes(&quotes);
 	free(lxr);
-	/*ft_last_step*/
+	*/
+	/*End ft_last_step*/
 	return ;
 }
 
