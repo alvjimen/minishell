@@ -6,7 +6,7 @@
 /*   By: alvjimen <alvjimen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/28 18:36:15 by alvjimen          #+#    #+#             */
-/*   Updated: 2023/04/21 20:54:27 by alvjimen         ###   ########.fr       */
+/*   Updated: 2023/04/22 09:03:29 by alvjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -172,4 +172,13 @@ void		ft_print_btree(t_btree *root);
 void		ft_btree_destroy(t_btree **root);
 char		*ft_var_value(char **sarr, char *var_name);
 char		*ft_dollar_expansion(t_lxr **lxr, t_vars *vars);
+t_quotes	*ft_destroy_quotes(t_quotes **quotes);
+t_quotes	*ft_init_quotes(t_lxr *lxr);
+void		ft_join_(char *old, char *str, char **join);
+void		*ft_join_quotes(t_quotes *quotes);
+void		*ft_expand_inside_quotes(t_quotes *quotes);
+void		*ft_expand_outside(t_quotes *quotes);
+int			ft_quotes_unquoting(t_quotes *quotes);
+char		*ft_unquote_quotes_regex_expand_outside(t_lxr **lxr,
+				t_tkn *content);
 #endif
