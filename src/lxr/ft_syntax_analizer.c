@@ -6,7 +6,7 @@
 /*   By: alvjimen <alvjimen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/20 14:03:33 by alvjimen          #+#    #+#             */
-/*   Updated: 2023/04/19 19:22:00 by alvjimen         ###   ########.fr       */
+/*   Updated: 2023/04/22 13:49:01 by alvjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "lxr.h"
@@ -76,7 +76,7 @@ int	ft_syntax_analizer_operator(t_btree *root, t_tkn *content, t_lxr *lxr)
 			|| content->operators == GREATER || content->operators == LOWER
 			|| content->operators == DLOWER))
 		return (ft_syntax_analizer_operator_intercmd(root, content));
-	return (NOT_TOKEN);
+	return (FAILURE);
 }
 
 int	ft_syntax_analizer(t_btree *root, t_lxr *lxr)

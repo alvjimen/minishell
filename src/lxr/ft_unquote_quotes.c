@@ -6,7 +6,7 @@
 /*   By: alvjimen <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/01 19:18:10 by alvjimen          #+#    #+#             */
-/*   Updated: 2023/04/22 09:13:11 by alvjimen         ###   ########.fr       */
+/*   Updated: 2023/04/22 13:55:49 by alvjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "lxr.h"
@@ -43,14 +43,13 @@ void	ft_unquote_quotes_regex_expand_regex(t_tkn *content, t_quotes *quotes,
 {
 	content->regex = ft_regex_ls(quotes, lxr->str);
 	ft_destroy_quotes(&quotes);
-	free(content->value);
-	content->value = NULL;
 	free(lxr);
 	if (!content->regex)
 	{
 		content->token = ERROR;
 		return ;
 	}
+	free(content->value);
 	content->value = ft_strdup(content->regex[0]);
 	if (!content->value)
 		content->token = ERROR;

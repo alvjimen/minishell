@@ -6,7 +6,7 @@
 /*   By: alvjimen <alvjimen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/12 17:53:50 by alvjimen          #+#    #+#             */
-/*   Updated: 2023/04/01 12:16:03 by alvjimen         ###   ########.fr       */
+/*   Updated: 2023/04/22 13:27:44 by alvjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "lxr.h"
@@ -61,8 +61,6 @@ int	ft_parenthesis(t_lxr *lxr)
 			return (FAILURE);
 		if (lxr->str[lxr->pos + counter] == ')')
 			return (ft_set_token(lxr, counter));
-		else if (lxr->mode == NONINTERACTIVE || ft_get_more_input(lxr))
-			break ;
 	}
 	ft_putstr_fd("NOT close parenthesis\n", 2);
 	return (NOT_TOKEN);

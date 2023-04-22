@@ -6,7 +6,7 @@
 /*   By: alvjimen <alvjimen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/21 08:09:01 by alvjimen          #+#    #+#             */
-/*   Updated: 2023/04/19 20:45:07 by alvjimen         ###   ########.fr       */
+/*   Updated: 2023/04/22 13:31:06 by alvjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "lxr.h"
@@ -72,8 +72,6 @@ int	ft_parenthesis_split(char	*str, t_btree **root)
 	return (ft_clean_exit(&lxr, &tmp, 2));
 }
 
-/*This is part of another function an is should execute later*/
-/*()*/
 /* This is function should pass once the tree is all build for
 	subtitute the paren token with her content it doesn't care about
 	what is next use when is a leave of the tree in other case

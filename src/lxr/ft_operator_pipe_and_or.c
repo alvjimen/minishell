@@ -6,7 +6,7 @@
 /*   By: alvjimen <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/05 19:25:52 by alvjimen          #+#    #+#             */
-/*   Updated: 2023/03/16 18:58:04 by alvjimen         ###   ########.fr       */
+/*   Updated: 2023/04/22 13:25:20 by alvjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "lxr.h"
@@ -27,7 +27,7 @@ int	ft_token_pipe(t_lxr	*lxr)
 	else
 		lxr->tokens.operators = PIPE;
 	if (ft_add_string_to_list(lxr, counter) == NULL)
-		return (NOT_TOKEN);
+		return (FAILURE);
 	return (SUCCESS);
 }
 
@@ -38,6 +38,6 @@ int	ft_token_and(t_lxr	*lxr)
 	lxr->tokens.token = OPERATOR;
 	lxr->tokens.operators = AND_IF;
 	if (ft_add_string_to_list(lxr, 2) == NULL)
-		return (NOT_TOKEN);
+		return (FAILURE);
 	return (SUCCESS);
 }

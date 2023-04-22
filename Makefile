@@ -6,7 +6,7 @@
 #    By: alvjimen <alvjimen@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/01/31 19:37:18 by alvjimen          #+#    #+#              #
-#    Updated: 2023/04/22 10:16:11 by alvjimen         ###   ########.fr        #
+#    Updated: 2023/04/22 13:12:12 by alvjimen         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -48,7 +48,6 @@ SRC-LXR				:=	ft_lexer\
 						ft_run_ifs\
 						ft_operator_redirections\
 						ft_chars\
-						ft_get_more_input\
 						ft_dquotes\
 						ft_squotes\
 						ft_tkn_word\
@@ -66,7 +65,6 @@ SRC-LXR				:=	ft_lexer\
 						ft_syntax_analizer\
 						ft_get_varname\
 						ft_ls\
-						ft_regex\
 						ft_vars_expansion\
 						ft_get_array_words\
 						ft_unquote_quotes\
