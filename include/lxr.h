@@ -6,7 +6,7 @@
 /*   By: alvjimen <alvjimen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/28 18:36:15 by alvjimen          #+#    #+#             */
-/*   Updated: 2023/04/22 09:31:17 by alvjimen         ###   ########.fr       */
+/*   Updated: 2023/04/22 10:16:33 by alvjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -188,4 +188,13 @@ void		*ft_unquote_quotes_regex_new_tkns(t_lxr *lxr, t_tkn *content,
 char		*ft_start_notstar(char **matched, char *str, size_t *counter);
 int			ft_just_asterisk(char *regex);
 char		**ft_regex_ls(t_quotes *quotes, char *str);
+char		**ft_wordsplit_join(char **old, char *str, char **regex);
+char		**ft_wordsplit_join_first_regex_error(char **regex, char **words,
+				int flag);
+char		**ft_wordsplit_join_checks_error(char **regex, char **old);
+int			ft_regex_bash(char ***regex, char *matched, char *str);
+char		**ft_regex_quotes(t_quotes *quote);
+char		**ft_regex_quotes_loop(t_quotes *quote, char ***regex, char **old,
+				size_t *counter);
+int			ft_isany_star(t_quotes *quotes);
 #endif
