@@ -6,7 +6,7 @@
 /*   By: alvjimen <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/30 18:13:42 by alvjimen          #+#    #+#             */
-/*   Updated: 2023/04/21 12:54:12 by alvjimen         ###   ########.fr       */
+/*   Updated: 2023/04/22 15:51:32 by alvjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "lxr.h"
@@ -73,11 +73,10 @@ char	**ft_get_array_words(t_btree **root)
 	error = 0;
 	if (ft_tokens_assignment_word(root[0]->content) == SUCCESS)
 		ft_delete_all_following_assignment_word(root);
-	if (ft_tokens_assignment_word(root[0]->content) == SUCCESS
-		|| ft_tokens_word(root[0]->content) == SUCCESS)
+	if (ft_tokens_get_array_words(root[0]->content) == SUCCESS)
 	{
 		words = ft_lst_to_sarr((t_list *) root[0], &error);
-		if (error == AMBIGUOUS || error == ERROR)
+		if (error == AMBIGUOUS || error == ERROR || error == SYNTAX_ERROR)
 			((t_tkn *)root[0]->content)->token = error;
 		ft_lstclear((t_list **)&root[0]->right, ft_destroy_tkn);
 	}

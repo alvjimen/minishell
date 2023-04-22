@@ -6,7 +6,7 @@
 /*   By: alvjimen <alvjimen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/12 17:53:50 by alvjimen          #+#    #+#             */
-/*   Updated: 2023/04/22 13:27:44 by alvjimen         ###   ########.fr       */
+/*   Updated: 2023/04/22 16:03:05 by alvjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "lxr.h"
@@ -27,8 +27,8 @@ static int	ft_search_close_parenthesis(t_lxr *lxr, size_t *counter,
 			counter_par[0]++;
 		else if (lxr->str[lxr->pos + *counter] == ')')
 			counter_par[0]--;
-		else if (ft_quotes(lxr, counter) == NOT_TOKEN)
-			return (NOT_TOKEN);
+		else if (ft_quotes(lxr, counter) == FAILURE)
+			return (FAILURE);
 		counter[0]++;
 	}
 	return (SUCCESS);

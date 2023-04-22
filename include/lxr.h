@@ -6,7 +6,7 @@
 /*   By: alvjimen <alvjimen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/28 18:36:15 by alvjimen          #+#    #+#             */
-/*   Updated: 2023/04/22 10:16:33 by alvjimen         ###   ########.fr       */
+/*   Updated: 2023/04/22 15:48:36 by alvjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -197,4 +197,5 @@ char		**ft_regex_quotes(t_quotes *quote);
 char		**ft_regex_quotes_loop(t_quotes *quote, char ***regex, char **old,
 				size_t *counter);
 int			ft_isany_star(t_quotes *quotes);
+int			ft_tokens_get_array_words(void *ptr);
 #endif

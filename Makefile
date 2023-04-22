@@ -6,7 +6,7 @@
 #    By: alvjimen <alvjimen@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/01/31 19:37:18 by alvjimen          #+#    #+#              #
-#    Updated: 2023/04/22 13:12:12 by alvjimen         ###   ########.fr        #
+#    Updated: 2023/04/22 15:55:22 by alvjimen         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -93,6 +93,7 @@ SRC-LXR				:=	ft_lexer\
 						ft_regex_quotes\
 						ft_regex_quotes_loop\
 						ft_isany_star\
+						ft_search_funcs_v2\
 
 SRC-LST				:=	ft_lstnew_bonus\
 						ft_lstadd_front_bonus\
