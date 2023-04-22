@@ -6,27 +6,11 @@
 /*   By: alvjimen <alvjimen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/26 17:26:06 by alvjimen          #+#    #+#             */
-/*   Updated: 2023/04/22 08:42:13 by alvjimen         ###   ########.fr       */
+/*   Updated: 2023/04/22 09:32:34 by alvjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "lxr.h"
 /*call this after de token analizer after the var expansion*/
-
-char	*ft_start_notstar(char **matched, char *str, size_t *counter)
-{
-	size_t	len;
-
-	if (!matched || !*matched || !str || !counter)
-		return (NULL);
-	len = ft_strlen(str);
-	if (ft_strnstr(*matched, str, len))
-	{
-		counter[0]++;
-		*matched += len;
-		return (*matched);
-	}
-	return (NULL);
-}
 
 char	*ft_interstar(char **split, size_t *counter, char *matched)
 {
@@ -72,63 +56,6 @@ int	ft_end_notstar(char *matched, char *str, char ***split,
 	if (!ft_strnstr(matched, str, -1))
 		return (FAILURE);
 	return (SUCCESS);
-}
-
-int	ft_just_asterisk(char *regex)
-{
-	size_t	len;
-
-	len = 0;
-	if (!regex)
-		return (SUCCESS);
-	while (regex[len] == '*')
-		len++;
-	if (regex[len] == '\0')
-		return (SUCCESS);
-	return (FAILURE);
-}
-
-int	ft_clean_exit(char ***split, int value)
-{
-	ft_sarrfree(split);
-	return (value);
-}
-
-int	ft_regex_first(char **matched, char *regex, char *split, size_t *counter)
-{
-	if (*regex != '*' && !ft_start_notstar(matched, split, counter))
-		return (FAILURE);
-	else if (*regex == '*' && ft_just_asterisk(regex) == SUCCESS)
-		return (SUCCESS);
-	return (NOT_TOKEN);
-}
-
-int	ft_regex(char *regex, char *matched)
-{
-	size_t	len;
-	size_t	counter;
-	char	**split;
-	char	*matched_copy;
-
-	matched_copy = matched;
-	len = 0;
-	counter = 0;
-	if (!regex || !matched || !*regex || (*matched == '.' && *regex != '.'))
-		return (FAILURE);
-	split = ft_split(regex, '*');
-	if (!split)
-		return (FAILURE);
-	if (ft_regex_first(&matched, regex, split[counter], &counter) == FAILURE)
-		return (FAILURE);
-	matched = ft_interstar(split, &counter, matched);
-	if (!matched)
-		return (FAILURE);
-	len = ft_strlen(regex);
-	if (len > 0)
-		len--;
-	if (regex[len] == '*')
-		return (ft_end_star(matched, split[counter], split) == FAILURE);
-	return (ft_end_notstar(matched, split[counter], &split, matched_copy));
 }
 
 int	ft_splitted_regex(char ***split, char *matched, char *regex)
@@ -198,6 +125,7 @@ char	**ft_regex_fail(t_quotes *quotes, char *str, char ***ls)
 	return (*ls);
 }
 
+/*
 void	*ft_regex_clean_ls(char ***ls, char ***regex, char *str,
 		t_quotes *quotes)
 {
@@ -220,16 +148,8 @@ void	*ft_regex_clean_ls(char ***ls, char ***regex, char *str,
 	}
 	return (*ls);
 }
-
-char	**ft_return_regex_ls(char ***ls, char ***regex, int flag)
-{
-	if (flag > 0)
-		ft_sarrfree(ls);
-	if (flag > 1)
-		ft_sarrfree(regex);
-	return (NULL);
-}
-
+*/
+/*
 char	**ft_regex_ls(t_quotes *quotes, char *str)
 {
 	char	**ls;
@@ -253,7 +173,7 @@ char	**ft_regex_ls(t_quotes *quotes, char *str)
 		return (ft_regex_fail(quotes, str, &ls));
 	return (ls);
 }
-
+*/
 char	**ft_wordsplit_join_checks_error(char **regex, char **old)
 {
 	ft_sarrfree(&regex);

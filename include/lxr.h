@@ -6,7 +6,7 @@
 /*   By: alvjimen <alvjimen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/28 18:36:15 by alvjimen          #+#    #+#             */
-/*   Updated: 2023/04/22 09:11:14 by alvjimen         ###   ########.fr       */
+/*   Updated: 2023/04/22 09:31:17 by alvjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -185,4 +185,7 @@ void		*ft_unquote_quotes_regex_new_root(t_lxr **lxr, t_btree **root);
 void		ft_unquote_quotes_regex_set_filename(t_lxr *lxr, t_tkn *content);
 void		*ft_unquote_quotes_regex_new_tkns(t_lxr *lxr, t_tkn *content,
 				char *str);
+char		*ft_start_notstar(char **matched, char *str, size_t *counter);
+int			ft_just_asterisk(char *regex);
+char		**ft_regex_ls(t_quotes *quotes, char *str);
 #endif

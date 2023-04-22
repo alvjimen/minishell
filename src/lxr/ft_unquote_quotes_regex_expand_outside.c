@@ -6,12 +6,13 @@
 /*   By: alvjimen <alvjimen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/22 09:02:25 by alvjimen          #+#    #+#             */
-/*   Updated: 2023/04/22 09:04:19 by alvjimen         ###   ########.fr       */
+/*   Updated: 2023/04/22 09:13:44 by alvjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "lxr.h"
 
-static char	*ft_unquote_quotes_error(t_tkn *content, t_lxr **lxr, t_quotes **quotes,
+static char	*ft_unquote_quotes_error(t_tkn *content, t_lxr **lxr,
+		t_quotes **quotes,
 		int flag)
 {
 	if (flag > 0)

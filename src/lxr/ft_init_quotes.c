@@ -6,7 +6,7 @@
 /*   By: alvjimen <alvjimen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/22 08:35:49 by alvjimen          #+#    #+#             */
-/*   Updated: 2023/04/22 08:36:09 by alvjimen         ###   ########.fr       */
+/*   Updated: 2023/04/22 09:14:21 by alvjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "lxr.h"
@@ -71,5 +71,3 @@ t_quotes	*ft_init_quotes(t_lxr *lxr)
 		return (ft_destroy_quotes(&quotes));
 	return (quotes);
 }
-
-
