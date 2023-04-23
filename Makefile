@@ -34,7 +34,8 @@ END					:=	m
 
 # UTENSILS
 SHELL				:=	/bin/sh
-NAME				:=	mini_shell.a
+LIB_NAME			:=	mini_shell.a
+NAME				:=	mini_shell
 RM					:=	rm -rf
 # @D take the part of the directory
 DIR_DUP				=	mkdir -p $(@D)
@@ -142,6 +143,7 @@ SRC-LIB_ADD			:=	ft_split\
 						ft_swap\
 						ft_strchr\
 						ft_bzero\
+						ft_strjoinfree\
 						$(SRC-LST)
 						
 SRC-TST				:=	test
@@ -161,25 +163,34 @@ SRC-BTREE			:=	ft_btree_apply_by_level\
 						ft_btree_swap\
 						ft_btree_modify_root_conserve_branchs\
 
+SRC-EXE				:=	main\
+						ft_init\
+						ft_get_path\
+						ft_echo\
+						ft_env
+
 DIR-SRC				:=	./src/
 DIR-LXR				:=	lxr/
 DIR-LIB_ADD			:=	lib_add/
 DIR-TST				:=	test/
 DIR-BTREE			:=	btree/
+DIR-EXE				:=	exe/
 
 SRC-LXR				:=	$(SRC-LXR:%=$(DIR-LXR)%)
 SRC-LIB_ADD			:=	$(SRC-LIB_ADD:%=$(DIR-LIB_ADD)%)
-SRC-TST				:=	$(SRC-TST:%=$(DIR-TST)%)
 SRC-BTREE			:=	$(SRC-BTREE:%=$(DIR-BTREE)%)
+SRC-EXE				:=	$(SRC-EXE:%=$(DIR-EXE)%)
+SRC-TST				:=	$(SRC-TST:%=$(DIR-TST)%)
 
 SRC					:=	$(SRC-LXR) $(SRC-LIB_ADD) $(SRC-BTREE)
 
 INC					:=	./include/
 BUILD-DIR			:=	./.build/
 CC					:=	clang
-CFLAGS				:=	-Wall -Werror -Wextra -g3 -std=c89 -pedantic\
+CFLAGS				:=	-Wall -Werror -Wextra -g3 -std=c89 #-pedantic\
 						#-fsanitize=undefined -fsanitize=address #-O2
 BUILD				:=	$(addprefix $(BUILD-DIR), $(addsuffix .o, $(SRC)))
+BUILD-EXE			:=	$(addprefix $(BUILD-DIR), $(addsuffix .o, $(SRC-EXE)))
 BUILD-TST			:=	$(addprefix $(BUILD-DIR), $(addsuffix .o, $(SRC-TST)))
 DEPS				:=	$(BUILD:.o=.d)
 PPFLAGS				:=	-MMD -MP -I $(INC) -I $(INCS)
@@ -191,9 +202,14 @@ END-RULE				=	@echo "$(CSI)$(BLINK)$(END)🎉🎊$(CSI)$(UNBLINK)$(END)\
 
 all:	$(NAME)
 
-$(NAME):	$(BUILD)
-	@ar -rcs $(NAME) $(BUILD)
+$(LIB_NAME):	$(BUILD)
+	@ar -rcs $(LIB_NAME) $(BUILD)
 	$(END-RULE)
+
+$(NAME):	$(LIB_NAME) $(BUILD-EXE)
+	@$(CC) $(CFLAGS) -lreadline -I $(INC) -o $(NAME) $(LIB_NAME) $(BUILD-EXE)
+	$(END-RULE)
+
 
 #@$(CC) -o $(NAME) $(CFLAGS) $(BUILD)#$(LDFLAGS) $(LDLIBS)
 

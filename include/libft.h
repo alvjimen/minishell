@@ -25,4 +25,5 @@
 # include "lst.h"
 
 char	**ft_split_chars(char const *s, char *delim);
+char	*ft_strjoinfree(char *s1, char *s2, int which);
 #endif
