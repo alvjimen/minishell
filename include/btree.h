@@ -23,8 +23,9 @@ typedef struct s_btree
 
 t_btree	*ft_btree_new_node(void *content);
 void	ft_btree_apply_postfixfix(t_btree *root, void (*applyf)(void *));
-void	ft_btree_apply_infixfix(t_btree *root, void (*applyf)(void *));
-void	ft_btree_apply_postfixfix(t_btree *root, void (*applyf)(void *));
+void	ft_btree_apply_infix(t_btree *root, void (*applyf)(void *));
+	void	ft_btree_apply_postfix(t_btree *root, void (*applyf)(void *));
+	void	ft_btree_apply_prefix(t_btree *root, void (*applyf)(void *));
 void	ft_btree_insert_data(t_btree **root, void *item,
 			int (*cmpf)(void *, void*));
 int		ft_btree_level_count(t_btree *root);	

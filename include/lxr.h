@@ -6,7 +6,7 @@
 /*   By: alvjimen <alvjimen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/28 18:36:15 by alvjimen          #+#    #+#             */
-/*   Updated: 2023/04/22 15:48:36 by alvjimen         ###   ########.fr       */
+/*   Updated: 2023/04/26 10:34:37 by alvjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,6 +114,7 @@ int			ft_char_end_string(char ch);
 int			ft_char_ifs(char ch);
 int			ft_token_varname(t_lxr	*lxr);
 int			ft_token_value(t_lxr *lxr, size_t *counter);
+int			ft_token_word(t_lxr	*lxr, size_t *counter);
 int			ft_token_states(t_lxr *lxr, size_t *counter);
 int			ft_token_lower(t_lxr *lxr);
 int			ft_token_greater(t_lxr *lxr);
@@ -122,7 +123,7 @@ int			ft_squotes(t_lxr *lxr, size_t *counter);
 int			ft_dquotes(t_lxr *lxr, size_t *counter);
 void		ft_token_new_line(t_lxr *lxr);
 int			ft_token_pipe(t_lxr	*lxr);
-int			ft_token_AND(t_lxr	*lxr);
+int			ft_token_and(t_lxr	*lxr);
 int			ft_get_more_input(t_lxr *lxr);
 int			ft_quotes(t_lxr *lxr, size_t *counter);
 int			ft_operators(t_lxr *lxr);
@@ -154,6 +155,7 @@ int			ft_syntax_analizer(t_btree *root, t_lxr *lxr);
 void		ft_unquote_quotes_recursively(void **ptr);
 void		ft_unquote_quotes(t_btree **root);
 t_btree		*ft_btree_builder(char	*str);
+int			ft_parenthesis_split(char	*str, t_btree **root);
 void		ft_parenthesis_expansion_recursively(void **ptr);
 void		ft_get_array_words_recursively(void **ptr);
 void		ft_set_hdfilename(void	*content);
@@ -175,7 +177,6 @@ char		*ft_dollar_expansion(t_lxr **lxr, t_vars *vars);
 t_quotes	*ft_destroy_quotes(t_quotes **quotes);
 t_quotes	*ft_init_quotes(t_lxr *lxr);
 void		ft_join_(char *old, char *str, char **join);
-void		*ft_join_quotes(t_quotes *quotes);
 void		*ft_expand_inside_quotes(t_quotes *quotes);
 void		*ft_expand_outside(t_quotes *quotes);
 int			ft_quotes_unquoting(t_quotes *quotes);
@@ -192,10 +193,16 @@ char		**ft_wordsplit_join(char **old, char *str, char **regex);
 char		**ft_wordsplit_join_first_regex_error(char **regex, char **words,
 				int flag);
 char		**ft_wordsplit_join_checks_error(char **regex, char **old);
+char		**ft_wordsplit_join_first_regex_error(char **regex, char **words,
+				int flag);
 int			ft_regex_bash(char ***regex, char *matched, char *str);
 char		**ft_regex_quotes(t_quotes *quote);
 char		**ft_regex_quotes_loop(t_quotes *quote, char ***regex, char **old,
 				size_t *counter);
 int			ft_isany_star(t_quotes *quotes);
 int			ft_tokens_get_array_words(void *ptr);
+int			ft_tokens_paren(void *ptr);
+int			ft_operators_outercmd(t_btree **root, int (*f)(void *));
+int			ft_operators_redirections(t_btree **root);
+int			ft_char_quotes(char ch);
 #endif
