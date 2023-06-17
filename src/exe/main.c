@@ -39,8 +39,10 @@ int	ft_check_line(t_shell *mns, t_tkn *cont)
 	else if (!ft_strncmp(cont->value, "echo\0", 5))
 		ft_echo(cont);
 	else if (!ft_strncmp(cont->value, "export\0", 7))
-		return (ft_export(cont->value, mns));
-	else if (!ft_strncmp(cont->value, "cd ", 3))
+		return (ft_export(cont, mns));
+	else if (!ft_strncmp(cont->value, "unset\0", 6))
+		return (ft_unset(cont, mns));
+	else if (!ft_strncmp(cont->value, "cd\0", 3))
 		return (ft_cd(cont->value));
 	else if (!ft_strncmp(cont->value, "exit\0", 5))
 		exit(EXIT_SUCCESS);
@@ -62,7 +64,7 @@ int	main (int argc, char **argv, char **envp)
 	init_minishell(&mns, envp);
 	while (argc && argv)
 	{
-		str = readline("> ");
+		str = readline("mns> ");
 		if (!str)
 			return (FAILURE);
 		mns.root = ft_btree_builder(str);
@@ -71,7 +73,7 @@ int	main (int argc, char **argv, char **envp)
 		if (mns.root)
 		{
 			ft_expand_vars_regex_unquote(&mns.root);
-			ft_print_btree(mns.root);
+			// ft_print_btree(mns.root);
 			ft_mns_btree_inorder(mns.root, ft_exe, &mns);
 			ft_btree_clear(&mns.root, ft_destroy_tkn);
 		}

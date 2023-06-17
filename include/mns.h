@@ -45,8 +45,8 @@ void	init_minishell(t_shell *mns, char **envp);
 char	**ft_get_path(char **envp);
 
 void	ft_echo(t_tkn	*content);
-int		ft_export(char *line, t_shell *mns);
-int		ft_unset(char *line, t_shell *mns);
+int		ft_export(t_tkn *cont, t_shell *mns);
+int		ft_unset(t_tkn *cont, t_shell *mns);
 
 char	**ft_update_env(char *item, t_shell *mns);
 
