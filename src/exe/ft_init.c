@@ -15,6 +15,7 @@
 // Initialize the t_shell struct.
 void	init_minishell(t_shell *mns, char **envp)
 {
+	ft_bzero(mns, sizeof(t_shell));
 	mns->waiting = 0;
 	mns->cpipe = 0;
 	// mns->prompt = NULL;

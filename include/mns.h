@@ -29,6 +29,7 @@ typedef struct s_shell
 	char				**path;
 	char				**env;
 	char				*output;
+	int					lstatus;
 	int					waiting;
 	int					cpipe;
 	struct sigaction	s_action;
@@ -43,6 +44,8 @@ typedef struct s_child
 
 void	init_minishell(t_shell *mns, char **envp);
 char	**ft_get_path(char **envp);
+int		ft_cd(char *dir);
+int		ft_pwd(void);
 
 void	ft_echo(t_tkn	*content);
 int		ft_export(t_tkn *cont, t_shell *mns);

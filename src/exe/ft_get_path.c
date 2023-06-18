@@ -34,3 +34,17 @@ char	**ft_get_path(char **envp)
 		path[pos] = ft_strjoinfree(path[pos], "/", 0);
 	return (path);
 }
+
+// Change currrent directory.
+int	ft_cd(char *dir)
+{
+	chdir(dir);
+	return (1);
+}
+
+// Get the current directory.
+int	ft_pwd(void)
+{
+	printf("%s\n", getcwd(NULL, 0));
+	return (1);
+}
