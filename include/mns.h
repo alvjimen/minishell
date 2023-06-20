@@ -23,12 +23,31 @@
 # include <readline/readline.h>
 # include <sys/wait.h>
 
+typedef enum meta
+{
+	DOLLAR_BIT,
+	PIPE_BIT,
+	OREDIR_BIT,
+	IREDIR_BIT,
+	AND_BIT,
+	WILD_BIT,
+	ODQUOTE_BIT,
+	OQUOTE_BIT,
+	OR_BIT,
+	ODREDIR_BIT,
+	IDREDIR_BIT,
+	PAR_BIT,
+	IPAR_BIT,
+	AAND_BIT
+}	t_meta;
+
 typedef struct s_shell
 {
 	t_btree				*root;
 	char				**path;
 	char				**env;
 	char				*output;
+	int					meta;
 	int					lstatus;
 	int					waiting;
 	int					cpipe;

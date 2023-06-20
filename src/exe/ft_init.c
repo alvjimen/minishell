@@ -18,6 +18,7 @@ void	init_minishell(t_shell *mns, char **envp)
 	ft_bzero(mns, sizeof(t_shell));
 	mns->waiting = 0;
 	mns->cpipe = 0;
+	mns->meta = 0;
 	// mns->prompt = NULL;
 	// mns->prompt = ft_sarradd(mns->prompt, "Mns: ");
 	// mns->prompt = ft_sarradd(mns->prompt, "dquote> ");

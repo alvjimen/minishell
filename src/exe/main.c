@@ -63,19 +63,28 @@ char	*ft_cmd_search(char **paths, char *cmd)
 	return (NULL);
 }
 
+
+
 // If there's no built-in, it tries to run a command.
 int	ft_check_command(t_shell *mns, t_tkn *cont)
 {
-	if (ft_cmd_search(mns->path, cont->value))
+	char	*cmd;
+	pid_t	pid;
+
+	cmd = ft_cmd_search(mns->path, cont->value);
+	if (cmd)
 	{
 		mns->lstatus = 1;
-		// printf("Existe cmd: %s\n", cont->value);
+		pid = fork();
+		if (!pid)
+		{
+			execve(cmd, cont->str, NULL);
+			perror("execve failed");
+			exit(EXIT_FAILURE);
+		}
 	}
 	else
-	{
 		mns->lstatus = 0;
-		// printf("No existe cmd: %s\n", cont->value);
-	}
 	return (1);
 }
 
@@ -124,6 +133,37 @@ char *ft_popchar(char *str, size_t pos)
 	return (tmp);
 }
 
+// This child will send information to another child.
+void	sender(t_shell *mns, t_tkn *cont)
+{
+	int		fd[2];
+	pid_t	pid;
+
+	printf("Entra\n");
+	pipe(fd);
+	pid = fork();
+	if (!pid)
+	{
+		dup2(fd[1], STDOUT_FILENO);
+		ft_check_line(mns, cont);
+		exit (EXIT_SUCCESS);
+	}
+	dup2(fd[1], STDOUT_FILENO);
+	dup2(fd[0], STDIN_FILENO);
+}
+
+// This child will recieve information from another child.
+/*void	reciever(t_shell *mns, int cpipe)
+{
+	dup2(cld[cpipe - 1].fd[0], STDIN_FILENO);
+	waiting(mns, cpipe - 1);
+}*/
+
+void	ft_change_output(t_shell *mns, t_tkn *cont)
+{
+	sender(mns, cont);
+}
+
 /*
 	Función a ejecutar en cada nodo,
 	si el nodo contiene un operador, se añade a la cola de salida
@@ -140,6 +180,10 @@ void	ft_exe(t_shell *mns, t_tkn *cont)
 		ft_check_line(mns, cont);
 	else
 	{
+		/*printf("%s\n", mns->output);
+		printf("%c\n", mns->output[1]);
+		if (mns->output[1] == 'P')
+			ft_change_output(mns, cont);*/
 		if ((mns->output[1] == 'A' && mns->lstatus) ||
 			(mns->output[1] == 'O' && !mns->lstatus))
 		{
@@ -148,6 +192,7 @@ void	ft_exe(t_shell *mns, t_tkn *cont)
 		}
 		else
 			mns->output = ft_popchar(mns->output, 1);
+		printf("%s\n", mns->output);
 	}
 }
 
