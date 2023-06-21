@@ -6,7 +6,7 @@
 /*   By: jvasquez <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/23 17:07:25 by jvasquez          #+#    #+#             */
-/*   Updated: 2023/06/21 18:12:41 by alvjimen         ###   ########.fr       */
+/*   Updated: 2023/06/21 18:26:10 by alvjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -212,6 +212,9 @@ int	main (int argc, char **argv, char **envp)
 		free(str);
 		if (mns.root)
 		{
+			//Change the NULL ptr to the pointer of your choose
+			//Modify the file src/lxr/ft_dollar_expansion.c line 16 with your
+			//var_expansion_fun
 			ft_expand_vars_regex_unquote(&mns.root, NULL);
 			// ft_print_btree(mns.root);
 			mns.lstatus = -1;
