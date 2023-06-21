@@ -6,12 +6,12 @@
 /*   By: alvjimen <alvjimen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/21 12:45:06 by alvjimen          #+#    #+#             */
-/*   Updated: 2023/04/21 20:51:39 by alvjimen         ###   ########.fr       */
+/*   Updated: 2023/06/18 14:04:36 by alvjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "lxr.h"
 
-static char	*ft_vars_expansion_loop(t_lxr **lxr, t_vars *vars)
+static char	*ft_vars_expansion_loop(t_lxr **lxr, t_vars *vars, void *ptr)
 {
 	char	*aux;
 
@@ -26,7 +26,7 @@ static char	*ft_vars_expansion_loop(t_lxr **lxr, t_vars *vars)
 		else if (lxr[0]->tokens.states != SQUOTES
 			&& lxr[0]->str[lxr[0]->pos] == '$')
 		{
-			aux = ft_dollar_expansion(lxr, vars);
+			aux = ft_dollar_expansion(lxr, vars, ptr);
 			if (aux != lxr[0]->str)
 				return (aux);
 		}
@@ -37,7 +37,7 @@ static char	*ft_vars_expansion_loop(t_lxr **lxr, t_vars *vars)
 	return (vars->tmp);
 }
 
-char	*ft_vars_expansion(char *str)
+char	*ft_vars_expansion(char *str, void *ptr)
 {
 	t_lxr	*lxr;
 	t_vars	vars;
@@ -46,5 +46,5 @@ char	*ft_vars_expansion(char *str)
 	lxr = ft_init_lxr(str);
 	if (!lxr)
 		return (NULL);
-	return (ft_vars_expansion_loop(&lxr, &vars));
+	return (ft_vars_expansion_loop(&lxr, &vars, ptr));
 }

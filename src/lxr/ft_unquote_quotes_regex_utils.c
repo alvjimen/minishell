@@ -6,7 +6,7 @@
 /*   By: alvjimen <alvjimen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/22 09:10:06 by alvjimen          #+#    #+#             */
-/*   Updated: 2023/04/22 09:10:30 by alvjimen         ###   ########.fr       */
+/*   Updated: 2023/06/18 15:28:58 by alvjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "lxr.h"
@@ -55,4 +55,22 @@ void	*ft_unquote_quotes_regex_new_root(t_lxr **lxr, t_btree **root)
 	if (!*root || !root[0]->content)
 		return (NULL);
 	return (root);
+}
+
+int	ft_unquote_quotes_aux_clean(char *str, t_lxr *lxr,
+		t_btree **root, t_tkn *content)
+{
+	if (!str)
+		return (1);
+	if (!*str)
+	{
+		free(lxr);
+		free(str);
+		ft_btree_delone(*root, ft_destroy_tkn);
+		root[0] = NULL;
+		return (1);
+	}
+	if (ft_unquote_quotes_regex_new_tkns(lxr, content, str) == NULL)
+		return (1);
+	return (0);
 }

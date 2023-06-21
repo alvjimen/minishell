@@ -6,14 +6,14 @@
 /*   By: alvjimen <alvjimen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/21 20:53:50 by alvjimen          #+#    #+#             */
-/*   Updated: 2023/04/26 09:36:53 by alvjimen         ###   ########.fr       */
+/*   Updated: 2023/06/18 15:29:57 by alvjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "lxr.h"
 
-static char	*ft_previous_var(t_lxr **lxr, t_vars *vars)
+static char	*ft_previous_var(t_lxr **lxr, t_vars *vars, void *ptr)
 {
-	vars->value = ft_var_value(NULL, vars->name);
+	vars->value = ft_var_value(ptr, vars->name);
 	free(vars->name);
 	vars->name = NULL;
 	if (!vars->value)
@@ -102,7 +102,7 @@ static char	*ft_join_str(t_lxr **lxr, t_vars *vars)
 	return (vars->name);
 }
 
-char	*ft_dollar_expansion(t_lxr **lxr, t_vars *vars)
+char	*ft_dollar_expansion(t_lxr **lxr, t_vars *vars, void *ptr)
 {
 	vars->name = ft_get_varname(*lxr);
 	if (!vars->name)
@@ -113,7 +113,7 @@ char	*ft_dollar_expansion(t_lxr **lxr, t_vars *vars)
 		lxr[0]->pos++;
 		return (lxr[0]->str);
 	}
-	if (ft_previous_var(lxr, vars) == NULL)
+	if (ft_previous_var(lxr, vars, ptr) == NULL)
 		return (NULL);
 	if (ft_join_previos_with_var_value(lxr, vars) == NULL)
 		return (NULL);

@@ -6,7 +6,7 @@
 /*   By: alvjimen <alvjimen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/28 18:36:15 by alvjimen          #+#    #+#             */
-/*   Updated: 2023/04/26 10:34:37 by alvjimen         ###   ########.fr       */
+/*   Updated: 2023/06/19 17:41:08 by alvjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,6 +98,7 @@ typedef struct s_lxr
 	t_btree	*btree;
 	int		errors;
 	size_t	counter;
+	int		just_var: 1;
 }	t_lxr;
 
 typedef struct s_vars
@@ -144,15 +145,15 @@ int			ft_operators_intercmd(void *ptr);
 int			ft_operators_intracmd(void *ptr);
 int			ft_tokens_word(void *ptr);
 char		*ft_get_varname(t_lxr *lxr);
-char		*ft_vars_expansion(char *str);
+char		*ft_vars_expansion(char *str, void *ptr);
 int			ft_tokens_assignment_word(void *ptr);
 char		**ft_get_array_words(t_btree **root);
 char		**ft_ls(char *str);
-void		ft_btree_apply_to_node_pointer_infix(t_btree **root,
-				void (*applyf)(void **));
+void		ft_btree_apply_to_node_pointer_infix_param(t_btree **root,
+				void *ptr, void (*applyf)(void **, void *));
 void		ft_operators_split_recursively(void **ptr);
 int			ft_syntax_analizer(t_btree *root, t_lxr *lxr);
-void		ft_unquote_quotes_recursively(void **ptr);
+void		ft_unquote_quotes_recursively(void **ptr, void *param);
 void		ft_unquote_quotes(t_btree **root);
 t_btree		*ft_btree_builder(char	*str);
 int			ft_parenthesis_split(char	*str, t_btree **root);
@@ -167,21 +168,21 @@ t_quotes	*ft_init_quotes(t_lxr *lxr);
 t_quotes	*ft_destroy_quotes(t_quotes **quotes);
 int			ft_regex_bash(char ***regex, char *matched, char *str);
 void		*ft_join_quotes(t_quotes *quotes);
-void		ft_unquote_quotes_regex_recursively(void **ptr);
+void		ft_unquote_quotes_regex_recursively(void **ptr, void *param);
 char		**ft_regex_ls(t_quotes *quotes, char *str);
-void		ft_expand_vars_regex_unquote(t_btree **root);
+void		ft_expand_vars_regex_unquote(t_btree **root, void *param);
 void		ft_print_btree(t_btree *root);
 void		ft_btree_destroy(t_btree **root);
 char		*ft_var_value(char **sarr, char *var_name);
-char		*ft_dollar_expansion(t_lxr **lxr, t_vars *vars);
+char		*ft_dollar_expansion(t_lxr **lxr, t_vars *vars, void *ptr);
 t_quotes	*ft_destroy_quotes(t_quotes **quotes);
 t_quotes	*ft_init_quotes(t_lxr *lxr);
 void		ft_join_(char *old, char *str, char **join);
-void		*ft_expand_inside_quotes(t_quotes *quotes);
-void		*ft_expand_outside(t_quotes *quotes);
+void		*ft_expand_inside_quotes(t_quotes *quotes, void *ptr);
+void		*ft_expand_outside(t_quotes *quotes, void *ptr);
 int			ft_quotes_unquoting(t_quotes *quotes);
 char		*ft_unquote_quotes_regex_expand_outside(t_lxr **lxr,
-				t_tkn *content);
+				t_tkn *content, void *ptr);
 void		*ft_unquote_quotes_regex_new_root(t_lxr **lxr, t_btree **root);
 void		ft_unquote_quotes_regex_set_filename(t_lxr *lxr, t_tkn *content);
 void		*ft_unquote_quotes_regex_new_tkns(t_lxr *lxr, t_tkn *content,
@@ -205,4 +206,6 @@ int			ft_tokens_paren(void *ptr);
 int			ft_operators_outercmd(t_btree **root, int (*f)(void *));
 int			ft_operators_redirections(t_btree **root);
 int			ft_char_quotes(char ch);
+int			ft_unquote_quotes_aux_clean(char *str, t_lxr *lxr,
+				t_btree **root, t_tkn *content);
 #endif

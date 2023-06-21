@@ -6,16 +6,16 @@
 /*   By: alvjimen <alvjimen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/22 08:49:47 by alvjimen          #+#    #+#             */
-/*   Updated: 2023/04/26 09:37:27 by alvjimen         ###   ########.fr       */
+/*   Updated: 2023/06/18 14:09:48 by alvjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "lxr.h"
 
-static void	*ft_expand_outside_last(t_quotes *quotes)
+static void	*ft_expand_outside_last(t_quotes *quotes, void *ptr)
 {
 	char	*str;
 
-	str = ft_vars_expansion(quotes->last_unquote);
+	str = ft_vars_expansion(quotes->last_unquote, ptr);
 	if (!str)
 		return (NULL);
 	else if (str != quotes->last_unquote)
@@ -24,7 +24,7 @@ static void	*ft_expand_outside_last(t_quotes *quotes)
 	return (quotes);
 }
 
-void	*ft_expand_outside(t_quotes *quotes)
+void	*ft_expand_outside(t_quotes *quotes, void *ptr)
 {
 	size_t	counter;
 	char	*str;
@@ -35,7 +35,7 @@ void	*ft_expand_outside(t_quotes *quotes)
 	str = NULL;
 	while (counter < quotes->counter)
 	{
-		str = ft_vars_expansion(quotes->prev_quotes[counter]);
+		str = ft_vars_expansion(quotes->prev_quotes[counter], ptr);
 		if (!str)
 			return (NULL);
 		else if (str != quotes->prev_quotes[counter])
@@ -44,7 +44,7 @@ void	*ft_expand_outside(t_quotes *quotes)
 		counter++;
 	}
 	if (quotes->last_unquote && !ft_char_quotes(*quotes->last_unquote))
-		if (ft_expand_outside_last(quotes) == NULL)
+		if (ft_expand_outside_last(quotes, ptr) == NULL)
 			return (NULL);
 	return ((void *)quotes);
 }

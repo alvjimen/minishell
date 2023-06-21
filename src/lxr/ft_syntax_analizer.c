@@ -6,7 +6,7 @@
 /*   By: alvjimen <alvjimen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/20 14:03:33 by alvjimen          #+#    #+#             */
-/*   Updated: 2023/04/26 09:33:54 by alvjimen         ###   ########.fr       */
+/*   Updated: 2023/06/18 15:20:57 by alvjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "lxr.h"
@@ -25,7 +25,8 @@ static int	ft_syntax_analizer_operator_intercmd(t_btree *root, t_tkn *content)
 	return (SUCCESS);
 }
 
-static int	ft_syntax_analizer_operator(t_btree *root, t_tkn *content, t_lxr *lxr)
+static int	ft_syntax_analizer_operator(t_btree *root, t_tkn *content,
+		t_lxr *lxr)
 {
 	if (content->token == OPERATOR && (content->operators == AND_IF
 			|| content->operators == OR_IF || content->operators == PIPE))
@@ -79,8 +80,6 @@ static int	ft_syntax_analizer_word(t_btree *root, t_tkn *content, t_lxr *lxr)
 	}
 	return (ft_syntax_analizer_paren(root, content, lxr));
 }
-
-
 
 int	ft_syntax_analizer(t_btree *root, t_lxr *lxr)
 {

@@ -6,7 +6,7 @@
 /*   By: alvjimen <alvjimen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/22 09:58:31 by alvjimen          #+#    #+#             */
-/*   Updated: 2023/04/26 09:43:41 by alvjimen         ###   ########.fr       */
+/*   Updated: 2023/06/18 15:20:33 by alvjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "lxr.h"
@@ -28,7 +28,7 @@ static int	ft_end_star(char *matched, char *str, char **split)
 {
 	split = NULL;
 	if (split)
-			return (FAILURE);
+		return (FAILURE);
 	if (!str)
 		return (SUCCESS);
 	matched = ft_strnstr(matched, str, -1);

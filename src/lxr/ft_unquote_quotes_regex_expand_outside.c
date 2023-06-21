@@ -6,7 +6,7 @@
 /*   By: alvjimen <alvjimen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/22 09:02:25 by alvjimen          #+#    #+#             */
-/*   Updated: 2023/04/22 09:13:44 by alvjimen         ###   ########.fr       */
+/*   Updated: 2023/06/18 14:10:48 by alvjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "lxr.h"
@@ -26,7 +26,8 @@ static char	*ft_unquote_quotes_error(t_tkn *content, t_lxr **lxr,
 	return (NULL);
 }
 
-char	*ft_unquote_quotes_regex_expand_outside(t_lxr **lxr, t_tkn *content)
+char	*ft_unquote_quotes_regex_expand_outside(t_lxr **lxr, t_tkn *content,
+		void *ptr)
 {
 	t_quotes	*quotes;
 	char		*str;
@@ -37,7 +38,7 @@ char	*ft_unquote_quotes_regex_expand_outside(t_lxr **lxr, t_tkn *content)
 	quotes = ft_init_quotes(*lxr);
 	if (!quotes)
 		return (ft_unquote_quotes_error(content, lxr, NULL, 1));
-	if (content->token != HDFILENAME && ft_expand_outside(quotes) == NULL)
+	if (content->token != HDFILENAME && ft_expand_outside(quotes, ptr) == NULL)
 		return (ft_unquote_quotes_error(content, lxr, &quotes, 1));
 	str = ft_join_quotes(quotes);
 	ft_destroy_quotes(&quotes);

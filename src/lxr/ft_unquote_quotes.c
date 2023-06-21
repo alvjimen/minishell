@@ -6,13 +6,13 @@
 /*   By: alvjimen <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/01 19:18:10 by alvjimen          #+#    #+#             */
-/*   Updated: 2023/04/26 16:57:33 by alvjimen         ###   ########.fr       */
+/*   Updated: 2023/06/18 15:29:02 by alvjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "lxr.h"
 
 static t_quotes	*ft_unquote_quotes_regex_expand_inside(t_lxr **lxr,
-		t_tkn *content)
+		t_tkn *content, void *ptr)
 {
 	t_quotes	*quotes;
 	char		*str;
@@ -30,7 +30,7 @@ static t_quotes	*ft_unquote_quotes_regex_expand_inside(t_lxr **lxr,
 		content->token = ERROR;
 		return (NULL);
 	}
-	if (content->token != HDFILENAME && ft_expand_inside_quotes(quotes) == NULL)
+	if (content->token != HDFILENAME && !ft_expand_inside_quotes(quotes, ptr))
 	{
 		free(*lxr);
 		ft_destroy_quotes(&quotes);
@@ -84,7 +84,7 @@ static void	ft_unquote_quotes_regex_unquote(t_tkn *content, t_quotes *quotes,
 }
 
 /*This function  should be called by ft_modify_root_conserve_branchs*/
-void	ft_unquote_quotes_regex(t_btree **root)
+void	ft_unquote_quotes_regex(t_btree **root, void *ptr)
 {
 	t_lxr		*lxr;
 	t_tkn		*content;
@@ -94,26 +94,21 @@ void	ft_unquote_quotes_regex(t_btree **root)
 	if (!root || !*root || !root[0]->content)
 		return ;
 	content = root[0]->content;
-	str = ft_unquote_quotes_regex_expand_outside(&lxr, content);
-	if (str == NULL)
-		return ;
-	if (ft_unquote_quotes_regex_new_tkns(lxr, content, str) == NULL)
+	str = ft_unquote_quotes_regex_expand_outside(&lxr, content, ptr);
+	if (ft_unquote_quotes_aux_clean(str, lxr, root, content))
 		return ;
 	ft_unquote_quotes_regex_set_filename(lxr, content);
 	if (ft_unquote_quotes_regex_new_root(&lxr, root) == NULL)
 		return ;
 	content = root[0]->content;
-	quotes = ft_unquote_quotes_regex_expand_inside(&lxr, content);
-	if (!quotes)
-		return ;
-	if (ft_isany_star(quotes) == SUCCESS)
+	quotes = ft_unquote_quotes_regex_expand_inside(&lxr, content, ptr);
+	if (quotes && ft_isany_star(quotes) == SUCCESS)
 		ft_unquote_quotes_regex_expand_regex(content, quotes, lxr);
-	else
+	else if (quotes)
 		ft_unquote_quotes_regex_unquote(content, quotes, lxr);
-	return ;
 }
 
-void	ft_unquote_quotes_regex_recursively(void **ptr)
+void	ft_unquote_quotes_regex_recursively(void **ptr, void *param)
 {
 	t_btree	**root;
 	t_tkn	*content;
@@ -122,5 +117,6 @@ void	ft_unquote_quotes_regex_recursively(void **ptr)
 	content = root[0]->content;
 	if (!content)
 		return ;
-	ft_btree_modify_root_conserve_branchs(root, ft_unquote_quotes_regex);
+	ft_btree_modify_root_conserve_branchs_param(root, param,
+		ft_unquote_quotes_regex);
 }
