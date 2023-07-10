@@ -49,8 +49,11 @@ typedef struct s_shell
 	char				*output;
 	int					meta;
 	int					lstatus;
+	int					pstatus;
 	int					waiting;
 	int					cpipe;
+	pid_t				pid;
+	int					fd[2];
 	struct sigaction	s_action;
 }	t_shell;
 
@@ -58,7 +61,6 @@ typedef struct s_child
 {
 	pid_t	pid;
 	int		fd[2];
-	int		status;
 }	t_child;
 
 void	init_minishell(t_shell *mns, char **envp);

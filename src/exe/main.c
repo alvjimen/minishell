@@ -63,23 +63,23 @@ char	*ft_cmd_search(char **paths, char *cmd)
 	return (NULL);
 }
 
-
-
 // If there's no built-in, it tries to run a command.
 int	ft_check_command(t_shell *mns, t_tkn *cont)
 {
 	char	*cmd;
-	pid_t	pid;
 
 	cmd = ft_cmd_search(mns->path, cont->value);
+	printf("%s\n Ejecutando p:", cont->value);
 	if (cmd)
 	{
 		mns->lstatus = 1;
-		pid = fork();
-		if (!pid)
+		if (mns->pid)
+			mns->pid = fork();
+		if (!mns->pid)
 		{
+			printf("%s\n Ejecutando:", cont->value);
 			execve(cmd, cont->str, NULL);
-			perror("execve failed");
+			perror("execve failed");	
 			exit(EXIT_FAILURE);
 		}
 	}
@@ -88,24 +88,18 @@ int	ft_check_command(t_shell *mns, t_tkn *cont)
 	return (1);
 }
 
-/*void	ft_rem_output(t_shell *mns, char *c)
-{
-	ft_add_output(mns, "&");
-}*/
-
 // Añade el operador a la cola de salida.
 void	ft_queue(t_shell *mns, t_tkn *cont, int op)
 {
-	(void) cont;
 	char	*s;
 
+	(void) cont;
 	s = ft_substr("AOPgGlL", op - 1, 1);
 	if (!mns->output)
 		mns->output = ft_strdup(s);
 	else
 		mns->output = ft_strjoinfree(mns->output, s, 0);
 	free (s);
-	// printf("output: %s\nop: %d\n", mns->output, op);
 }
 
 // Revisa la línea en busqueda de built-ins o comandos.
@@ -136,32 +130,72 @@ char *ft_popchar(char *str, size_t pos)
 // This child will send information to another child.
 void	sender(t_shell *mns, t_tkn *cont)
 {
-	int		fd[2];
-	pid_t	pid;
-
-	printf("Entra\n");
-	pipe(fd);
-	pid = fork();
-	if (!pid)
+	pipe(mns->fd);
+	mns->pid = fork();
+	printf("Sender\n");
+	if (!mns->pid)
 	{
-		dup2(fd[1], STDOUT_FILENO);
+		dup2(mns->fd[1], STDOUT_FILENO);
+		close(mns->fd[0]);
+		close(mns->fd[1]);
 		ft_check_line(mns, cont);
 		exit (EXIT_SUCCESS);
 	}
-	dup2(fd[1], STDOUT_FILENO);
-	dup2(fd[0], STDIN_FILENO);
+	mns->pstatus = 2;
 }
 
 // This child will recieve information from another child.
-/*void	reciever(t_shell *mns, int cpipe)
+void	reciever(t_shell *mns, t_tkn *cont)
 {
-	dup2(cld[cpipe - 1].fd[0], STDIN_FILENO);
-	waiting(mns, cpipe - 1);
-}*/
+	mns->pid = fork();
+	printf("reciever\n");
+	if (!mns->pid)
+	{
+		dup2(mns->fd[0], STDIN_FILENO);
+		close(mns->fd[0]);
+		close(mns->fd[1]);
+		ft_check_line(mns, cont);
+		exit (EXIT_SUCCESS);
+	}
+	close(mns->fd[0]);
+	close(mns->fd[1]);
+	mns->output = ft_popchar(mns->output, 1);
+	mns->pstatus = 0;
+	mns->lstatus = 1;
+}
+
+void both(t_shell *mns, t_tkn *cont)
+{
+	mns->pid = fork();
+	printf("both %s\n", cont->value);
+	if (!mns->pid)
+		dup2(mns->fd[0], STDIN_FILENO);
+	close(mns->fd[0]);
+	close(mns->fd[1]);
+	pipe(mns->fd);
+	if (!mns->pid)
+	{
+		dup2(mns->fd[1], STDOUT_FILENO);
+		close(mns->fd[0]);
+		close(mns->fd[1]);
+		ft_check_line(mns, cont);
+		exit (EXIT_SUCCESS);
+	}
+	mns->output = ft_popchar(mns->output, 1);
+	mns->pstatus = 2;
+	mns->lstatus = 1;
+}
 
 void	ft_change_output(t_shell *mns, t_tkn *cont)
 {
-	sender(mns, cont);
+	if (mns->output[ft_strlen(mns->output) - 2] == 'P' && mns->output[ft_strlen(mns->output) - 1] == 'P')
+		mns->pstatus = 3;
+	if (mns->pstatus == 1)
+		sender(mns, cont);
+	else if (mns->pstatus == 2)
+		reciever(mns, cont);
+	else if (mns->pstatus == 3)
+		both(mns, cont);
 }
 
 /*
@@ -174,26 +208,27 @@ void	ft_exe(t_shell *mns, t_tkn *cont)
 {
 	if (!mns ||!cont)
 		return ;
+	if (cont->operators == PIPE)
+			mns->pstatus = 1;
+	if (mns->pstatus && !cont->operators)
+		ft_change_output(mns, cont);
 	if (cont->operators)
 		ft_queue(mns, cont, cont->operators);
-	else if (mns->lstatus == -1)
+	else if (mns->lstatus == -1 && !mns->pstatus)
 		ft_check_line(mns, cont);
-	else
+	else if (!mns->pstatus)
 	{
-		/*printf("%s\n", mns->output);
-		printf("%c\n", mns->output[1]);
-		if (mns->output[1] == 'P')
-			ft_change_output(mns, cont);*/
 		if ((mns->output[1] == 'A' && mns->lstatus) ||
 			(mns->output[1] == 'O' && !mns->lstatus))
 		{
 			ft_check_line(mns, cont);
 			mns->output = ft_popchar(mns->output, 1);
 		}
-		else
+		else if (mns->output[1] == 'P')
 			mns->output = ft_popchar(mns->output, 1);
-		printf("%s\n", mns->output);
 	}
+	printf("%s\n", mns->output);
+	printf("%s\n", cont->value);
 }
 
 int	main (int argc, char **argv, char **envp)
@@ -218,6 +253,7 @@ int	main (int argc, char **argv, char **envp)
 			ft_expand_vars_regex_unquote(&mns.root, NULL);
 			// ft_print_btree(mns.root);
 			mns.lstatus = -1;
+			mns.pstatus = 0;
 			mns.output = ft_strdup("-");
 			ft_mns_btree_inorder(mns.root, ft_exe, &mns);
 			free (mns.output);
