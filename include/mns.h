@@ -54,7 +54,9 @@ typedef struct s_shell
 	int					cpipe;
 	pid_t				pid;
 	int					fd[2];
+	int					redirfd;
 	struct sigaction	s_action;
+	char				*im;
 }	t_shell;
 
 typedef struct s_child
@@ -68,7 +70,7 @@ char	**ft_get_path(char **envp);
 int		ft_cd(char *dir);
 int		ft_pwd(void);
 
-void	ft_echo(t_tkn	*content);
+int		ft_echo(t_tkn	*content);
 int		ft_export(t_tkn *cont, t_shell *mns);
 int		ft_unset(t_tkn *cont, t_shell *mns);
 

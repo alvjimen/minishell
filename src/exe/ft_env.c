@@ -23,21 +23,12 @@ char	**ft_update_env(char *item, t_shell *mns)
 		var = ft_split(item, '=');
 		var[0] = ft_strjoinfree(var[0], "=", 0);
 		if (ft_sarrcmp(mns->env, var[0]) != -1)
-		{
 			return (ft_sarrrep(mns->env, ft_sarrcmp(mns->env, var[0]), item));
-			printf("aLLL");
-		}
 		else
-		{
-			printf("add");
 			return (ft_sarradd(mns->env, item));
-		}
 	}
 	else
-	{
-		printf("hola");
 		return (ft_sarradd(mns->env, item));
-	}
 }
 
 // Export a variable.

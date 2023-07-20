@@ -13,7 +13,7 @@
 #include "mns.h"
 
 // Built-in echo.
-void	ft_echo(t_tkn	*content)
+int	ft_echo(t_tkn	*content)
 {
 	int	i;
 
@@ -21,7 +21,7 @@ void	ft_echo(t_tkn	*content)
 	if (!content->str[1])
 	{
 		printf("\n");
-		return ;
+		return (1);
 	}
 	if (!ft_strncmp(content->str[1], "-n", 2))
 		i++;
@@ -29,4 +29,5 @@ void	ft_echo(t_tkn	*content)
 		printf("%s ", content->str[i]);
 	if (ft_strncmp(content->str[1], "-n", 2))
 		printf("\n");
+	return (1);
 }

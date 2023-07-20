@@ -30,7 +30,7 @@ int	ft_check_build(t_shell *mns, t_tkn *cont)
 	if (!ft_strncmp(cont->value, "env\0", 4))
 		return (ft_sarrprint(mns->env));
 	else if (!ft_strncmp(cont->value, "echo\0", 5))
-		ft_echo(cont);
+		return (ft_echo(cont));
 	else if (!ft_strncmp(cont->value, "export\0", 7))
 		return (ft_export(cont, mns));
 	else if (!ft_strncmp(cont->value, "unset\0", 6))
@@ -69,7 +69,6 @@ int	ft_check_command(t_shell *mns, t_tkn *cont)
 	char	*cmd;
 
 	cmd = ft_cmd_search(mns->path, cont->value);
-	printf("%s\n Ejecutando p:", cont->value);
 	if (cmd)
 	{
 		mns->lstatus = 1;
@@ -77,11 +76,11 @@ int	ft_check_command(t_shell *mns, t_tkn *cont)
 			mns->pid = fork();
 		if (!mns->pid)
 		{
-			printf("%s\n Ejecutando:", cont->value);
 			execve(cmd, cont->str, NULL);
-			perror("execve failed");	
+			perror("execve failed");
 			exit(EXIT_FAILURE);
 		}
+		waitpid(mns->pid, &mns->lstatus, 0);
 	}
 	else
 		mns->lstatus = 0;
@@ -127,60 +126,55 @@ char *ft_popchar(char *str, size_t pos)
 	return (tmp);
 }
 
-// This child will send information to another child.
+// This child will write on a pipe.
 void	sender(t_shell *mns, t_tkn *cont)
 {
 	pipe(mns->fd);
 	mns->pid = fork();
-	printf("Sender\n");
 	if (!mns->pid)
 	{
 		dup2(mns->fd[1], STDOUT_FILENO);
-		close(mns->fd[0]);
-		close(mns->fd[1]);
 		ft_check_line(mns, cont);
 		exit (EXIT_SUCCESS);
 	}
+	close(mns->fd[1]);
 	mns->pstatus = 2;
 }
 
-// This child will recieve information from another child.
+// This child will read from a pipe.
 void	reciever(t_shell *mns, t_tkn *cont)
 {
 	mns->pid = fork();
-	printf("reciever\n");
 	if (!mns->pid)
 	{
 		dup2(mns->fd[0], STDIN_FILENO);
-		close(mns->fd[0]);
-		close(mns->fd[1]);
 		ft_check_line(mns, cont);
 		exit (EXIT_SUCCESS);
 	}
 	close(mns->fd[0]);
-	close(mns->fd[1]);
+	waitpid(mns->pid, &mns->pstatus, 0);
 	mns->output = ft_popchar(mns->output, 1);
 	mns->pstatus = 0;
 	mns->lstatus = 1;
 }
 
+// This child will read from active pipe and then will write on the next pipe.
 void both(t_shell *mns, t_tkn *cont)
 {
-	mns->pid = fork();
-	printf("both %s\n", cont->value);
-	if (!mns->pid)
-		dup2(mns->fd[0], STDIN_FILENO);
-	close(mns->fd[0]);
-	close(mns->fd[1]);
+	int	oldpipe[2];
+
+	oldpipe[0] = mns->fd[0];
 	pipe(mns->fd);
-	if (!mns->pid)
+	mns->pid = fork();
+	if (mns->pid == 0)
 	{
+		dup2(oldpipe[0], STDIN_FILENO);
 		dup2(mns->fd[1], STDOUT_FILENO);
-		close(mns->fd[0]);
-		close(mns->fd[1]);
 		ft_check_line(mns, cont);
 		exit (EXIT_SUCCESS);
 	}
+	close(oldpipe[0]);
+	close(mns->fd[1]);
 	mns->output = ft_popchar(mns->output, 1);
 	mns->pstatus = 2;
 	mns->lstatus = 1;
@@ -206,6 +200,7 @@ void	ft_change_output(t_shell *mns, t_tkn *cont)
 */
 void	ft_exe(t_shell *mns, t_tkn *cont)
 {
+	printf("%s\n", cont->value);
 	if (!mns ||!cont)
 		return ;
 	if (cont->operators == PIPE)
@@ -214,21 +209,39 @@ void	ft_exe(t_shell *mns, t_tkn *cont)
 		ft_change_output(mns, cont);
 	if (cont->operators)
 		ft_queue(mns, cont, cont->operators);
+	/*else if (mns->output[1] == 'l')
+	{
+		pipe(mns->fd);
+		mns->pid = fork();
+		if (mns->pid == 0)
+			dup2(mns->fd[0], STDIN_FILENO);
+		ft_check_line(mns, cont);
+		close(mns->fd[0]);
+		close(mns->fd[1]);
+
+
+	}*/
 	else if (mns->lstatus == -1 && !mns->pstatus)
 		ft_check_line(mns, cont);
 	else if (!mns->pstatus)
 	{
-		if ((mns->output[1] == 'A' && mns->lstatus) ||
-			(mns->output[1] == 'O' && !mns->lstatus))
+		if ((mns->output[1] == 'A' && !mns->lstatus) ||
+			(mns->output[1] == 'O' && mns->lstatus))
 		{
 			ft_check_line(mns, cont);
 			mns->output = ft_popchar(mns->output, 1);
 		}
+		else if ((mns->output[1] == 'l' && !mns->lstatus))
+		{
+			/*char *file;
+			file = open(cont->value, O_RDONLY);
+			ft_putstr_fd(get_next_line(file), file);*/
+			printf("%s\n", cont->value);
+			printf("Lower\n");
+		}
 		else if (mns->output[1] == 'P')
 			mns->output = ft_popchar(mns->output, 1);
 	}
-	printf("%s\n", mns->output);
-	printf("%s\n", cont->value);
 }
 
 int	main (int argc, char **argv, char **envp)
@@ -250,10 +263,11 @@ int	main (int argc, char **argv, char **envp)
 			//Change the NULL ptr to the pointer of your choose
 			//Modify the file src/lxr/ft_dollar_expansion.c line 16 with your
 			//var_expansion_fun
-			ft_expand_vars_regex_unquote(&mns.root, NULL);
+			ft_expand_vars_regex_unquote(&mns.root, &mns);
 			// ft_print_btree(mns.root);
 			mns.lstatus = -1;
 			mns.pstatus = 0;
+			mns.pid = 1;
 			mns.output = ft_strdup("-");
 			ft_mns_btree_inorder(mns.root, ft_exe, &mns);
 			free (mns.output);
