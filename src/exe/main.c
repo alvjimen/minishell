@@ -10,8 +10,24 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+
 #include "mns.h"
 #include <stdio.h>
+
+/*
+*	Checkpoint para debug
+*/
+void	checkpoint(t_shell *mns, t_tkn *cont, char *accion)
+{
+	if (DEBUG) {
+		if (mns->pid)
+			printf("---Padre---\n%s\npid: %u\nlstatus: <%d>\npstatus: <%d>\nvalue: %s\noutput: %s\n\n",
+				accion, mns->pid, mns->lstatus, mns->pstatus, cont->value, mns->output);
+		else
+			printf("---Hijo---\n%s\npid: %u\nlstatus: <%d>\npstatus: <%d>\nvalue: %s\noutput: %s\n\n",
+				accion, mns->pid, mns->lstatus, mns->pstatus, cont->value, mns->output);
+	}
+}
 
 void	ft_mns_btree_inorder(t_btree *root,
 	void (*f)(t_shell *, t_tkn *), t_shell *mns)
@@ -67,7 +83,7 @@ char	*ft_cmd_search(char **paths, char *cmd)
 int	ft_check_command(t_shell *mns, t_tkn *cont)
 {
 	char	*cmd;
-
+	checkpoint(mns, cont, "entra a Check cmd");
 	cmd = ft_cmd_search(mns->path, cont->value);
 	if (cmd)
 	{
@@ -76,6 +92,7 @@ int	ft_check_command(t_shell *mns, t_tkn *cont)
 			mns->pid = fork();
 		if (!mns->pid)
 		{
+			checkpoint(mns, cont, "exe cmd");
 			execve(cmd, cont->str, NULL);
 			perror("execve failed");
 			exit(EXIT_FAILURE);
@@ -84,6 +101,7 @@ int	ft_check_command(t_shell *mns, t_tkn *cont)
 	}
 	else
 		mns->lstatus = 0;
+	checkpoint(mns, cont, "sale de Check cmd");
 	return (1);
 }
 
@@ -104,6 +122,7 @@ void	ft_queue(t_shell *mns, t_tkn *cont, int op)
 // Revisa la línea en busqueda de built-ins o comandos.
 void	ft_check_line(t_shell *mns, t_tkn *cont)
 {
+	checkpoint(mns, cont, "sale de Check cmd");
 	if (!ft_check_build(mns, cont))
 		ft_check_command(mns, cont);
 }
@@ -126,32 +145,57 @@ char *ft_popchar(char *str, size_t pos)
 	return (tmp);
 }
 
+void	redirectedFork(t_shell *mns, t_tkn *cont, int fd)
+{
+	mns->pid = fork();
+	if (!mns->pid)
+	{
+		dup2(mns->fd[fd], fd);
+		ft_check_line(mns, cont);
+		exit (EXIT_SUCCESS);
+	}
+	if (fd >= 0 && fd <= 1)
+		close(mns->fd[fd]);
+}
+
 // This child will write on a pipe.
 void	sender(t_shell *mns, t_tkn *cont)
 {
 	pipe(mns->fd);
-	mns->pid = fork();
-	if (!mns->pid)
-	{
-		dup2(mns->fd[1], STDOUT_FILENO);
-		ft_check_line(mns, cont);
-		exit (EXIT_SUCCESS);
-	}
-	close(mns->fd[1]);
+	redirectedFork(mns, cont, STDOUT_FILENO);
 	mns->pstatus = 2;
 }
 
 // This child will read from a pipe.
 void	reciever(t_shell *mns, t_tkn *cont)
 {
-	mns->pid = fork();
-	if (!mns->pid)
+	checkpoint(mns, cont, "at reciever");
+	if (mns->output[ft_strlen(mns->output) - 1] == 'g')
 	{
-		dup2(mns->fd[0], STDIN_FILENO);
-		ft_check_line(mns, cont);
-		exit (EXIT_SUCCESS);
+		mns->pid = fork();
+		if (!mns->pid)
+		{
+			checkpoint(mns, cont, "hijo en Reciever");
+			// dup2(mns->fd[0], STDIN_FILENO);
+			mns->holded_value = ft_strdup(cont->value);
+			mns->holded_contstr = ft_sarrcpy(cont->str);
+			mns->lstatus = 2;
+			mns->pstatus = 0;
+			mns->output = ft_popchar(mns->output, ft_strlen(mns->output) - 2);
+			return ;
+			// dup2(open(cont->value, O_CREAT | O_WRONLY, 0644), STDOUT_FILENO);
+			/* ft_sarrfree(&cont->str);
+			cont->str = ft_sarrcpy(mns->holded_contstr);
+			free (cont->value);
+			cont->value = mns->holded_value;
+			ft_check_line(mns, cont); */
+			// exit(EXIT_SUCCESS);
+		}
+		else
+			mns->output = ft_popchar(mns->output, ft_strlen(mns->output) - 2);
 	}
-	close(mns->fd[0]);
+	else
+		redirectedFork(mns, cont, STDIN_FILENO);
 	waitpid(mns->pid, &mns->pstatus, 0);
 	mns->output = ft_popchar(mns->output, 1);
 	mns->pstatus = 0;
@@ -192,6 +236,96 @@ void	ft_change_output(t_shell *mns, t_tkn *cont)
 		both(mns, cont);
 }
 
+void	ft_printfile(char *filename)
+{
+	int fd;
+	char *line;
+
+	fd = open(filename, O_RDONLY);
+	line = get_next_line(fd);
+	while (line)
+	{
+		printf("%s", line);
+		free(line);
+		line = get_next_line(fd);
+	}
+	close(fd);
+}
+
+void	ft_lredir(t_shell *mns, t_tkn *cont)
+{
+	checkpoint(mns, cont, "l");
+	if (mns->lstatus == -1)
+	{
+		pipe(mns->fd);
+		redirectedFork(mns, cont, STDIN_FILENO);
+	}
+	else
+	{
+		mns->pid = fork();
+		if (!mns->pid)
+		{
+			dup2(mns->fd[1], STDOUT_FILENO);
+			ft_printfile(cont->value);
+			exit(EXIT_SUCCESS);
+		}
+		mns->lstatus = 1;
+	}
+	if (mns->pid && mns->lstatus == 1)
+	{
+		close(mns->fd[0]);
+		close(mns->fd[1]);
+		waitpid(mns->pid, &mns->pstatus, 0);
+	}
+	mns->lstatus = 1;
+	checkpoint(mns, cont, "Sale");
+}
+
+/* ft_writefile(char *filename)
+{
+	int fd;
+	char *line;
+
+	fd = open(filename, O_CREAT | O_WRONLY);
+	line = get_next_line(fd);
+	while (line)
+	{
+		printf("%s", line);
+		free(line);
+		line = get_next_line(fd);
+	}
+	close(fd);
+} */
+
+void	ft_gredir(t_shell *mns, t_tkn *cont)
+{
+	checkpoint(mns, cont, "gredir");
+	if (mns->lstatus == -1)
+	{
+		mns->pid = fork();
+		if (!mns->pid)
+		{
+			mns->holded_value = ft_strdup(cont->value);
+			mns->holded_contstr = ft_sarrcpy(cont->str);
+		}
+	}
+	else if (mns->lstatus == 1 && !mns->pid)
+	{
+		checkpoint(mns, cont, "Deploy gredir");
+		dup2(open(cont->value, O_CREAT | O_WRONLY, 0644), STDOUT_FILENO);
+		ft_sarrfree(&cont->str);
+		cont->str = ft_sarrcpy(mns->holded_contstr);
+		free (cont->value);
+		cont->value = mns->holded_value;
+		ft_check_line(mns, cont);
+		exit(EXIT_SUCCESS);
+	}
+	if (mns->pid && mns->lstatus == 1)
+		waitpid(mns->pid, &mns->pstatus, 0);
+	mns->lstatus = 1;
+	checkpoint(mns, cont, "Sale g");
+}
+
 /*
 	Función a ejecutar en cada nodo,
 	si el nodo contiene un operador, se añade a la cola de salida
@@ -200,7 +334,7 @@ void	ft_change_output(t_shell *mns, t_tkn *cont)
 */
 void	ft_exe(t_shell *mns, t_tkn *cont)
 {
-	printf("%s\n", cont->value);
+	checkpoint(mns, cont, "exe");
 	if (!mns ||!cont)
 		return ;
 	if (cont->operators == PIPE)
@@ -209,18 +343,10 @@ void	ft_exe(t_shell *mns, t_tkn *cont)
 		ft_change_output(mns, cont);
 	if (cont->operators)
 		ft_queue(mns, cont, cont->operators);
-	/*else if (mns->output[1] == 'l')
-	{
-		pipe(mns->fd);
-		mns->pid = fork();
-		if (mns->pid == 0)
-			dup2(mns->fd[0], STDIN_FILENO);
-		ft_check_line(mns, cont);
-		close(mns->fd[0]);
-		close(mns->fd[1]);
-
-
-	}*/
+	else if (mns->output[1] == 'l')
+		ft_lredir(mns, cont);
+	else if (mns->output[1] == 'g')
+		ft_gredir(mns, cont);
 	else if (mns->lstatus == -1 && !mns->pstatus)
 		ft_check_line(mns, cont);
 	else if (!mns->pstatus)
@@ -230,14 +356,6 @@ void	ft_exe(t_shell *mns, t_tkn *cont)
 		{
 			ft_check_line(mns, cont);
 			mns->output = ft_popchar(mns->output, 1);
-		}
-		else if ((mns->output[1] == 'l' && !mns->lstatus))
-		{
-			/*char *file;
-			file = open(cont->value, O_RDONLY);
-			ft_putstr_fd(get_next_line(file), file);*/
-			printf("%s\n", cont->value);
-			printf("Lower\n");
 		}
 		else if (mns->output[1] == 'P')
 			mns->output = ft_popchar(mns->output, 1);
@@ -268,6 +386,7 @@ int	main (int argc, char **argv, char **envp)
 			mns.lstatus = -1;
 			mns.pstatus = 0;
 			mns.pid = 1;
+			mns.im = NULL;
 			mns.output = ft_strdup("-");
 			ft_mns_btree_inorder(mns.root, ft_exe, &mns);
 			free (mns.output);

@@ -207,7 +207,7 @@ $(LIB_NAME):	$(BUILD)
 	$(END-RULE)
 
 $(NAME):	$(LIB_NAME) $(BUILD-EXE)
-	@$(CC) $(CFLAGS) -lreadline -I $(INC) -o $(NAME) $(LIB_NAME) $(BUILD-EXE)
+	@$(CC) $(CFLAGS) -lreadline -I $(INC) -o $(NAME) $(LIB_NAME) $(BUILD-EXE) src/libft.a
 	$(END-RULE)
 
 

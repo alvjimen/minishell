@@ -23,6 +23,8 @@
 # include <readline/readline.h>
 # include <sys/wait.h>
 
+#define DEBUG 1
+
 typedef enum meta
 {
 	DOLLAR_BIT,
@@ -57,6 +59,8 @@ typedef struct s_shell
 	int					redirfd;
 	struct sigaction	s_action;
 	char				*im;
+	char				*holded_value;
+	char				**holded_contstr;
 }	t_shell;
 
 typedef struct s_child

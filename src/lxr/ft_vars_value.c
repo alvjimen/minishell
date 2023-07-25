@@ -24,8 +24,8 @@ char	*ft_var_value(char **sarr, char *var_name)
 /**/
 char	*ft_var_value(char **sarr, char *var_name)
 {
-	sarr = NULL;
-	var_name = NULL;
-	return (ft_strdup(""));
+	if (!*sarr)
+		var_name = NULL;
+	return (ft_strdup(var_name));
 }
 /**/
