@@ -362,6 +362,42 @@ void	ft_exe(t_shell *mns, t_tkn *cont)
 	}
 }
 
+void	executer(t_btree *root, t_shell *mns, int child)
+{
+	t_tkn *cont;
+
+	if (!root)
+		exit(EXIT_SUCCESS);
+	cont = (t_tkn *)root->content;
+	printf("%s\n", cont->value);
+	if (cont->operators == PIPE)
+	{
+		pipe(mns->fd);
+		mns->pid = fork();
+		if (!mns->pid)
+			dup2(mns->fd[STDOUT_FILENO], STDOUT_FILENO);
+		close(mns->fd[STDOUT_FILENO]);
+		if (!mns->pid)
+			executer(root->left, mns, 1);
+		mns->pid = fork();
+		if (!mns->pid)
+			dup2(mns->fd[STDIN_FILENO], STDIN_FILENO);
+		close(mns->fd[STDIN_FILENO]);
+		if (!mns->pid)
+			executer(root->right, mns, 1);
+		waitpid(mns->pid, &mns->lstatus, 0);
+	}
+	else if (cont->operators == AND_IF)
+	{
+		executer(root->left, mns, 0);
+		executer(root->right, mns, 0);
+	}
+	else
+		ft_check_line(mns, cont);
+	if (child)
+		exit(EXIT_SUCCESS);
+}
+
 int	main (int argc, char **argv, char **envp)
 {
 	char	*str;
@@ -388,7 +424,8 @@ int	main (int argc, char **argv, char **envp)
 			mns.pid = 1;
 			mns.im = NULL;
 			mns.output = ft_strdup("-");
-			ft_mns_btree_inorder(mns.root, ft_exe, &mns);
+			// ft_mns_btree_inorder(mns.root, ft_exe, &mns);
+			executer(mns.root, &mns, 0);
 			free (mns.output);
 			ft_btree_clear(&mns.root, ft_destroy_tkn);
 		}

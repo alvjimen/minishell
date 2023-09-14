@@ -23,7 +23,7 @@
 # include <readline/readline.h>
 # include <sys/wait.h>
 
-#define DEBUG 1
+#define DEBUG 0
 
 typedef enum meta
 {
