@@ -167,7 +167,12 @@ SRC-EXE				:=	main\
 						ft_init\
 						ft_get_path\
 						ft_echo\
-						ft_env
+						ft_env\
+						ft_signals\
+						ft_exe_utils\
+						ft_check_line\
+						ft_conditions\
+						ft_redirections
 
 DIR-SRC				:=	./src/
 DIR-LXR				:=	lxr/

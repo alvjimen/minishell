@@ -54,9 +54,11 @@ typedef struct s_shell
 	int					pstatus;
 	int					waiting;
 	int					cpipe;
+	int					signal;
 	pid_t				pid;
 	int					fd[2];
 	int					redirfd;
+	int					child;
 	struct sigaction	s_action;
 	char				*im;
 	char				*holded_value;
@@ -69,6 +71,38 @@ typedef struct s_child
 	int		fd[2];
 }	t_child;
 
+void	executer(t_btree *root, t_shell *mns, int child);
+void	redirect(t_btree *root, t_shell *mns, t_tkn *cont);
+
+// Check line
+int		ft_check_build(t_shell *mns, t_tkn *cont);
+char	*ft_cmd_search(char **paths, char *cmd);
+int		ft_check_command(t_shell *mns, t_tkn *cont);
+void	ft_check_line(t_shell *mns, t_tkn *cont);
+
+
+// Conditions
+int		ft_iscondition(int op);
+void	contition(t_btree *root, t_shell *mns, t_tkn *cont);
+
+// Exe utils
+char	*ft_hdname(void);
+void	ft_printfile(char *filename);
+
+// To | From Redirections
+void	ft_to_pipe(t_btree *root, t_shell *mns);
+void	ft_from_file(t_btree *root, t_shell *mns);
+void	ft_to_file(t_btree *root, t_tkn *cont, t_shell *mns);
+void	ft_from_heredoc(t_btree *root, t_shell *mns);
+
+// Signals
+void	signal_silence(void);
+void	signal_handler(int sig, siginfo_t *si, void *uap);
+int		init_signals(void);
+void	do_sigign(int signum);
+
+
+// Old main
 void	init_minishell(t_shell *mns, char **envp);
 char	**ft_get_path(char **envp);
 int		ft_cd(char *dir);
