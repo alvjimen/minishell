@@ -6,7 +6,7 @@
 /*   By: alvjimen <alvjimen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/16 20:17:03 by alvjimen          #+#    #+#             */
-/*   Updated: 2023/07/22 17:46:04 by alvjimen         ###   ########.fr       */
+/*   Updated: 2023/09/18 10:14:17 by alvjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "lxr.h"
@@ -31,7 +31,8 @@ static int	ft_split_first(t_list *lst, t_list *delim)
 
 static t_list *ft_get_last(t_list *lst,  int (*f)(void *))
 {
-	t_list *backup;
+	t_list	*backup;
+	t_tkn	*tkns;
 
 	backup = NULL;
 	while (lst)
@@ -39,6 +40,11 @@ static t_list *ft_get_last(t_list *lst,  int (*f)(void *))
 		lst = ft_search_list(lst, (*f));
 		if (!lst)
 			break ;
+		if (backup)
+		{
+			tkns = backup->content;
+			tkns->found = 0;
+		}
 		backup = lst;
 		lst = lst->next;
 	}
