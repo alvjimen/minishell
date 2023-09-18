@@ -21,12 +21,12 @@
 void	checkpoint(t_shell *mns, t_tkn *cont, char *accion)
 {
 	if (DEBUG) {
-		if (mns->pid)
-			printf("---Padre---\n%s\npid: %u\nlstatus: <%d>\npstatus: <%d>\nvalue: %s\noutput: %s\n\n",
-				accion, mns->pid, mns->lstatus, mns->pstatus, cont->value, mns->output);
+		if (mns->pid && !mns->child)
+			printf("---Padre---\n%s\npid: %u\nlstatus: <%d>\npstatus: <%d>\nvalue: %s\noutput: %s\nop: %d\n\n",
+				accion, mns->pid, mns->lstatus, mns->pstatus, cont->value, mns->output, cont->operators);
 		else
-			printf("---Hijo %d---\n%s\npid: %u\nlstatus: <%d>\npstatus: <%d>\nvalue: %s\noutput: %s\n\n",
-				mns->child, accion, mns->pid, mns->lstatus, mns->pstatus, cont->value, mns->output);
+			printf("---Hijo %d---\n%s\npid: %u\nlstatus: <%d>\npstatus: <%d>\nvalue: %s\noutput: %s\nop: %d\n\n",
+				mns->child, accion, mns->pid, mns->lstatus, mns->pstatus, cont->value, mns->output, cont->operators);
 	}
 }
 
@@ -55,6 +55,10 @@ void	executer(t_btree *root, t_shell *mns, int child)
 		exit(EXIT_SUCCESS);
 	cont = (t_tkn *)root->content;
 	checkpoint(mns, cont, "exe");
+	/**if (root->left)
+		printf("left: %s\n", ((t_tkn *)root->left->content)->value);
+	if (root->right)
+		printf("right: %s\n", ((t_tkn *)root->right->content)->value);*/
 	if (ft_isredirection(cont->operators))
 		redirect(root, mns, cont);
 	else if (ft_iscondition(cont->operators))
@@ -64,6 +68,7 @@ void	executer(t_btree *root, t_shell *mns, int child)
 	if (child)
 		exit(EXIT_SUCCESS);
 }
+
 
 int	main (int argc, char **argv, char **envp)
 {
@@ -75,6 +80,8 @@ int	main (int argc, char **argv, char **envp)
 	{
 		init_signals();
 		str = readline("mns> ");
+		if (sign_stt)
+			continue ;
 		if (!str)
 			return (FAILURE);
 		mns.root = ft_btree_builder(str);
@@ -85,8 +92,9 @@ int	main (int argc, char **argv, char **envp)
 			//Change the NULL ptr to the pointer of your choose
 			//Modify the file src/lxr/ft_dollar_expansion.c line 16 with your
 			//var_expansion_fun
+			//ft_print_btree(mns.root);
 			ft_expand_vars_regex_unquote(&mns.root, &mns);
-			// ft_print_btree(mns.root);
+			//ft_print_btree(mns.root);
 			mns.lstatus = -1;
 			mns.pstatus = 0;
 			mns.pid = 1;

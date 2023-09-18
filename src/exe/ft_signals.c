@@ -39,7 +39,12 @@ void	signal_handler(int sig, siginfo_t *si, void *uap)
 	(void)uap;
 
 	if (sig == SIGINT)
+	{
+		write(1, "\nmns> ", 6);
+		rl_redisplay();
 		init_signals();
+		sign_stt = 1;
+	}
 	else if (sig == SIGQUIT)
 		init_signals();
 	return ;
@@ -49,6 +54,7 @@ int	init_signals(void)
 {
 	struct sigaction	signal;
 
+	sign_stt = 0;
 	signal.sa_flags = SA_RESTART;
 	signal.sa_sigaction = signal_handler;
 	sigaction(SIGINT, &signal, NULL);

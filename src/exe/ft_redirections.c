@@ -15,6 +15,8 @@
 
 void	ft_to_pipe(t_btree *root, t_shell *mns)
 {
+	(void)root;
+	(void)mns;
 	pipe(mns->fd);
 	mns->pid = fork();
 	if (!mns->pid)

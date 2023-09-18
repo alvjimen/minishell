@@ -22,7 +22,7 @@ char	*ft_hdname(void)
 	filename = ft_strdup(".hdtmp");
 	n = 0;
 	while (!access(filename, 0))
-		filename = ft_strjoinfree(filename, ft_itoa(n++), 2);
+		filename = ft_strjoinfree(".hdtmp", ft_itoa(n++), 1);
 	return (filename);
 }
 

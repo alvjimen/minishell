@@ -25,6 +25,8 @@
 
 #define DEBUG 0
 
+int	sign_stt;
+
 typedef enum meta
 {
 	DOLLAR_BIT,
