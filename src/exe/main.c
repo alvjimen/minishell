@@ -20,13 +20,14 @@
 */
 void	checkpoint(t_shell *mns, t_tkn *cont, char *accion)
 {
-	if (DEBUG) {
+	if (DEBUG)
+	{
 		if (mns->pid && !mns->child)
-			printf("---Padre---\n%s\npid: %u\nlstatus: <%d>\npstatus: <%d>\nvalue: %s\noutput: %s\nop: %d\n\n",
-				accion, mns->pid, mns->lstatus, mns->pstatus, cont->value, mns->output, cont->operators);
+			printf("---Padre---\n%s\npid: %u\nvalue: %s\nop: %d\n\n",
+				accion, mns->pid, cont->value, cont->operators);
 		else
-			printf("---Hijo %d---\n%s\npid: %u\nlstatus: <%d>\npstatus: <%d>\nvalue: %s\noutput: %s\nop: %d\n\n",
-				mns->child, accion, mns->pid, mns->lstatus, mns->pstatus, cont->value, mns->output, cont->operators);
+			printf("---Hijo %d---\n%s\npid: %u\nvalue: %s\nop: %d\n\n",
+				mns->child, accion, mns->pid, cont->value, cont->operators);
 	}
 }
 
@@ -55,10 +56,6 @@ void	executer(t_btree *root, t_shell *mns, int child)
 		exit(EXIT_SUCCESS);
 	cont = (t_tkn *)root->content;
 	checkpoint(mns, cont, "exe");
-	/**if (root->left)
-		printf("left: %s\n", ((t_tkn *)root->left->content)->value);
-	if (root->right)
-		printf("right: %s\n", ((t_tkn *)root->right->content)->value);*/
 	if (ft_isredirection(cont->operators))
 		redirect(root, mns, cont);
 	else if (ft_iscondition(cont->operators))

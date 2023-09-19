@@ -15,20 +15,27 @@
 
 void	ft_to_pipe(t_btree *root, t_shell *mns)
 {
-	(void)root;
-	(void)mns;
 	pipe(mns->fd);
 	mns->pid = fork();
 	if (!mns->pid)
+	{
+		mns->child = 1111;
 		dup2(mns->fd[STDOUT_FILENO], STDOUT_FILENO);
+	}
+	else
+	{
+		mns->pid = fork();
+		if (!mns->pid)
+		{
+			mns->child = 2222;
+			dup2(mns->fd[STDIN_FILENO], STDIN_FILENO);
+		}
+	}
 	close(mns->fd[STDOUT_FILENO]);
-	if (!mns->pid)
-		executer(root->left, mns, mns->child++);
-	mns->pid = fork();
-	if (!mns->pid)
-		dup2(mns->fd[STDIN_FILENO], STDIN_FILENO);
 	close(mns->fd[STDIN_FILENO]);
-	if (!mns->pid)
+	if (!mns->pid && mns->child == 1111)
+		executer(root->left, mns, mns->child++);
+	if (!mns->pid && mns->child == 2222)
 		executer(root->right, mns, mns->child++);
 	waitpid(mns->pid, &mns->lstatus, 0);
 }
