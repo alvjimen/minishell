@@ -23,7 +23,17 @@ void	contition(t_btree *root, t_shell *mns, t_tkn *cont)
 	int	op;
 
 	op = cont->operators;
-	executer(root->left, mns, mns->child);
+	if (mns->child)
+	{
+		mns->pid = fork();
+		if (!mns->pid)
+			executer(root->left, mns, mns->child);
+	}
+	else
+		executer(root->left, mns, mns->child);
+	waitpid(mns->pid, &mns->lstatus, 0);
 	if ((op == AND_IF && !mns->lstatus) || (op == OR_IF && mns->lstatus))
 		executer(root->right, mns, mns->child);
+	if (mns->child)
+		exit(EXIT_SUCCESS);
 }

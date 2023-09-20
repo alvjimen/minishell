@@ -20,17 +20,39 @@
 */
 void	checkpoint(t_shell *mns, t_tkn *cont, char *accion)
 {
-	if (DEBUG)
-	{
-		if (mns->pid && !mns->child)
-			printf("---Padre---\n%s\npid: %u\nvalue: %s\nop: %d\n\n",
-				accion, mns->pid, cont->value, cont->operators);
-		else
-			printf("---Hijo %d---\n%s\npid: %u\nvalue: %s\nop: %d\n\n",
-				mns->child, accion, mns->pid, cont->value, cont->operators);
-	}
+	char	*info;
+
+	if (!DEBUG)
+		return ;
+	if (mns->pid && !mns->child)
+		info = ft_strjoin("\n---Padre---\n", accion);
+	else
+		info = ft_strjoin("\n---Hijo---\n", accion);
+	info = ft_strjoinfree(
+			ft_strjoinfree(info, "\nChild: ", 0),
+			ft_strjoinfree(ft_itoa(mns->child),
+				ft_strjoin("\nValue: ",
+					ft_strjoin(cont->value, "\n")), 2), 2);
+	info = ft_strjoinfree(info, "Op: ", 0);
+	info = ft_strjoinfree(info, ft_itoa(cont->operators), 2);
+	info = ft_strjoinfree(info, "\nLeft ", 0);
+	if (mns->root->left)
+		info = ft_strjoinfree(info,
+				((t_tkn *)mns->root->left->content)->value, 0);
+	info = ft_strjoinfree(info, "\nRight ", 0);
+	if (mns->root->right)
+		info = ft_strjoinfree(info,
+				((t_tkn *)mns->root->right->content)->value, 0);
+	ft_putstr_fd(info, 2);
+	free(info);
 }
 
+/* 
+*	printf("---Padre---\n%s\npid: %u\nvalue: %s\nop: %d\n\n",
+*	accion, mns->pid, cont->value, cont->operators);
+*	printf("---Hijo %d---\n%s\npid: %u\nvalue: %s\nop: %d\n\n",
+*	mns->child, accion, mns->pid, cont->value, cont->operators);
+*/
 void	redirect(t_btree *root, t_shell *mns, t_tkn *cont)
 {
 	if (cont->operators == PIPE)
@@ -52,8 +74,10 @@ void	executer(t_btree *root, t_shell *mns, int child)
 {
 	t_tkn	*cont;
 
+	(void)child;
 	if (!root)
 		exit(EXIT_SUCCESS);
+	mns->root = root;
 	cont = (t_tkn *)root->content;
 	checkpoint(mns, cont, "exe");
 	if (ft_isredirection(cont->operators))

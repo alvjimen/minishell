@@ -73,6 +73,7 @@ typedef struct s_child
 	int		fd[2];
 }	t_child;
 
+void	checkpoint(t_shell *mns, t_tkn *cont, char *accion);
 void	executer(t_btree *root, t_shell *mns, int child);
 void	redirect(t_btree *root, t_shell *mns, t_tkn *cont);
 

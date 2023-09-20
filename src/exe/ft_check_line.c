@@ -61,7 +61,7 @@ int	ft_check_command(t_shell *mns, t_tkn *cont)
 	cmd = ft_cmd_search(mns->path, cont->value);
 	if (cmd)
 	{
-		mns->lstatus = 1;
+		mns->lstatus = 0;
 		if (mns->pid)
 			mns->pid = fork();
 		if (!mns->pid)
@@ -73,7 +73,7 @@ int	ft_check_command(t_shell *mns, t_tkn *cont)
 		waitpid(mns->pid, &mns->lstatus, 0);
 	}
 	else
-		mns->lstatus = 0;
+		mns->lstatus = 1;
 	return (1);
 }
 
