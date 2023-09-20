@@ -70,6 +70,7 @@ int	ft_check_command(t_shell *mns, t_tkn *cont)
 			perror("execve failed");
 			exit(EXIT_FAILURE);
 		}
+		free (cmd);
 		waitpid(mns->pid, &mns->lstatus, 0);
 	}
 	else

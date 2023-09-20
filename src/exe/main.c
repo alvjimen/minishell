@@ -95,6 +95,7 @@ int	main (int argc, char **argv, char **envp)
 {
 	char	*str;
 	t_shell	mns;
+	t_btree	*tree;
 
 	init_minishell(&mns, envp);
 	while (argc && argv)
@@ -105,26 +106,21 @@ int	main (int argc, char **argv, char **envp)
 			continue ;
 		if (!str)
 			return (FAILURE);
-		mns.root = ft_btree_builder(str);
+		tree = ft_btree_builder(str);
 		add_history(str);
 		free(str);
-		if (mns.root)
+		if (tree)
 		{
 			//Change the NULL ptr to the pointer of your choose
 			//Modify the file src/lxr/ft_dollar_expansion.c line 16 with your
 			//var_expansion_fun
-			//ft_print_btree(mns.root);
-			ft_expand_vars_regex_unquote(&mns.root, &mns);
-			//ft_print_btree(mns.root);
+			//ft_print_btree(tree);
+			ft_expand_vars_regex_unquote(&tree, &mns);
 			mns.lstatus = -1;
-			mns.pstatus = 0;
 			mns.pid = 1;
-			mns.im = NULL;
 			mns.child = 0;
-			mns.output = ft_strdup("-");
-			executer(mns.root, &mns, 0);
-			free (mns.output);
-			ft_btree_clear(&mns.root, ft_destroy_tkn);
+			executer(tree, &mns, 0);
+			ft_btree_clear(&tree, ft_destroy_tkn);
 		}
 	}
 	system("leaks -q test");
