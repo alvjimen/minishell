@@ -47,12 +47,6 @@ void	checkpoint(t_shell *mns, t_tkn *cont, char *accion)
 	free(info);
 }
 
-/* 
-*	printf("---Padre---\n%s\npid: %u\nvalue: %s\nop: %d\n\n",
-*	accion, mns->pid, cont->value, cont->operators);
-*	printf("---Hijo %d---\n%s\npid: %u\nvalue: %s\nop: %d\n\n",
-*	mns->child, accion, mns->pid, cont->value, cont->operators);
-*/
 void	redirect(t_btree *root, t_shell *mns, t_tkn *cont)
 {
 	if (cont->operators == PIPE)

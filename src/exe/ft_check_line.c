@@ -43,6 +43,8 @@ char	*ft_cmd_search(char **paths, char *cmd)
 	if (!paths)
 		return (NULL);
 	i = 0;
+	if (access(cmd, X_OK) != -1)
+		return (ft_strdup(cmd));
 	while (paths[i])
 	{
 		command = ft_strjoin(paths[i++], cmd);
@@ -59,22 +61,17 @@ int	ft_check_command(t_shell *mns, t_tkn *cont)
 	char	*cmd;
 
 	cmd = ft_cmd_search(mns->path, cont->value);
-	if (cmd)
+	mns->lstatus = 0;
+	if (mns->pid)
+		mns->pid = fork();
+	if (!mns->pid)
 	{
-		mns->lstatus = 0;
-		if (mns->pid)
-			mns->pid = fork();
-		if (!mns->pid)
-		{
-			execve(cmd, cont->str, NULL);
-			perror("execve failed");
-			exit(EXIT_FAILURE);
-		}
-		free (cmd);
-		waitpid(mns->pid, &mns->lstatus, 0);
+		execve(cmd, cont->str, NULL);
+		perror("execve failed");
+		exit(EXIT_FAILURE);
 	}
-	else
-		mns->lstatus = 1;
+	free (cmd);
+	waitpid(mns->pid, &mns->lstatus, 0);
 	return (1);
 }
 
