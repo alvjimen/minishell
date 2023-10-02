@@ -144,6 +144,8 @@ SRC-LIB_ADD			:=	ft_split\
 						ft_strchr\
 						ft_bzero\
 						ft_strjoinfree\
+						ft_strbrk\
+						ft_chrpos\
 						$(SRC-LST)
 						
 SRC-TST				:=	test
@@ -172,7 +174,8 @@ SRC-EXE				:=	main\
 						ft_exe_utils\
 						ft_check_line\
 						ft_conditions\
-						ft_redirections
+						ft_redirections\
+						ft_isvar
 
 DIR-SRC				:=	./src/
 DIR-LXR				:=	lxr/

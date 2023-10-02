@@ -1,3 +1,0 @@
-(echo "hola" && (echo "que tal" || echo "adios");)
-> error cat
-bash -c "echo -e hoal\"\t\"  que tal"

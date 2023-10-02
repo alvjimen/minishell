@@ -16,23 +16,32 @@
 else is added */
 char	**ft_update_env(char *item, t_shell *mns)
 {
-	char	**var;
+	char	**parts;
+	int		idx;
+	char	*temp;
 
 	if (ft_strchr(item, '='))
 	{
-		var = ft_split(item, '=');
-		var[0] = ft_strjoinfree(var[0], "=", 0);
-		if (ft_sarrcmp(mns->env, var[0]) != -1)
-			return (ft_sarrrep(mns->env, ft_sarrcmp(mns->env, var[0]), item));
-		else
+		parts = ft_strbrk(item, ft_chrpos(item, '=', 0) + 1);
+		idx = ft_sarrcmp(mns->env, parts[0]);
+		if (idx == -1)
 			return (ft_sarradd(mns->env, item));
+		else
+			return (ft_sarradd(ft_sarrrmi(idx, mns->env), item));
 	}
 	else
-		return (ft_sarradd(mns->env, item));
+	{
+		temp = ft_strjoin(item, "=");
+		idx = ft_sarrcmp(mns->vars, temp);
+		if (idx == -1)
+			return (ft_update_env(temp, mns));
+		else
+			return (ft_update_env(mns->vars[idx], mns));
+		free (temp);
+	}
 }
 
 // Export a variable.
-// NO funciona porque está siendo ejecutado por hijos.
 int	ft_export(t_tkn *cont, t_shell *mns)
 {
 	int		i;
@@ -40,12 +49,10 @@ int	ft_export(t_tkn *cont, t_shell *mns)
 	i = 0;
 	while (cont->str[++i])
 		mns->env = ft_update_env(cont->str[i], mns);
-	ft_sarrprint(mns->env);
 	return (1);
 }
 
 // Unset a variable.
-// NO funciona porque está siendo ejecutado por hijos.
 int	ft_unset(t_tkn *cont, t_shell *mns)
 {
 	int		index;
@@ -63,6 +70,5 @@ int	ft_unset(t_tkn *cont, t_shell *mns)
 	}
 	ft_sarrfree(&mns->path);
 	mns->path = ft_get_path(mns->env);
-	ft_sarrprint(mns->env);
 	return (1);
 }

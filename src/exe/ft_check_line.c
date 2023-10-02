@@ -13,8 +13,10 @@
 #include "mns.h"
 #include <stdio.h>
 
-// Search in the line for buildin functions, if theres any
-// return 0 to avoid the use of other programs.
+/*	Search in the line for buildin functions, if theres any
+	return 0 to avoid the use of other programs.
+	if (!ft_strncmp(cont->value, "var\0", 4))
+		return (ft_sarrprint(mns->vars));*/
 int	ft_check_build(t_shell *mns, t_tkn *cont)
 {
 	if (!ft_strncmp(cont->value, "env\0", 4))
@@ -29,6 +31,10 @@ int	ft_check_build(t_shell *mns, t_tkn *cont)
 		return (ft_cd(cont->str[1]));
 	else if (!ft_strncmp(cont->value, "pwd\0", 4))
 		return (ft_pwd());
+	else if (!ft_strncmp(cont->value, "$?\0", 3))
+		return (ft_printf("%d", mns->lstatus));
+	else if (ft_chrpos(cont->value, '=', 0) != -1)
+		return (ft_isvar(mns, cont));
 	else if (!ft_strncmp(cont->value, "exit\0", 5))
 		exit(EXIT_SUCCESS);
 	return (0);

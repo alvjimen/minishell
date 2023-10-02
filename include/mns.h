@@ -23,9 +23,7 @@
 # include <readline/readline.h>
 # include <sys/wait.h>
 
-#define DEBUG 0
-
-int	sign_stt;
+int	g_sign_stt;
 
 typedef enum meta
 {
@@ -50,6 +48,7 @@ typedef struct s_shell
 	t_btree				*root;
 	char				**path;
 	char				**env;
+	char				**vars;
 	int					lstatus;
 	int					signal;
 	pid_t				pid;
@@ -66,7 +65,7 @@ typedef struct s_child
 	int		fd[2];
 }	t_child;
 
-void	checkpoint(t_shell *mns, t_tkn *cont, char *accion);
+// void	checkpoint(t_shell *mns, t_tkn *cont, char *accion);
 void	executer(t_btree *root, t_shell *mns, int child);
 void	redirect(t_btree *root, t_shell *mns, t_tkn *cont);
 
@@ -75,7 +74,7 @@ int		ft_check_build(t_shell *mns, t_tkn *cont);
 char	*ft_cmd_search(char **paths, char *cmd);
 int		ft_check_command(t_shell *mns, t_tkn *cont);
 void	ft_check_line(t_shell *mns, t_tkn *cont);
-
+int		ft_isvar(t_shell *mns, t_tkn *cont);
 
 // Conditions
 int		ft_iscondition(int op);
@@ -97,17 +96,16 @@ void	signal_handler(int sig, siginfo_t *si, void *uap);
 int		init_signals(void);
 void	do_sigign(int signum);
 
-
 // Old main
 void	init_minishell(t_shell *mns, char **envp);
 char	**ft_get_path(char **envp);
 int		ft_cd(char *dir);
 int		ft_pwd(void);
 
+// Built-ins
 int		ft_echo(t_tkn	*content);
 int		ft_export(t_tkn *cont, t_shell *mns);
 int		ft_unset(t_tkn *cont, t_shell *mns);
 
 char	**ft_update_env(char *item, t_shell *mns);
-
 #endif

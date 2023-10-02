@@ -28,4 +28,6 @@
 char	**ft_split_chars(char const *s, char *delim);
 void	ft_swap(void **ptr1, void **ptr2);
 char	*ft_strjoinfree(char *s1, char *s2, int which);
+char	**ft_strbrk(char *str, int b_point);
+int		ft_chrpos(char *str, int chr, int start);
 #endif

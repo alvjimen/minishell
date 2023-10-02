@@ -10,19 +10,18 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-
+#include "lxr.h"
 #include "mns.h"
 #include <stdio.h>
 #include <termios.h>
 
 /*
 *	Checkpoint para debug
-*/
 void	checkpoint(t_shell *mns, t_tkn *cont, char *accion)
 {
 	char	*info;
 
-	if (!DEBUG)
+	if (0)
 		return ;
 	if (mns->pid && !mns->child)
 		info = ft_strjoin("\n---Padre---\n", accion);
@@ -46,6 +45,7 @@ void	checkpoint(t_shell *mns, t_tkn *cont, char *accion)
 	ft_putstr_fd(info, 2);
 	free(info);
 }
+*/
 
 void	redirect(t_btree *root, t_shell *mns, t_tkn *cont)
 {
@@ -73,8 +73,13 @@ void	executer(t_btree *root, t_shell *mns, int child)
 		exit(EXIT_SUCCESS);
 	mns->root = root;
 	cont = (t_tkn *)root->content;
-	checkpoint(mns, cont, "exe");
-	if (ft_isredirection(cont->operators))
+	if (root->left
+		&& ((t_tkn *)root->left->content)->token >= ERROR)
+		ft_printf("%s\n", "error");
+	else if (root->right
+		&& ((t_tkn *)root->right->content)->token >= ERROR)
+		ft_printf("%s\n", "error");
+	else if (ft_isredirection(cont->operators))
 		redirect(root, mns, cont);
 	else if (ft_iscondition(cont->operators))
 		contition(root, mns, cont);
@@ -84,8 +89,21 @@ void	executer(t_btree *root, t_shell *mns, int child)
 		exit(EXIT_SUCCESS);
 }
 
+void	send_exe(t_btree *tree, t_shell *mns)
+{
+	ft_expand_vars_regex_unquote(&tree, mns);
+	mns->lstatus = -1;
+	mns->pid = 1;
+	mns->child = 0;
+	executer(tree, mns, 0);
+	ft_btree_clear(&tree, ft_destroy_tkn);
+}
 
-int	main (int argc, char **argv, char **envp)
+//Change the NULL ptr to the pointer of your choose
+//Modify the file src/lxr/ft_dollar_expansion.c line 16 with your
+//var_expansion_fun
+//ft_print_btree(tree);
+int	main(int argc, char **argv, char **envp)
 {
 	char	*str;
 	t_shell	mns;
@@ -96,7 +114,7 @@ int	main (int argc, char **argv, char **envp)
 	{
 		init_signals();
 		str = readline("mns> ");
-		if (sign_stt)
+		if (g_sign_stt)
 			continue ;
 		if (!str)
 			return (FAILURE);
@@ -104,18 +122,7 @@ int	main (int argc, char **argv, char **envp)
 		add_history(str);
 		free(str);
 		if (tree)
-		{
-			//Change the NULL ptr to the pointer of your choose
-			//Modify the file src/lxr/ft_dollar_expansion.c line 16 with your
-			//var_expansion_fun
-			//ft_print_btree(tree);
-			ft_expand_vars_regex_unquote(&tree, &mns);
-			mns.lstatus = -1;
-			mns.pid = 1;
-			mns.child = 0;
-			executer(tree, &mns, 0);
-			ft_btree_clear(&tree, ft_destroy_tkn);
-		}
+			send_exe(tree, &mns);
 	}
 	system("leaks -q test");
 	return (SUCCESS);

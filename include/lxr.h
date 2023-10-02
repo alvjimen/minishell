@@ -173,7 +173,7 @@ char		**ft_regex_ls(t_quotes *quotes, char *str);
 void		ft_expand_vars_regex_unquote(t_btree **root, void *param);
 void		ft_print_btree(t_btree *root);
 void		ft_btree_destroy(t_btree **root);
-char		*ft_var_value(char **sarr, char *var_name);
+char		*ft_var_value(void *ptr, char *var_name);
 char		*ft_dollar_expansion(t_lxr **lxr, t_vars *vars, void *ptr);
 t_quotes	*ft_destroy_quotes(t_quotes **quotes);
 t_quotes	*ft_init_quotes(t_lxr *lxr);

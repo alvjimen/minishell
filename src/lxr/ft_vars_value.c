@@ -10,22 +10,47 @@
 /*                                                                            */
 /* ************************************************************************** */
 #include "lxr.h"
+#include "mns.h"
 
-/*
-char	*ft_var_value(char **sarr, char *var_name)
+char	*get_var_value(char **sarr, char *var)
 {
-	sarr = NULL;
-	var_name = NULL;
-	if (!sarr || !var_name)
-		return (ft_strdup("var value"));
-	return (ft_strdup("var value"));
+	int		idx;
+	char	**parts;
+	char	*value;
+
+	idx = ft_sarrcmp(sarr, var);
+	if (idx != -1)
+	{
+		parts = ft_strbrk(sarr[idx], ft_chrpos(sarr[idx], '=', 0) + 1);
+		if (parts[1])
+			value = ft_strdup(parts[1]);
+		else
+			value = ft_strdup("");
+		ft_sarrfree(&parts);
+		return (value);
+	}
+	else
+		return (NULL);
 }
-*/
-/**/
-char	*ft_var_value(char **sarr, char *var_name)
+
+char	*ft_var_value(void *ptr, char *var_name)
 {
-	if (!*sarr)
-		var_name = NULL;
-	return (ft_strdup(var_name));
+	t_shell	*mns;
+	char	*temp;
+	char	*value;
+
+	mns = ptr;
+	temp = ft_strjoin(var_name, "=");
+	value = get_var_value(mns->env, temp);
+	if (value)
+	{
+		free (temp);
+		return (value);
+	}
+	value = get_var_value(mns->vars, temp);
+	free (temp);
+	if (value)
+		return (value);
+	else
+		return (ft_strdup(""));
 }
-/**/
