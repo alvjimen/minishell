@@ -49,7 +49,7 @@ int	ft_export(t_tkn *cont, t_shell *mns)
 	i = 0;
 	while (cont->str[++i])
 		mns->env = ft_update_env(cont->str[i], mns);
-	return (1);
+	return (0);
 }
 
 // Unset a variable.
@@ -70,5 +70,5 @@ int	ft_unset(t_tkn *cont, t_shell *mns)
 	}
 	ft_sarrfree(&mns->path);
 	mns->path = ft_get_path(mns->env);
-	return (1);
+	return (0);
 }

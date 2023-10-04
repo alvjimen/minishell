@@ -32,12 +32,12 @@ int	ft_check_build(t_shell *mns, t_tkn *cont)
 	else if (!ft_strncmp(cont->value, "pwd\0", 4))
 		return (ft_pwd());
 	else if (!ft_strncmp(cont->value, "$?\0", 3))
-		return (ft_printf("%d", mns->lstatus));
+		return (!ft_printf("%d", mns->lstatus));
 	else if (ft_chrpos(cont->value, '=', 0) != -1)
 		return (ft_isvar(mns, cont));
 	else if (!ft_strncmp(cont->value, "exit\0", 5))
 		exit(EXIT_SUCCESS);
-	return (0);
+	return (-1);
 }
 
 // Check if the command exist.
@@ -84,6 +84,7 @@ int	ft_check_command(t_shell *mns, t_tkn *cont)
 // Revisa la línea en busqueda de built-ins o comandos.
 void	ft_check_line(t_shell *mns, t_tkn *cont)
 {
-	if (!ft_check_build(mns, cont))
+	mns->lstatus = ft_check_build(mns, cont);
+	if (mns->lstatus == -1)
 		ft_check_command(mns, cont);
 }

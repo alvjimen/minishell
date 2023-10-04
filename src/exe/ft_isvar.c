@@ -33,7 +33,7 @@ int	ft_isvar(t_shell *mns, t_tkn *cont)
 	idx = -1;
 	while (cont->value[++idx] != '=')
 		if (!ft_isalnum(cont->value[idx]))
-			return (0);
+			return (1);
 	parts = ft_strbrk(cont->value, ft_chrpos(cont->value, '=', 0) + 1);
 	idx = ft_sarrcmp(mns->env, parts[0]);
 	if (idx != -1)
@@ -41,5 +41,5 @@ int	ft_isvar(t_shell *mns, t_tkn *cont)
 	else
 		search_replace(&mns->vars, parts[0], cont->value);
 	ft_sarrfree(&parts);
-	return (1);
+	return (0);
 }

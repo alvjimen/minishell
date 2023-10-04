@@ -21,7 +21,7 @@ int	ft_echo(t_tkn	*content)
 	if (!content->str[1])
 	{
 		printf("\n");
-		return (1);
+		return (0);
 	}
 	if (!ft_strncmp(content->str[1], "-n", 2))
 		i++;
@@ -29,5 +29,5 @@ int	ft_echo(t_tkn	*content)
 		printf("%s ", content->str[i]);
 	if (ft_strncmp(content->str[1], "-n", 2))
 		printf("\n");
-	return (1);
+	return (0);
 }

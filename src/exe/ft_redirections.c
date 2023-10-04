@@ -54,8 +54,8 @@ void	ft_to_file(t_btree *root, t_tkn	*cont, t_shell *mns)
 		else
 			fd = open(filename, O_CREAT | O_WRONLY | O_APPEND, 0644);
 		dup2(fd, STDOUT_FILENO);
-		executer(root->left, mns, mns->child++);
 		close(fd);
+		executer(root->left, mns, mns->child++);
 		exit(EXIT_SUCCESS);
 	}
 	waitpid(mns->pid, &mns->lstatus, 0);

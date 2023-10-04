@@ -39,12 +39,12 @@ char	**ft_get_path(char **envp)
 int	ft_cd(char *dir)
 {
 	chdir(dir);
-	return (1);
+	return (0);
 }
 
 // Get the current directory.
 int	ft_pwd(void)
 {
 	printf("%s\n", getcwd(NULL, 0));
-	return (1);
+	return (0);
 }

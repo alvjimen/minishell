@@ -17,12 +17,12 @@ int	ft_sarrprint(char **arr)
 	int	i;
 
 	if (!arr || !arr[0])
-		return (0);
+		return (1);
 	i = -1;
 	while (arr[++i])
 	{
 		ft_putstr_fd(arr[i], 1);
 		ft_putstr_fd("\n", 1);
 	}
-	return (i);
+	return (0);
 }
