@@ -6,7 +6,7 @@
 /*   By: alvjimen <alvjimen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/21 08:09:01 by alvjimen          #+#    #+#             */
-/*   Updated: 2023/06/20 20:25:08 by alvjimen         ###   ########.fr       */
+/*   Updated: 2023/10/05 18:16:08 by alvjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "lxr.h"
@@ -16,6 +16,7 @@
 	0				ALL OK.
 	1				ERROR
 */
+/*
 static int	ft_clean_exit(t_lxr **lxr, char **tmp, int flag)
 {
 	if (flag > 0)
@@ -46,13 +47,13 @@ static int	ft_split_inner_parenthesis(t_lxr *lxr, t_btree **root)
 	*root = lxr->btree;
 	return (SUCCESS);
 }
+*/
 
 /*if (len <= 2) the len is checked on syntax analizer*/
 int	ft_parenthesis_split(char	*str, t_btree **root)
 {
 	size_t	len;
 	char	*tmp;
-	t_lxr	*lxr;
 
 	if (!str || !root || !*root)
 		return (FAILURE);
@@ -62,14 +63,12 @@ int	ft_parenthesis_split(char	*str, t_btree **root)
 	tmp = ft_substr(str, 1, len - 2);
 	if (!tmp)
 		return (FAILURE);
-	lxr = ft_init_lxr(tmp);
-	if (!lxr)
-		return (ft_clean_exit(&lxr, &tmp, 1));
-	if (ft_split_inner_parenthesis(lxr, root))
-		return (ft_clean_exit(&lxr, &tmp, 2));
-	if (ft_syntax_analizer(*root, lxr) == SUCCESS)
-		return (ft_clean_exit(&lxr, &tmp, 3));
-	return (ft_clean_exit(&lxr, &tmp, 2));
+	ft_btree_clear(root, ft_destroy_tkn);
+	*root = ft_btree_builder(tmp);
+	free(tmp);
+	if (*root)
+		return (SUCCESS);
+	return (FAILURE);
 }
 
 /* This is function should pass once the tree is all build for
