@@ -24,6 +24,7 @@ char	**ft_update_env(char *item, t_shell *mns)
 	{
 		parts = ft_strbrk(item, ft_chrpos(item, '=', 0) + 1);
 		idx = ft_sarrcmp(mns->env, parts[0]);
+		ft_sarrfree(&parts);
 		if (idx == -1)
 			return (ft_sarradd(mns->env, item));
 		else
