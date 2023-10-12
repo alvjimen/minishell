@@ -6,7 +6,7 @@
 /*   By: alvjimen <alvjimen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/20 14:03:33 by alvjimen          #+#    #+#             */
-/*   Updated: 2023/06/18 15:20:57 by alvjimen         ###   ########.fr       */
+/*   Updated: 2023/10/12 19:07:37 by alvjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "lxr.h"
@@ -36,9 +36,9 @@ static int	ft_syntax_analizer_operator(t_btree *root, t_tkn *content,
 		if (!root->right)
 			return (FAILURE);
 		content = root->right->content;
-		if (!content && content->token == OPERATOR
+		if (!content || (content->token == OPERATOR
 			&& (content->operators == AND_IF || content->operators == OR_IF
-				|| content->operators == PIPE))
+				|| content->operators == PIPE)))
 			return (FAILURE);
 		return (SUCCESS);
 	}
