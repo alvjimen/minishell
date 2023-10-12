@@ -114,7 +114,10 @@ int	main(int argc, char **argv, char **envp)
 		init_signals();
 		str = readline("mns> ");
 		if (g_sign_stt)
+		{
+			free(str);
 			continue ;
+		}
 		if (!str)
 			return (FAILURE);
 		tree = ft_btree_builder(str);
