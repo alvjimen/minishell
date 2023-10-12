@@ -18,7 +18,6 @@ char	**ft_update_env(char *item, t_shell *mns)
 {
 	char	**parts;
 	int		idx;
-	char	*temp;
 
 	if (ft_strchr(item, '='))
 	{
@@ -30,26 +29,30 @@ char	**ft_update_env(char *item, t_shell *mns)
 		else
 			return (ft_sarradd(ft_sarrrmi(idx, mns->env), item));
 	}
-	else
-	{
-		temp = ft_strjoin(item, "=");
-		idx = ft_sarrcmp(mns->vars, temp);
-		if (idx == -1)
-			return (ft_update_env(temp, mns));
-		else
-			return (ft_update_env(mns->vars[idx], mns));
-		free (temp);
-	}
+	return (mns->env);
 }
 
 // Export a variable.
 int	ft_export(t_tkn *cont, t_shell *mns)
 {
 	int		i;
+	int		idx;
+	char	*temp;
 
 	i = 0;
 	while (cont->str[++i])
-		mns->env = ft_update_env(cont->str[i], mns);
+	{
+		if (!ft_strchr(cont->str[i], '='))
+			temp = ft_strjoin(cont->str[i], "=");
+		else
+			temp = ft_strdup(cont->str[i]);
+		idx = ft_sarrcmp(mns->vars, temp);
+		if (idx == -1)
+			mns->env = ft_update_env(temp, mns);
+		else
+			mns->env = ft_update_env(mns->vars[idx], mns);
+		free (temp);
+	}
 	return (0);
 }
 
@@ -65,9 +68,12 @@ int	ft_unset(t_tkn *cont, t_shell *mns)
 	{
 		var = ft_strjoin(cont->str[i], "=");
 		index = ft_sarrcmp(mns->env, var);
-		free (var);
 		if (index != -1)
 			mns->env = ft_sarrrmi(index, mns->env);
+		index = ft_sarrcmp(mns->vars, var);
+		free (var);
+		if (index != -1)
+			mns->vars = ft_sarrrmi(index, mns->vars);
 	}
 	ft_sarrfree(&mns->path);
 	mns->path = ft_get_path(mns->env);

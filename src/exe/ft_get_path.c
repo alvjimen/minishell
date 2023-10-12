@@ -19,6 +19,8 @@ char	**ft_get_path(char **envp)
 	char	*env;
 	size_t	pos;
 
+	if (ft_sarrcmp(envp, "PATH=") == -1)
+		return (NULL);
 	env = ft_strdup(envp[ft_sarrcmp(envp, "PATH=")]);
 	if (!env)
 		return (NULL);
