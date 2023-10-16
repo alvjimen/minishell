@@ -42,3 +42,35 @@ void	ft_printfile(char *filename)
 	}
 	close(fd);
 }
+
+/*
+ * Ejecuta los heredocs del árbol.
+*/
+void	prexe(t_btree *root)
+{
+	t_tkn	*cont;
+
+	if (!root)
+		exit(EXIT_SUCCESS);
+	cont = (t_tkn *)root->content;
+	if (cont->operators == DLOWER)
+		ft_from_heredoc(root);
+	if (root->left)
+		prexe(root->left);
+	if (root->right)
+		prexe(root->right);
+}
+
+/*
+ * Prepara las variables y expande antes de iniciar el executer.
+*/
+void	send_exe(t_btree *tree, t_shell *mns)
+{
+	ft_expand_vars_regex_unquote(&tree, mns);
+	mns->lstatus = -1;
+	mns->pid = 1;
+	mns->child = 0;
+	prexe(tree);
+	executer(tree, mns, 0);
+	ft_btree_clear(&tree, ft_destroy_tkn);
+}

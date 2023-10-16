@@ -80,14 +80,14 @@ void	ft_from_file(t_btree *root, t_shell *mns)
 			exit(EXIT_FAILURE);
 		dup2(fd, STDIN_FILENO);
 		close(fd);
-		mns->child = 1;	
+		mns->child = 1;
 		executer(root->left, mns, ++mns->child);
 		exit(EXIT_SUCCESS);
 	}
 	waitpid(mns->pid, &mns->lstatus, 0);
 }
 
-void	ft_from_heredoc(t_btree *root, t_shell *mns)
+void	ft_from_heredoc(t_btree *root)
 {
 	int		fd;
 	char	*line;
@@ -107,5 +107,5 @@ void	ft_from_heredoc(t_btree *root, t_shell *mns)
 	close(fd);
 	free (*eof);
 	*eof = filename;
-	ft_from_file(root, mns);
+	((t_tkn *)root->content)->operators = LOWER;
 }

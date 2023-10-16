@@ -16,7 +16,7 @@
 #include <termios.h>
 
 /*Checkpoint para debug*/
-/*void	checkpoint(t_shell *mns, t_tkn *cont, char *accion)
+void	checkpoint(t_shell *mns, t_tkn *cont, char *accion)
 {
 	char	*info;
 
@@ -43,18 +43,18 @@
 				((t_tkn *)mns->root->right->content)->value, 0);
 	ft_putstr_fd(info, 2);
 	free(info);
-}*/
+}
 
 void	redirect(t_btree *root, t_shell *mns, t_tkn *cont)
 {
-	if (cont->operators == PIPE)
+	if (cont->operators == DLOWER)
+		ft_from_heredoc(root);
+	else if (cont->operators == PIPE)
 		ft_to_pipe(root, mns);
 	else if (cont->operators == GREATER || cont->operators == DGREATER)
 		ft_to_file(root, cont, mns);
 	else if (cont->operators == LOWER)
 		ft_from_file(root, mns);
-	else if (cont->operators == DLOWER)
-		ft_from_heredoc(root, mns);
 }
 
 int	ft_isredirection(int op)
@@ -62,7 +62,6 @@ int	ft_isredirection(int op)
 	return (op >= PIPE && op <= DLOWER);
 }
 
-	// checkpoint(mns, cont, "Exe");
 void	executer(t_btree *root, t_shell *mns, int child)
 {
 	t_tkn	*cont;
@@ -72,6 +71,7 @@ void	executer(t_btree *root, t_shell *mns, int child)
 		exit(EXIT_SUCCESS);
 	mns->root = root;
 	cont = (t_tkn *)root->content;
+	// checkpoint(mns, cont, "Exe");
 	if (root->left
 		&& ((t_tkn *)root->left->content)->token >= ERROR)
 		ft_printf("%s\n", "error");
@@ -88,15 +88,37 @@ void	executer(t_btree *root, t_shell *mns, int child)
 		exit(EXIT_SUCCESS);
 }
 
-void	send_exe(t_btree *tree, t_shell *mns)
+/*
+ * Ejecuta los heredocs del árbol.
+*/
+/*void	prexe(t_btree *root)
+{
+	t_tkn	*cont;
+
+	if (!root)
+		exit(EXIT_SUCCESS);
+	cont = (t_tkn *)root->content;
+	if (cont->operators == DLOWER)
+		ft_from_heredoc(root);
+	if (root->left)
+		prexe(root->left);
+	if (root->right)
+		prexe(root->right);
+}*/
+
+/*
+ * Prepara las variables y expande antes de iniciar el executer.
+*/
+/*void	send_exe(t_btree *tree, t_shell *mns)
 {
 	ft_expand_vars_regex_unquote(&tree, mns);
 	mns->lstatus = -1;
 	mns->pid = 1;
 	mns->child = 0;
+	prexe(tree);
 	executer(tree, mns, 0);
 	ft_btree_clear(&tree, ft_destroy_tkn);
-}
+}*/
 
 //Change the NULL ptr to the pointer of your choose
 //Modify the file src/lxr/ft_dollar_expansion.c line 16 with your

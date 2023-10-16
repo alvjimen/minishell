@@ -68,7 +68,8 @@ typedef struct s_child
 	int		fd[2];
 }	t_child;
 
-// void	checkpoint(t_shell *mns, t_tkn *cont, char *accion);
+void	checkpoint(t_shell *mns, t_tkn *cont, char *accion);
+void	send_exe(t_btree *tree, t_shell *mns);
 void	executer(t_btree *root, t_shell *mns, int child);
 void	redirect(t_btree *root, t_shell *mns, t_tkn *cont);
 
@@ -91,7 +92,7 @@ void	ft_printfile(char *filename);
 void	ft_to_pipe(t_btree *root, t_shell *mns);
 void	ft_from_file(t_btree *root, t_shell *mns);
 void	ft_to_file(t_btree *root, t_tkn *cont, t_shell *mns);
-void	ft_from_heredoc(t_btree *root, t_shell *mns);
+void	ft_from_heredoc(t_btree *root);
 
 // Signals
 void	signal_silence(void);
