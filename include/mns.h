@@ -49,10 +49,13 @@ typedef struct s_shell
 	char				**path;
 	char				**env;
 	char				**vars;
+	char				**exp;
 	int					lstatus;
 	int					signal;
 	pid_t				pid;
 	int					fd[2];
+	int					pfd[2];
+	int					ppipe;
 	int					child;
 	struct sigaction	s_action;
 	char				*holded_value;

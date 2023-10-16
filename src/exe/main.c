@@ -125,8 +125,8 @@ int	main(int argc, char **argv, char **envp)
 		free(str);
 		if (tree)
 			send_exe(tree, &mns);
-		system("leaks mini_shell");
+		// system("leaks mini_shell");
 	}
-	system("leaks -q test");
+	// system("leaks -q test");
 	return (SUCCESS);
 }
