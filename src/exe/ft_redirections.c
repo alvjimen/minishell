@@ -15,12 +15,11 @@
 
 void	ft_to_pipe(t_btree *root, t_shell *mns)
 {
-	if (mns->child != 2222)
-	{
-		pipe(mns->fd);
-		mns->pid = fork();
-	}
-	if (!mns->pid || mns->child == 2222)
+	if (mns->child == 1111 || mns->child == 2222)
+		mns->child = 1;
+	pipe(mns->fd);
+	mns->pid = fork();
+	if (!mns->pid)
 	{
 		mns->child = 1111;
 		dup2(mns->fd[STDOUT_FILENO], STDOUT_FILENO);
@@ -38,12 +37,12 @@ void	ft_to_pipe(t_btree *root, t_shell *mns)
 	close(mns->fd[STDIN_FILENO]);
 	if (mns->child == 1111)
 		executer(root->left, mns, mns->child);
-	if (mns->child == 2222 || ((t_tkn *)root->right->content)->operators == PIPE)
+	if (mns->child == 2222)
 		executer(root->right, mns, mns->child);
+	wait(&mns->lstatus);
+	wait(&mns->lstatus);
 	if (!mns->pid || mns->child)
 		exit (EXIT_SUCCESS);
-	wait(&mns->lstatus);
-	wait(&mns->lstatus);
 }
 
 void	ft_to_file(t_btree *root, t_tkn	*cont, t_shell *mns)
@@ -70,23 +69,21 @@ void	ft_to_file(t_btree *root, t_tkn	*cont, t_shell *mns)
 void	ft_from_file(t_btree *root, t_shell *mns)
 {
 	char	*filename;
+	int		fd;
 
-	pipe(mns->fd);
 	mns->pid = fork();
 	if (!mns->pid)
 	{
 		filename = ((t_tkn *)root->right->content)->value;
-		dup2(mns->fd[STDOUT_FILENO], STDOUT_FILENO);
-		ft_printfile(filename);
+		fd = open(filename, O_RDONLY, 0644);
+		if (fd == -1)
+			exit(EXIT_FAILURE);
+		dup2(fd, STDIN_FILENO);
+		close(fd);
+		mns->child = 1;	
+		executer(root->left, mns, ++mns->child);
 		exit(EXIT_SUCCESS);
 	}
-	close(mns->fd[STDOUT_FILENO]);
-	mns->pid = fork();
-	if (!mns->pid)
-		dup2(mns->fd[STDIN_FILENO], STDIN_FILENO);
-	close(mns->fd[STDIN_FILENO]);
-	if (!mns->pid)
-		executer(root->left, mns, mns->child++);
 	waitpid(mns->pid, &mns->lstatus, 0);
 }
 
