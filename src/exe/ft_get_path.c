@@ -41,26 +41,26 @@ char	**ft_get_path(char **envp)
 int	ft_cd(char *dir, t_shell *mns)
 {
 	char	*upath;
+	char	*newdir;
 
+	upath = ft_strget_btwn(mns->path[0], 2, '/', '/');
+	upath = ft_strjoinfree("/Users/", upath, 1);
 	if (dir && !ft_strncmp(dir, "-", 2))
-		chdir(mns->opath);
-	else
+		newdir = ft_strdup(mns->opath);
+	else if (mns->opath)
 	{
-		if (mns->opath)
-		{
-			free (mns->opath);
-			mns->opath = getcwd(NULL, 0);
-		}
-		if (!dir)
-		{
-			upath = ft_strget_btwn(mns->path[0], 2, '/', '/');
-			upath = ft_strjoinfree("/Users/", upath, 1);
-			chdir(upath);
-			mns->opath = upath;
-		}
-		else
-			chdir(dir);
+		free (mns->opath);
+		mns->opath = getcwd(NULL, 0);
 	}
+	if (dir && dir[0] == '~')
+		newdir = ft_strrep(dir, "~", upath);
+	else if (!dir)
+		newdir = ft_strdup(upath);
+	else if (ft_strncmp(dir, "-", 2))
+		newdir = ft_strdup(dir);
+	chdir(newdir);
+	free (newdir);
+	free (upath);
 	return (0);
 }
 

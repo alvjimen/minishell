@@ -31,4 +31,6 @@ char	*ft_strjoinfree(char *s1, char *s2, int which);
 char	**ft_strbrk(char *str, int b_point);
 int		ft_chrpos(char *str, int chr, int start);
 char	*ft_strget_btwn(char *str, int start, char ini, char end);
+char	*ft_strrep(char *str, char *old, char *new);
+char	*ft_strstr(char *str, char *to_find);
 #endif
