@@ -47,6 +47,7 @@ typedef struct s_shell
 {
 	t_btree				*root;
 	char				**path;
+	char				*opath;
 	char				**env;
 	char				**vars;
 	char				**exp;
@@ -103,7 +104,7 @@ void	do_sigign(int signum);
 // Old main
 void	init_minishell(t_shell *mns, char **envp);
 char	**ft_get_path(char **envp);
-int		ft_cd(char *dir);
+int		ft_cd(char *dir, t_shell *mns);
 int		ft_pwd(void);
 
 // Built-ins

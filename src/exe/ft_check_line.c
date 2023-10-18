@@ -28,7 +28,7 @@ int	ft_check_build(t_shell *mns, t_tkn *cont)
 	else if (!ft_strncmp(cont->value, "unset\0", 6))
 		return (ft_unset(cont, mns));
 	else if (!ft_strncmp(cont->value, "cd\0", 3))
-		return (ft_cd(cont->str[1]));
+		return (ft_cd(cont->str[1], mns));
 	else if (!ft_strncmp(cont->value, "pwd\0", 4))
 		return (ft_pwd());
 	else if (!ft_strncmp(cont->value, "$?\0", 3))
