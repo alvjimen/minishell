@@ -6,11 +6,15 @@
 /*   By: alvjimen <alvjimen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/21 12:45:06 by alvjimen          #+#    #+#             */
-/*   Updated: 2023/06/18 14:04:36 by alvjimen         ###   ########.fr       */
+/*   Updated: 2023/10/18 13:44:15 by alvjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "lxr.h"
-
+static int	ft_valid_var_name(const char *str)
+{
+	return (ft_isalpha(*str) || *str == '_' || *str == '$'
+		|| *str == '*' || *str == '@' || *str == '?' || *str == '-');
+}
 static char	*ft_vars_expansion_loop(t_lxr **lxr, t_vars *vars, void *ptr)
 {
 	char	*aux;
@@ -24,7 +28,7 @@ static char	*ft_vars_expansion_loop(t_lxr **lxr, t_vars *vars, void *ptr)
 			&& lxr[0]->str[lxr[0]->pos] == '\'')
 			lxr[0]->tokens.states ^= SQUOTES;
 		else if (lxr[0]->tokens.states != SQUOTES
-			&& lxr[0]->str[lxr[0]->pos] == '$')
+			&& lxr[0]->str[lxr[0]->pos] == '$' && ft_valid_var_name(lxr[0]->str + lxr[0]->pos + 1))
 		{
 			aux = ft_dollar_expansion(lxr, vars, ptr);
 			if (aux != lxr[0]->str)
