@@ -38,15 +38,39 @@ char	**ft_get_path(char **envp)
 }
 
 // Change currrent directory.
-int	ft_cd(char *dir)
+int	ft_cd(char *dir, t_shell *mns)
 {
-	chdir(dir);
+	char	*upath;
+
+	if (dir && !ft_strncmp(dir, "-", 2))
+		chdir(mns->opath);
+	else
+	{
+		if (mns->opath)
+		{
+			free (mns->opath);
+			mns->opath = getcwd(NULL, 0);
+		}
+		if (!dir)
+		{
+			upath = ft_strget_btwn(mns->path[0], 2, '/', '/');
+			upath = ft_strjoinfree("/Users/", upath, 1);
+			chdir(upath);
+			mns->opath = upath;
+		}
+		else
+			chdir(dir);
+	}
 	return (0);
 }
 
 // Get the current directory.
 int	ft_pwd(void)
 {
-	printf("%s\n", getcwd(NULL, 0));
+	char	*dir;
+
+	dir = getcwd(NULL, 0);
+	printf("%s\n", dir);
+	free (dir);
 	return (0);
 }

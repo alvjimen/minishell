@@ -146,6 +146,7 @@ SRC-LIB_ADD			:=	ft_split\
 						ft_strjoinfree\
 						ft_strbrk\
 						ft_chrpos\
+						ft_strget_btwn\
 						$(SRC-LST)
 						
 SRC-TST				:=	test

@@ -71,7 +71,6 @@ void	executer(t_btree *root, t_shell *mns, int child)
 		exit(EXIT_SUCCESS);
 	mns->root = root;
 	cont = (t_tkn *)root->content;
-	// checkpoint(mns, cont, "Exe");
 	if (root->left
 		&& ((t_tkn *)root->left->content)->token >= ERROR)
 		ft_printf("%s\n", "error");
@@ -87,38 +86,6 @@ void	executer(t_btree *root, t_shell *mns, int child)
 	if (child)
 		exit(EXIT_SUCCESS);
 }
-
-/*
- * Ejecuta los heredocs del árbol.
-*/
-/*void	prexe(t_btree *root)
-{
-	t_tkn	*cont;
-
-	if (!root)
-		exit(EXIT_SUCCESS);
-	cont = (t_tkn *)root->content;
-	if (cont->operators == DLOWER)
-		ft_from_heredoc(root);
-	if (root->left)
-		prexe(root->left);
-	if (root->right)
-		prexe(root->right);
-}*/
-
-/*
- * Prepara las variables y expande antes de iniciar el executer.
-*/
-/*void	send_exe(t_btree *tree, t_shell *mns)
-{
-	ft_expand_vars_regex_unquote(&tree, mns);
-	mns->lstatus = -1;
-	mns->pid = 1;
-	mns->child = 0;
-	prexe(tree);
-	executer(tree, mns, 0);
-	ft_btree_clear(&tree, ft_destroy_tkn);
-}*/
 
 //Change the NULL ptr to the pointer of your choose
 //Modify the file src/lxr/ft_dollar_expansion.c line 16 with your
