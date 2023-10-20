@@ -6,7 +6,7 @@
 /*   By: alvjimen <alvjimen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/12 17:53:50 by alvjimen          #+#    #+#             */
-/*   Updated: 2023/04/22 16:03:05 by alvjimen         ###   ########.fr       */
+/*   Updated: 2023/10/20 12:31:54 by alvjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "lxr.h"
@@ -20,8 +20,7 @@
 static int	ft_search_close_parenthesis(t_lxr *lxr, size_t *counter,
 		size_t *counter_par)
 {
-	while (lxr->str[lxr->pos + *counter] && (*counter_par
-			|| (!*counter_par && lxr->str[lxr->pos + *counter] != ')')))
+	while (lxr->str[lxr->pos + *counter])
 	{
 		if (lxr->str[lxr->pos + *counter] == '(')
 			counter_par[0]++;
@@ -31,6 +30,9 @@ static int	ft_search_close_parenthesis(t_lxr *lxr, size_t *counter,
 			return (FAILURE);
 		counter[0]++;
 	}
+	if (counter_par[0] > 0)
+		return (FAILURE);
+	lxr->tokens.states ^= PAREN;
 	return (SUCCESS);
 }
 
@@ -57,7 +59,7 @@ int	ft_parenthesis(t_lxr *lxr)
 	lxr->tokens.states = PAREN;
 	while (lxr->tokens.states == PAREN)
 	{
-		if (ft_search_close_parenthesis(lxr, &counter, &counter_par))
+		if (ft_search_close_parenthesis(lxr, &counter, &counter_par) == FAILURE)
 			return (FAILURE);
 		if (lxr->str[lxr->pos + counter] == ')')
 			return (ft_set_token(lxr, counter));
