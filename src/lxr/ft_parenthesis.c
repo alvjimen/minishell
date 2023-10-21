@@ -20,7 +20,7 @@
 static int	ft_search_close_parenthesis(t_lxr *lxr, size_t *counter,
 		size_t *counter_par)
 {
-	while (lxr->str[lxr->pos + *counter])
+	while (lxr->str[lxr->pos + *counter] && counter_par[0])
 	{
 		if (lxr->str[lxr->pos + *counter] == '(')
 			counter_par[0]++;
@@ -31,7 +31,7 @@ static int	ft_search_close_parenthesis(t_lxr *lxr, size_t *counter,
 		counter[0]++;
 	}
 	lxr->tokens.states ^= PAREN;
-	if (counter_par[0] > 0)
+	if (counter_par[0] != 0)
 		return (FAILURE);
 	return (SUCCESS);
 }
@@ -39,7 +39,7 @@ static int	ft_search_close_parenthesis(t_lxr *lxr, size_t *counter,
 static int	ft_set_token(t_lxr *lxr, size_t counter)
 {
 	lxr->tokens.states ^= PAREN;
-	if (ft_add_string_to_list(lxr, counter + 1) == NULL)
+	if (ft_add_string_to_list(lxr, counter) == NULL)
 		return (NOT_TOKEN);
 	return (SUCCESS);
 }
@@ -58,12 +58,10 @@ int	ft_parenthesis(t_lxr *lxr)
 	lxr->tokens.operators = NONE;
 	lxr->tokens.states = PAREN;
 	if (ft_search_close_parenthesis(lxr, &counter, &counter_par) == FAILURE)
+	{
+		//lxr->pos += counter;
+		//ft_putstr_fd("NOT close parenthesis\n", 2);
 		return (FAILURE);
-	if (lxr->str[lxr->pos + counter - 1] == ')')
-		return (ft_set_token(lxr, counter));
-	//ft_set_token(lxr, counter)
-	//((t_tkns *)lxr->btree->content)->;
-	lxr->pos += counter;
-	ft_putstr_fd("NOT close parenthesis\n", 2);
-	return (FAILURE);
+	}
+	return (ft_set_token(lxr, counter));
 }
