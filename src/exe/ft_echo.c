@@ -12,21 +12,34 @@
 
 #include "mns.h"
 
+static int	ft_isn(char	*str)
+{
+	int	i;
+
+	if (str[0] != '-')
+		return (0);
+	i = 0;
+	while (str[++i])
+		if (str[i] != 'n')
+			return (0);
+	return (1);
+}
+
 // Built-in echo.
 int	ft_echo(t_tkn	*content)
 {
 	int	i;
 
-	i = 0;
 	if (!content->str[1])
 	{
 		printf("\n");
 		return (0);
 	}
-	if (!ft_strncmp(content->str[1], "-n", 2))
+	i = 1;
+	while (ft_isn(content->str[i]))
 		i++;
-	while (content->str[++i])
-		printf("%s ", content->str[i]);
+	while (content->str[i])
+		printf("%s ", content->str[i++]);
 	if (ft_strncmp(content->str[1], "-n", 2))
 		printf("\n");
 	return (0);
