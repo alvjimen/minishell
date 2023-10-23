@@ -109,9 +109,13 @@ int		ft_pwd(void);
 
 // Built-ins
 int		ft_echo(t_tkn	*content);
-int		ft_export(t_tkn *cont, t_shell *mns);
 int		ft_unset(t_tkn *cont, t_shell *mns);
 char	**ft_update_var(char **sarr, char *item);
 int		update_all(t_shell *mns, char *value);
+
+int		ft_export(t_tkn *cont, t_shell *mns);
+int		ft_equaleval(char **sarr, char *str);
+int		ft_isdefined(t_shell *mns, char *str);
+int		ft_valid_identifier(char *str);
 
 #endif

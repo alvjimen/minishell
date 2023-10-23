@@ -76,34 +76,23 @@ int	clean_exp(t_shell *mns, char *str)
 	return (ret);
 }
 
-
 // Export a variable.
 int	ft_export(t_tkn *cont, t_shell *mns)
 {
 	int		i;
 	int		idx;
-	char	*temp;
 
 	i = 0;
-	idx = -1;
 	if (!cont->str[1])
 		ft_exportprint(mns);
 	while (cont->str[++i])
 	{
-		if (ft_chrpos(cont->str[i], '=', 0) != -1)
-		{
-			update_all(mns, cont->str[i]);
-			clean_exp(mns, cont->str[i]);
+		if (!ft_valid_identifier(cont->str[i])
+			|| ft_isdefined(mns, cont->str[i]))
 			continue ;
-		}
-		temp = ft_strjoin(cont->str[i], "=");
-		idx = ft_sarrcmp(mns->vars, temp);
-		free (temp);
-		if (idx != -1)
-		{
-			update_all(mns, mns->vars[idx]);
+		idx = ft_equaleval(mns->vars, cont->str[i]);
+		if (idx != -1 && !update_all(mns, mns->vars[idx]))
 			continue ;
-		}
 		while (idx >= -1 && mns->exp[++idx])
 			if (!ft_strncmp(cont->str[i], mns->exp[idx],
 					ft_strlen(cont->str[i]) + 1))
@@ -120,21 +109,25 @@ int	ft_export(t_tkn *cont, t_shell *mns)
 // Unset a variable.
 int	ft_unset(t_tkn *cont, t_shell *mns)
 {
-	int		index;
-	char	*var;
 	int		i;
+	int		idx;
+	char	*tmp;
 
 	i = 0;
 	while (cont->str[++i])
 	{
-		var = ft_strjoin(cont->str[i], "=");
-		index = ft_sarrcmp(mns->env, var);
-		if (index != -1)
-			mns->env = ft_sarrrmi(index, mns->env);
-		index = ft_sarrcmp(mns->vars, var);
-		free (var);
-		if (index != -1)
-			mns->vars = ft_sarrrmi(index, mns->vars);
+		idx = ft_equaleval(mns->env, cont->str[i]);
+		if (idx != -1)
+			mns->env = ft_sarrrmi(idx, mns->env);
+		idx = ft_equaleval(mns->vars, cont->str[i]);
+		if (idx != -1)
+			mns->vars = ft_sarrrmi(idx, mns->vars);
+		idx = ft_equaleval(mns->exp, cont->str[i]);
+		if (idx != -1)
+			mns->exp = ft_sarrrmi(idx, mns->exp);
+		tmp = ft_strjoin(cont->str[i], "=");
+		clean_exp(mns, tmp);
+		free (tmp);
 	}
 	ft_sarrfree(&mns->path);
 	mns->path = ft_get_path(mns->env);

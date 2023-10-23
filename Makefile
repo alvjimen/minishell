@@ -173,6 +173,7 @@ SRC-EXE				:=	main\
 						ft_get_path\
 						ft_echo\
 						ft_env\
+						ft_env_utils\
 						ft_signals\
 						ft_exe_utils\
 						ft_check_line\
