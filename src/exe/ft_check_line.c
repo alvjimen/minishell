@@ -6,7 +6,7 @@
 /*   By: jvasquez <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/17 11:09:23 by jvasquez          #+#    #+#             */
-/*   Updated: 2023/09/17 11:09:25 by jvasquez         ###   ########.fr       */
+/*   Updated: 2023/10/23 13:21:54 by alvjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ char	*ft_cmd_search(char **paths, char *cmd)
 	if (!paths)
 		return (NULL);
 	i = 0;
-	if (access(cmd, X_OK) != -1)
+	if (ft_strchr(cmd, '/') && access(cmd, X_OK) != -1)
 		return (ft_strdup(cmd));
 	while (paths[i])
 	{
@@ -72,7 +72,7 @@ int	ft_check_command(t_shell *mns, t_tkn *cont)
 		mns->pid = fork();
 	if (!mns->pid)
 	{
-		execve(cmd, cont->str, NULL);
+		execve(cmd, cont->str, mns->env);
 		perror("execve failed");
 		exit(EXIT_FAILURE);
 	}
