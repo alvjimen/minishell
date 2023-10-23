@@ -13,6 +13,32 @@
 #include "mns.h"
 #include <stdio.h>
 
+int	ft_aredigit(char *str)
+{
+	int	i;
+
+	if (!str)
+		return (0);
+	i = -1;
+	while (str[++i])
+		if (!ft_isdigit(str[i]))
+			return (0);
+	return (1);
+}
+
+
+int	ft_exit_status(t_tkn *cont)
+{
+	if (cont->str[1] && ft_aredigit(cont->str[1]))
+		exit(ft_atoi(cont->str[1]));
+	else if (cont->str[1])
+	{
+		ft_printf("exit: %s: numeric argument required\n", cont->str[1]);
+		exit(255);
+	}
+	exit(EXIT_SUCCESS);
+}
+
 /*	Search in the line for buildin functions, if theres any
 	return 0 to avoid the use of other programs.
 	if (!ft_strncmp(cont->value, "var\0", 4))
@@ -31,12 +57,10 @@ int	ft_check_build(t_shell *mns, t_tkn *cont)
 		return (ft_cd(cont->str[1], mns));
 	else if (!ft_strncmp(cont->value, "pwd\0", 4))
 		return (ft_pwd());
-	else if (!ft_strncmp(cont->value, "$?\0", 3))
-		return (!ft_printf("%d", mns->lstatus));
 	else if (ft_chrpos(cont->value, '=', 0) != -1)
 		return (ft_isvar(mns, cont));
 	else if (!ft_strncmp(cont->value, "exit\0", 5))
-		exit(EXIT_SUCCESS);
+		ft_exit_status(cont);
 	return (-1);
 }
 
@@ -77,7 +101,10 @@ int	ft_check_command(t_shell *mns, t_tkn *cont)
 		exit(EXIT_FAILURE);
 	}
 	free (cmd);
+	do_sigign(SIGINT);
+	do_sigign(SIGQUIT);
 	waitpid(mns->pid, &mns->lstatus, 0);
+	init_signals();
 	return (1);
 }
 

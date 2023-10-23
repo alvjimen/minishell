@@ -111,6 +111,7 @@ int		ft_pwd(void);
 int		ft_echo(t_tkn	*content);
 int		ft_export(t_tkn *cont, t_shell *mns);
 int		ft_unset(t_tkn *cont, t_shell *mns);
+char	**ft_update_var(char **sarr, char *item);
+int		update_all(t_shell *mns, char *value);
 
-char	**ft_update_env(char *item, t_shell *mns);
 #endif

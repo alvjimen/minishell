@@ -50,8 +50,6 @@ void	prexe(t_btree *root)
 {
 	t_tkn	*cont;
 
-	if (!root)
-		exit(EXIT_SUCCESS);
 	cont = (t_tkn *)root->content;
 	if (cont->operators == DLOWER)
 		ft_from_heredoc(root);
@@ -66,8 +64,10 @@ void	prexe(t_btree *root)
 */
 void	send_exe(t_btree *tree, t_shell *mns)
 {
-	ft_expand_vars_regex_unquote(&tree, mns);
 	mns->lstatus = -1;
+	ft_expand_vars_regex_unquote(&tree, mns);
+	if (!tree)
+		return ;
 	mns->pid = 1;
 	mns->child = 0;
 	prexe(tree);

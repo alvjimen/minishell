@@ -25,6 +25,14 @@ int	search_replace(char ***sarr, char *var, char *val)
 	return (idx);
 }
 
+int	update_all(t_shell *mns, char *value)
+{
+	mns->exp = ft_update_var(mns->exp, value);
+	mns->env = ft_update_var(mns->env, value);
+	mns->vars = ft_update_var(mns->vars, value);
+	return (0);
+}
+
 int	ft_isvar(t_shell *mns, t_tkn *cont)
 {
 	char	**parts;
@@ -34,12 +42,16 @@ int	ft_isvar(t_shell *mns, t_tkn *cont)
 	while (cont->value[++idx] != '=')
 		if (!ft_isalnum(cont->value[idx]))
 			return (1);
+	if (clean_exp(mns, cont->value))
+		return (update_all(mns, cont->value));
+	mns->vars = ft_update_var(mns->vars, cont->value);
 	parts = ft_strbrk(cont->value, ft_chrpos(cont->value, '=', 0) + 1);
 	idx = ft_sarrcmp(mns->env, parts[0]);
 	if (idx != -1)
-		search_replace(&mns->env, parts[0], cont->value);
-	else
-		search_replace(&mns->vars, parts[0], cont->value);
+		mns->env = ft_update_var(mns->env, cont->value);
+	idx = ft_sarrcmp(mns->exp, parts[0]);
+	if (idx != -1)
+		update_all(mns, cont->value);
 	ft_sarrfree(&parts);
 	return (0);
 }

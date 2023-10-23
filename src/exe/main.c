@@ -66,11 +66,11 @@ void	executer(t_btree *root, t_shell *mns, int child)
 {
 	t_tkn	*cont;
 
-	(void)child;
 	if (!root)
 		exit(EXIT_SUCCESS);
 	mns->root = root;
 	cont = (t_tkn *)root->content;
+	// checkpoint(mns, cont, "Exe");
 	if (root->left
 		&& ((t_tkn *)root->left->content)->token >= ERROR)
 		ft_printf("%s\n", "error");
@@ -90,7 +90,7 @@ void	executer(t_btree *root, t_shell *mns, int child)
 //Change the NULL ptr to the pointer of your choose
 //Modify the file src/lxr/ft_dollar_expansion.c line 16 with your
 //var_expansion_fun
-//ft_print_btree(tree);
+// ft_print_btree(tree);
 int	main(int argc, char **argv, char **envp)
 {
 	char	*str;
@@ -110,6 +110,7 @@ int	main(int argc, char **argv, char **envp)
 		if (!str)
 			return (FAILURE);
 		tree = ft_btree_builder(str);
+		// checkpoint(&mns, tree->content, "MAion");
 		add_history(str);
 		free(str);
 		if (tree)
