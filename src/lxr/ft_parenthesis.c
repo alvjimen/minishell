@@ -6,7 +6,7 @@
 /*   By: alvjimen <alvjimen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/12 17:53:50 by alvjimen          #+#    #+#             */
-/*   Updated: 2023/10/20 16:00:11 by alvjimen         ###   ########.fr       */
+/*   Updated: 2023/10/24 14:08:02 by alvjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "lxr.h"
@@ -59,8 +59,7 @@ int	ft_parenthesis(t_lxr *lxr)
 	lxr->tokens.states = PAREN;
 	if (ft_search_close_parenthesis(lxr, &counter, &counter_par) == FAILURE)
 	{
-		//lxr->pos += counter;
-		//ft_putstr_fd("NOT close parenthesis\n", 2);
+		ft_putstr_fd("Not closed parenthesis\n", 2);
 		return (FAILURE);
 	}
 	return (ft_set_token(lxr, counter));

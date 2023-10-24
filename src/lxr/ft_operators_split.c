@@ -6,7 +6,7 @@
 /*   By: alvjimen <alvjimen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/17 12:23:30 by alvjimen          #+#    #+#             */
-/*   Updated: 2023/04/07 22:00:46 by alvjimen         ###   ########.fr       */
+/*   Updated: 2023/10/24 14:02:16 by alvjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "lxr.h"
@@ -47,7 +47,7 @@ int	ft_operators_redirections(t_btree **root)
 	t_btree	*aux;
 	t_tkn	*content;
 
-	node = (t_btree *)ft_split_list((t_list **)root,
+	node = (t_btree *)ft_split_list_first((t_list **)root,
 			ft_operators_intracmd);
 	if (!node)
 		return (FAILURE);

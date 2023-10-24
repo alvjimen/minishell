@@ -6,7 +6,7 @@
 /*   By: alvjimen <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/23 17:48:29 by alvjimen          #+#    #+#             */
-/*   Updated: 2023/10/18 13:04:55 by alvjimen         ###   ########.fr       */
+/*   Updated: 2023/10/24 14:08:31 by alvjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "lxr.h"
@@ -55,12 +55,12 @@ char	*ft_get_varname(t_lxr *lxr)
 		|| lxr->str[lxr->pos + lxr->counter] == '_')
 		return (ft_var_chars(lxr));
 	else if (lxr->str[lxr->pos + lxr->counter] == '$'
-			|| lxr->str[lxr->pos + lxr->counter] == '!'
-			|| lxr->str[lxr->pos + lxr->counter] == '*'
-			|| lxr->str[lxr->pos + lxr->counter] == '@'
-			|| lxr->str[lxr->pos + lxr->counter] == '?'
-			|| lxr->str[lxr->pos + lxr->counter] == '-'
-			|| ft_isdigit(lxr->str[lxr->pos + lxr->counter]))
+		|| lxr->str[lxr->pos + lxr->counter] == '!'
+		|| lxr->str[lxr->pos + lxr->counter] == '*'
+		|| lxr->str[lxr->pos + lxr->counter] == '@'
+		|| lxr->str[lxr->pos + lxr->counter] == '?'
+		|| lxr->str[lxr->pos + lxr->counter] == '-'
+		|| ft_isdigit(lxr->str[lxr->pos + lxr->counter]))
 		return (ft_var_one_char(lxr));
 	return (NULL);
 }
