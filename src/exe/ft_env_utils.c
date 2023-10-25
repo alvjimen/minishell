@@ -14,13 +14,19 @@
 
 int	ft_valid_identifier(char *str)
 {
+	int	i;
+
 	if (!str)
 		return (0);
-	if (ft_isdigit(str[0]))
+	if (ft_isdigit(str[0]) || str[0] == '=')
 	{
 		ft_printf("export: %s: not a valid identifier\n", str);
 		return (0);
 	}
+	i = 0;
+	while (str[i] && str[i] != '=')
+		if (!ft_isalnum(str[i++]))
+			return (0);
 	return (1);
 }
 
@@ -28,7 +34,7 @@ int	ft_isdefined(t_shell *mns, char *str)
 {
 	if (ft_chrpos(str, '=', 0) != -1)
 	{
-		update_all(mns, str);
+		update_all(mns, ft_strdup(str));
 		clean_exp(mns, str);
 		return (1);
 	}

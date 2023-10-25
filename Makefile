@@ -199,7 +199,7 @@ SRC					:=	$(SRC-LXR) $(SRC-LIB_ADD) $(SRC-BTREE)
 INC					:=	./include/
 BUILD-DIR			:=	./.build/
 CC					:=	clang
-CFLAGS				:=	-Wall -Werror -Wextra -g3 -std=c89 #-pedantic\
+CFLAGS				:=	-Wall -Werror -Wextra -g3 -std=c89 -fsanitize=undefined -fsanitize=address #-O2 #-pedantic\
 						#-fsanitize=undefined -fsanitize=address #-O2
 BUILD				:=	$(addprefix $(BUILD-DIR), $(addsuffix .o, $(SRC)))
 BUILD-EXE			:=	$(addprefix $(BUILD-DIR), $(addsuffix .o, $(SRC-EXE)))

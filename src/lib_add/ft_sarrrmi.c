@@ -14,8 +14,10 @@
 
 static char	**ft_clean_exit(char **arr, char **arr2)
 {
-	ft_sarrfree(&arr);
-	ft_sarrfree(&arr2);
+	if (arr)
+		ft_sarrfree(&arr);
+	if (arr2)
+		ft_sarrfree(&arr2);
 	return (NULL);
 }
 
@@ -26,10 +28,10 @@ char	**ft_sarrrmi(int index, char **arr)
 	char	**new_arr;
 
 	i = ft_sarrsize(arr);
-	if (index > i || index < 0)
+	if (index > i || index <= 0)
 		return (arr);
 	new_arr = malloc(sizeof(char *) * (i));
-	if (!new_arr)
+	if (!new_arr || (!index && i == 1))
 		return (ft_clean_exit(arr, NULL));
 	i = -1;
 	j = 0;
@@ -42,6 +44,7 @@ char	**ft_sarrrmi(int index, char **arr)
 			return (ft_clean_exit(arr, new_arr));
 	}
 	new_arr[j] = NULL;
-	ft_sarrfree(&arr);
+	if (arr)
+		ft_sarrfree(&arr);
 	return (new_arr);
 }

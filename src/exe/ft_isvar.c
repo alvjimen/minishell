@@ -30,6 +30,7 @@ int	update_all(t_shell *mns, char *value)
 	mns->exp = ft_update_var(mns->exp, value);
 	mns->env = ft_update_var(mns->env, value);
 	mns->vars = ft_update_var(mns->vars, value);
+	free (value);
 	return (0);
 }
 
@@ -37,21 +38,24 @@ int	ft_isvar(t_shell *mns, t_tkn *cont)
 {
 	char	**parts;
 	int		idx;
+	int		i;
 
-	idx = -1;
-	while (cont->value[++idx] != '=')
-		if (!ft_isalnum(cont->value[idx]))
+	i = -1;
+	while (cont->str[++i])
+	{
+		if (!ft_valid_identifier(cont->str[i]))
 			return (1);
-	if (clean_exp(mns, cont->value))
-		return (update_all(mns, cont->value));
-	mns->vars = ft_update_var(mns->vars, cont->value);
-	parts = ft_strbrk(cont->value, ft_chrpos(cont->value, '=', 0) + 1);
-	idx = ft_sarrcmp(mns->env, parts[0]);
-	if (idx != -1)
-		mns->env = ft_update_var(mns->env, cont->value);
-	idx = ft_sarrcmp(mns->exp, parts[0]);
-	if (idx != -1)
-		update_all(mns, cont->value);
-	ft_sarrfree(&parts);
+		if (clean_exp(mns, cont->str[i]))
+			return (update_all(mns, ft_strdup(cont->str[i])));
+		mns->vars = ft_update_var(mns->vars, cont->str[i]);
+		parts = ft_strbrk(cont->str[i], ft_chrpos(cont->str[i], '=', 0) + 1);
+		idx = ft_sarrcmp(mns->env, parts[0]);
+		if (idx != -1)
+			mns->env = ft_update_var(mns->env, cont->str[i]);
+		idx = ft_sarrcmp(mns->exp, parts[0]);
+		if (idx != -1)
+			update_all(mns, ft_strdup(cont->str[i]));
+		ft_sarrfree(&parts);
+	}
 	return (0);
 }

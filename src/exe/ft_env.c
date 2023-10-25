@@ -24,7 +24,7 @@ char	**ft_update_var(char **sarr, char *item)
 		parts = ft_strbrk(item, ft_chrpos(item, '=', 0) + 1);
 		idx = ft_sarrcmp(sarr, parts[0]);
 		ft_sarrfree(&parts);
-		if (idx == -1)
+		if (idx == -1 ||!sarr)
 			return (ft_sarradd(sarr, item));
 		else
 			return (ft_sarradd(ft_sarrrmi(idx, sarr), item));
@@ -91,7 +91,7 @@ int	ft_export(t_tkn *cont, t_shell *mns)
 			|| ft_isdefined(mns, cont->str[i]))
 			continue ;
 		idx = ft_equaleval(mns->vars, cont->str[i]);
-		if (idx != -1 && !update_all(mns, mns->vars[idx]))
+		if (idx != -1 && !update_all(mns, ft_strdup(mns->vars[idx])))
 			continue ;
 		while (idx >= -1 && mns->exp[++idx])
 			if (!ft_strncmp(cont->str[i], mns->exp[idx],

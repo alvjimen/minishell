@@ -16,11 +16,11 @@ static int	ft_isn(char	*str)
 {
 	int	i;
 
-	if (str[0] != '-')
+	if (!str || str[0] != '-')
 		return (0);
 	i = 0;
-	while (str[++i])
-		if (str[i] != 'n')
+	while (str[i])
+		if (str[++i] != 'n')
 			return (0);
 	return (1);
 }
@@ -40,7 +40,7 @@ int	ft_echo(t_tkn	*content)
 		i++;
 	while (content->str[i])
 		printf("%s ", content->str[i++]);
-	if (ft_strncmp(content->str[1], "-n", 2))
+	if (!ft_isn(content->str[1]))
 		printf("\n");
 	return (0);
 }

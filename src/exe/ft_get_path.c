@@ -43,9 +43,10 @@ int	ft_cd(char *dir, t_shell *mns)
 	char	*upath;
 	char	*newdir;
 
+	newdir = NULL;
 	upath = ft_strget_btwn(mns->path[0], 2, '/', '/');
 	upath = ft_strjoinfree("/Users/", upath, 1);
-	if (dir && !ft_strncmp(dir, "-", 2))
+	if (dir && !ft_strncmp(dir, "-", 2) && mns->opath)
 		newdir = ft_strdup(mns->opath);
 	else if (mns->opath)
 	{
