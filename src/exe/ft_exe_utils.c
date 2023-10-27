@@ -6,7 +6,7 @@
 /*   By: jvasquez <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/17 18:00:36 by jvasquez          #+#    #+#             */
-/*   Updated: 2023/09/17 18:00:38 by jvasquez         ###   ########.fr       */
+/*   Updated: 2023/10/27 13:24:26 by alvjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,10 +64,10 @@ void	prexe(t_btree *root)
 */
 void	send_exe(t_btree *tree, t_shell *mns)
 {
-	mns->lstatus = -1;
 	ft_expand_vars_regex_unquote(&tree, mns);
 	if (!tree)
 		return ;
+	mns->lstatus = -1;
 	mns->pid = 1;
 	mns->child = 0;
 	prexe(tree);
