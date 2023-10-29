@@ -6,7 +6,7 @@
 #    By: alvjimen <alvjimen@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/01/31 19:37:18 by alvjimen          #+#    #+#              #
-#    Updated: 2023/10/29 15:40:59 by alvjimen         ###   ########.fr        #
+#    Updated: 2023/10/29 16:45:21 by alvjimen         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -34,8 +34,7 @@ END					:=	m
 
 # UTENSILS
 SHELL				:=	/bin/sh
-LIB_NAME			:=	mini_shell.a
-NAME				:=	mini_shell
+NAME				:=	minishell
 RM					:=	rm -rf
 # @D take the part of the directory
 DIR_DUP				=	mkdir -p $(@D)
@@ -208,16 +207,12 @@ SRC					:=	$(SRC-LXR) $(SRC-LIB_ADD) $(SRC-BTREE)
 
 INC					:=	./include/
 BUILD-DIR			:=	./.build/
-CC					:=	clang
-CFLAGS				:=	-Wall -Werror -Wextra -g3 -fsanitize=undefined -fsanitize=address
-						#-fsanitize=undefined -fsanitize=address #-O2
+CFLAGS				:=	-Wall -Werror -Wextra #-g3 -fsanitize=undefined -fsanitize=address
 BUILD				:=	$(addprefix $(BUILD-DIR), $(addsuffix .o, $(SRC)))
 BUILD-EXE			:=	$(addprefix $(BUILD-DIR), $(addsuffix .o, $(SRC-EXE)))
 BUILD				:=  $(BUILD) $(BUILD-EXE)
 DEPS				:=	$(BUILD:.o=.d)
 PPFLAGS				:=	-MMD -MP -I $(INC) -I $(INCS)
-#LDFLAGS			:=	-L $(LIBFT-DIR)
-#LDLIBS				:=	-lft
 END-RULE				=	@echo "$(CSI)$(BLINK)$(END)🎉🎊$(CSI)$(UNBLINK)$(END)\
 	$(CSI)$(FOREGROUND)$(GREEN)$(END) $@ $(CSI)$(END)$(CSI)$(BLINK)$(END)🎊\
 	$(CSI)$(UNBLINK)$(END)"
@@ -242,8 +237,6 @@ fclean:	 clean
 
 re:	fclean	all
 	$(END-RULE)
-
-
 
 info-%:
 	@$(MAKE) --dry-run --always-make $* | grep -v "info"
