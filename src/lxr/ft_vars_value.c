@@ -12,6 +12,12 @@
 #include "lxr.h"
 #include "mns.h"
 
+void	ft_exitmsg(char *msg)
+{
+	printf("%s\n", msg);
+	exit(EXIT_FAILURE);
+}
+
 char	*get_var_value(char **sarr, char *var)
 {
 	int		idx;

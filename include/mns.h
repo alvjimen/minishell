@@ -88,6 +88,7 @@ void	contition(t_btree *root, t_shell *mns, t_tkn *cont);
 // Exe utils
 char	*ft_hdname(void);
 void	ft_printfile(char *filename);
+void	ft_exitmsg(char *msg);
 
 // To | From Redirections
 void	ft_to_pipe(t_btree *root, t_shell *mns);

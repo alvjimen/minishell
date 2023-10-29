@@ -59,6 +59,8 @@ void	ft_to_file(t_btree *root, t_tkn	*cont, t_shell *mns)
 	if (!mns->pid)
 	{
 		filename = ((t_tkn *)root->right->content)->value;
+		if (access(filename, W_OK))
+			ft_exitmsg("Error al escribir al fichero");
 		if (cont->operators == GREATER)
 			fd = open(filename, O_CREAT | O_WRONLY | O_TRUNC, 0644);
 		else
@@ -80,6 +82,8 @@ void	ft_from_file(t_btree *root, t_shell *mns)
 	if (!mns->pid)
 	{
 		filename = ((t_tkn *)root->right->content)->value;
+		if (access(filename, R_OK))
+			ft_exitmsg("Error al leer del fichero");
 		fd = open(filename, O_RDONLY, 0644);
 		if (fd == -1)
 			exit(EXIT_FAILURE);
