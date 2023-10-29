@@ -85,6 +85,8 @@ void	ft_from_file(t_btree *root, t_shell *mns)
 			exit(EXIT_FAILURE);
 		dup2(fd, STDIN_FILENO);
 		close(fd);
+		if (!ft_strncmp(filename, ".hdtmp", 6))
+			unlink(filename);
 		mns->child = 1;
 		executer(root->left, mns, ++mns->child);
 		exit(EXIT_SUCCESS);
