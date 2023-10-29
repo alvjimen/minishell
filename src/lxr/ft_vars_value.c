@@ -41,7 +41,10 @@ char	*ft_var_value(void *ptr, char *var_name)
 
 	mns = ptr;
 	if (!ft_strncmp(var_name, "?\0", 2))
+	{
+		printf("%s\n", ft_itoa(mns->lstatus));
 		return (ft_itoa(mns->lstatus));
+	}
 	temp = ft_strjoin(var_name, "=");
 	value = get_var_value(mns->env, temp);
 	if (value)
