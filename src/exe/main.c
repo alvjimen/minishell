@@ -67,7 +67,7 @@ void	executer(t_btree *root, t_shell *mns, int child)
 	t_tkn	*cont;
 
 	if (!root)
-		exit(EXIT_SUCCESS);
+		exit(mns->lstatus);
 	mns->root = root;
 	cont = (t_tkn *)root->content;
 	if (root->left
@@ -83,7 +83,7 @@ void	executer(t_btree *root, t_shell *mns, int child)
 	else
 		ft_check_line(mns, cont);
 	if (child)
-		exit(EXIT_SUCCESS);
+		exit(mns->lstatus);
 }
 
 //Change the NULL ptr to the pointer of your choose

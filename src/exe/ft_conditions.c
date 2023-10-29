@@ -35,5 +35,5 @@ void	contition(t_btree *root, t_shell *mns, t_tkn *cont)
 	if ((op == AND_IF && !mns->lstatus) || (op == OR_IF && mns->lstatus))
 		executer(root->right, mns, mns->child);
 	if (mns->child)
-		exit(EXIT_SUCCESS);
+		exit(mns->lstatus);
 }

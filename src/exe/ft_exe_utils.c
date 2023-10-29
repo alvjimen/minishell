@@ -67,7 +67,7 @@ void	send_exe(t_btree *tree, t_shell *mns)
 	ft_expand_vars_regex_unquote(&tree, mns);
 	if (!tree)
 		return ;
-	mns->lstatus = -1;
+	mns->lstatus = 0;
 	mns->pid = 1;
 	mns->child = 0;
 	prexe(tree);

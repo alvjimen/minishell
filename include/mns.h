@@ -114,6 +114,7 @@ char	**ft_update_var(char **sarr, char *item);
 int		update_all(t_shell *mns, char *value);
 
 int		ft_export(t_tkn *cont, t_shell *mns);
+int		clean_exp(t_shell *mns, char *str);
 int		ft_equaleval(char **sarr, char *str);
 int		ft_isdefined(t_shell *mns, char *str);
 int		ft_valid_identifier(char *str);

@@ -21,7 +21,7 @@ void	signal_silence(void)
 	if (tcgetattr(STDIN_FILENO, &term_attr) < 0)
 	{
 		perror("tcgetattr");
-		exit(1);
+		exit(EXIT_FAILURE);
 	}
 	term_attr.c_lflag &= ~VEOF;
 	term_attr.c_lflag &= ~ECHOCTL;
@@ -29,7 +29,7 @@ void	signal_silence(void)
 	if (tcsetattr(STDIN_FILENO, TCSANOW, &term_attr) < 0)
 	{
 		perror("tcsetattr");
-		exit(1);
+		exit(EXIT_FAILURE);
 	}
 }
 
