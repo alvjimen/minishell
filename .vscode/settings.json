@@ -1,8 +1,0 @@
-{
-    "files.associations": {
-        "stdio.h": "c",
-        "mns.h": "c",
-        "wait.h": "c",
-        "readline.h": "c"
-    }
-}

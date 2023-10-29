@@ -6,7 +6,7 @@
 #    By: alvjimen <alvjimen@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/01/31 19:37:18 by alvjimen          #+#    #+#              #
-#    Updated: 2023/10/29 15:26:32 by alvjimen         ###   ########.fr        #
+#    Updated: 2023/10/29 15:40:59 by alvjimen         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -55,7 +55,6 @@ SRC-LXR				:=	ft_lexer\
 						ft_char_operator\
 						ft_operators\
 						ft_operator_pipe_and_or\
-						ft_operator_redirections\
 						ft_get_tokens\
 						ft_parenthesis\
 						ft_add_string_to_list\
@@ -124,8 +123,6 @@ SRC-PRT				:=	$(SRC-PRT:%=$(DIR-PRT)%)
 SRC-LIB_ADD			:=	ft_split\
 						ft_strnstr\
 						ft_calloc\
-						ft_strdup\
-						ft_strlen\
 						ft_substr\
 						ft_memcpy\
 						ft_split_chars\
@@ -133,10 +130,8 @@ SRC-LIB_ADD			:=	ft_split\
 						ft_isdigit\
 						ft_isalpha\
 						ft_isalnum\
-						ft_substr\
 						ft_strlen\
 						ft_strdup\
-						ft_memcpy\
 						ft_strjoin\
 						ft_memmove\
 						ft_putstr_fd\
@@ -218,6 +213,7 @@ CFLAGS				:=	-Wall -Werror -Wextra -g3 -fsanitize=undefined -fsanitize=address
 						#-fsanitize=undefined -fsanitize=address #-O2
 BUILD				:=	$(addprefix $(BUILD-DIR), $(addsuffix .o, $(SRC)))
 BUILD-EXE			:=	$(addprefix $(BUILD-DIR), $(addsuffix .o, $(SRC-EXE)))
+BUILD				:=  $(BUILD) $(BUILD-EXE)
 DEPS				:=	$(BUILD:.o=.d)
 PPFLAGS				:=	-MMD -MP -I $(INC) -I $(INCS)
 #LDFLAGS			:=	-L $(LIBFT-DIR)
@@ -228,15 +224,9 @@ END-RULE				=	@echo "$(CSI)$(BLINK)$(END)🎉🎊$(CSI)$(UNBLINK)$(END)\
 
 all:	$(NAME)
 
-$(LIB_NAME):	$(BUILD)
-	@ar -rcs $(LIB_NAME) $(BUILD)
+$(NAME):	$(BUILD)
+	@$(CC) $(CFLAGS) -lreadline -I $(INC) -o $(NAME) $(BUILD)
 	$(END-RULE)
-
-$(NAME):	$(LIB_NAME) $(BUILD-EXE)
-	@$(CC) $(CFLAGS) -lreadline -I $(INC) -o $(NAME) $(LIB_NAME) $(BUILD-EXE)
-	$(END-RULE)
-
-
 
 $(BUILD-DIR)%.o: $(DIR-SRC)%.c
 	@$(DIR_DUP)
