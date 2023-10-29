@@ -76,8 +76,8 @@ int	ft_check_command(t_shell *mns, t_tkn *cont)
 {
 	char	*cmd;
 
-	cmd = ft_cmd_search(mns->path, cont->value);
 	mns->lstatus = 0;
+	cmd = ft_cmd_search(mns->path, cont->value);
 	if (mns->pid)
 		mns->pid = fork();
 	if (!mns->pid)
@@ -89,7 +89,9 @@ int	ft_check_command(t_shell *mns, t_tkn *cont)
 	free (cmd);
 	do_sigign(SIGINT);
 	do_sigign(SIGQUIT);
-	waitpid(mns->pid, &mns->lstatus, 0);
+	wait(&mns->lstatus);
+	if (WIFEXITED(mns->lstatus))
+		mns->lstatus = WEXITSTATUS(mns->lstatus);
 	init_signals();
 	return (1);
 }
@@ -97,6 +99,7 @@ int	ft_check_command(t_shell *mns, t_tkn *cont)
 // Revisa la línea en busqueda de built-ins o comandos.
 void	ft_check_line(t_shell *mns, t_tkn *cont)
 {
+	mns->lstatus = 0;
 	mns->lstatus = ft_check_build(mns, cont);
 	if (mns->lstatus == -1)
 		ft_check_command(mns, cont);
