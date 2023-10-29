@@ -13,6 +13,14 @@
 #include "mns.h"
 #include <stdio.h>
 
+void	forkways(t_btree *root, t_shell *mns)
+{
+	if (mns->child == 1111)
+		executer(root->left, mns, mns->child);
+	if (mns->child == 2222)
+		executer(root->right, mns, mns->child);
+}
+
 void	ft_to_pipe(t_btree *root, t_shell *mns)
 {
 	if (mns->child == 1111 || mns->child == 2222)
@@ -35,10 +43,7 @@ void	ft_to_pipe(t_btree *root, t_shell *mns)
 	}
 	close(mns->fd[STDOUT_FILENO]);
 	close(mns->fd[STDIN_FILENO]);
-	if (mns->child == 1111)
-		executer(root->left, mns, mns->child);
-	if (mns->child == 2222)
-		executer(root->right, mns, mns->child);
+	forkways(root, mns);
 	wait(&mns->lstatus);
 	wait(&mns->lstatus);
 	if (!mns->pid || mns->child)

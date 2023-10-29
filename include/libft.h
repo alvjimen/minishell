@@ -33,4 +33,6 @@ int		ft_chrpos(char *str, int chr, int start);
 char	*ft_strget_btwn(char *str, int start, char ini, char end);
 char	*ft_strrep(char *str, char *old, char *new);
 char	*ft_strstr(char *str, char *to_find);
+
+int		ft_aredigit(char *str);
 #endif

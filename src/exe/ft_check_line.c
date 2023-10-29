@@ -13,20 +13,6 @@
 #include "mns.h"
 #include <stdio.h>
 
-int	ft_aredigit(char *str)
-{
-	int	i;
-
-	if (!str)
-		return (0);
-	i = -1;
-	while (str[++i])
-		if (!ft_isdigit(str[i]))
-			return (0);
-	return (1);
-}
-
-
 int	ft_exit_status(t_tkn *cont)
 {
 	if (cont->str[1] && ft_aredigit(cont->str[1]))

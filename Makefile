@@ -149,6 +149,7 @@ SRC-LIB_ADD			:=	ft_split\
 						ft_strget_btwn\
 						ft_strrep\
 						ft_strstr\
+						ft_aredigit\
 						$(SRC-LST)
 						
 SRC-TST				:=	test
