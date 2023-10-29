@@ -6,7 +6,7 @@
 #    By: alvjimen <alvjimen@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/01/31 19:37:18 by alvjimen          #+#    #+#              #
-#    Updated: 2023/04/22 15:55:22 by alvjimen         ###   ########.fr        #
+#    Updated: 2023/10/29 15:26:32 by alvjimen         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -106,10 +106,20 @@ SRC-LST				:=	ft_lstnew_bonus\
 						ft_lstiter_bonus\
 						ft_lstmap_bonus\
 						ft_lstnodeiteri\
-						ft_lst_get_last_content\
+						ft_lst_get_last_content
 
 DIR-LST				:=	lst/
 SRC-LST				:=	$(SRC-LST:%=$(DIR-LST)%)
+
+SRC-PRT				:=	ft_printf\
+						pf_putchar_fd\
+						pf_putstr_fd\
+						pf_putnbr_base\
+						pf_putnbr_fd\
+						pf_strlen
+
+DIR-PRT				:=	printf/
+SRC-PRT				:=	$(SRC-PRT:%=$(DIR-PRT)%)
 
 SRC-LIB_ADD			:=	ft_split\
 						ft_strnstr\
@@ -149,10 +159,16 @@ SRC-LIB_ADD			:=	ft_split\
 						ft_strget_btwn\
 						ft_strrep\
 						ft_strstr\
+						get_next_line_bonus\
+						get_next_line_utils_bonus\
+						ft_strlcpy\
+						ft_atoi\
+						ft_itoa\
+						ft_memchr\
 						ft_aredigit\
+						$(SRC-PRT)\
 						$(SRC-LST)
 						
-SRC-TST				:=	test
 
 SRC-BTREE			:=	ft_btree_apply_by_level\
 						ft_btree_apply_infix\
@@ -185,7 +201,6 @@ SRC-EXE				:=	main\
 DIR-SRC				:=	./src/
 DIR-LXR				:=	lxr/
 DIR-LIB_ADD			:=	lib_add/
-DIR-TST				:=	test/
 DIR-BTREE			:=	btree/
 DIR-EXE				:=	exe/
 
@@ -193,18 +208,16 @@ SRC-LXR				:=	$(SRC-LXR:%=$(DIR-LXR)%)
 SRC-LIB_ADD			:=	$(SRC-LIB_ADD:%=$(DIR-LIB_ADD)%)
 SRC-BTREE			:=	$(SRC-BTREE:%=$(DIR-BTREE)%)
 SRC-EXE				:=	$(SRC-EXE:%=$(DIR-EXE)%)
-SRC-TST				:=	$(SRC-TST:%=$(DIR-TST)%)
 
 SRC					:=	$(SRC-LXR) $(SRC-LIB_ADD) $(SRC-BTREE)
 
 INC					:=	./include/
 BUILD-DIR			:=	./.build/
 CC					:=	clang
-CFLAGS				:=	-Wall -Werror -Wextra -g3 -std=c89 -fsanitize=undefined -fsanitize=address #-O2 #-pedantic\
+CFLAGS				:=	-Wall -Werror -Wextra -g3 -fsanitize=undefined -fsanitize=address
 						#-fsanitize=undefined -fsanitize=address #-O2
 BUILD				:=	$(addprefix $(BUILD-DIR), $(addsuffix .o, $(SRC)))
 BUILD-EXE			:=	$(addprefix $(BUILD-DIR), $(addsuffix .o, $(SRC-EXE)))
-BUILD-TST			:=	$(addprefix $(BUILD-DIR), $(addsuffix .o, $(SRC-TST)))
 DEPS				:=	$(BUILD:.o=.d)
 PPFLAGS				:=	-MMD -MP -I $(INC) -I $(INCS)
 #LDFLAGS			:=	-L $(LIBFT-DIR)
@@ -220,11 +233,10 @@ $(LIB_NAME):	$(BUILD)
 	$(END-RULE)
 
 $(NAME):	$(LIB_NAME) $(BUILD-EXE)
-	@$(CC) $(CFLAGS) -lreadline -I $(INC) -o $(NAME) $(LIB_NAME) $(BUILD-EXE) src/libft.a
+	@$(CC) $(CFLAGS) -lreadline -I $(INC) -o $(NAME) $(LIB_NAME) $(BUILD-EXE)
 	$(END-RULE)
 
 
-#@$(CC) -o $(NAME) $(CFLAGS) $(BUILD)#$(LDFLAGS) $(LDLIBS)
 
 $(BUILD-DIR)%.o: $(DIR-SRC)%.c
 	@$(DIR_DUP)
@@ -235,16 +247,12 @@ clean:
 	$(END-RULE)
 
 fclean:	 clean
-	@$(RM) $(NAME) test
+	@$(RM) $(NAME)
 	$(END-RULE)
 
 re:	fclean	all
 	$(END-RULE)
 
-
-test:	$(NAME) $(BUILD-TST)
-	@$(CC) $(CFLAGS) -o test -I $(INC) -lreadline $(BUILD-TST) $(NAME)
-	$(END-RULE)
 
 
 info-%:
@@ -253,7 +261,4 @@ info-%:
 print-%:
 	@$(info '$*'='$($*)')
 
-tests: test
-	@tests/tester.sh
-
-.PHONY: all clean fclean re tester tests info-% print-% 
+.PHONY: all clean fclean re info-% print-% 
