@@ -56,10 +56,8 @@ char	*ft_cmd_search(char **paths, char *cmd)
 	char	*command;
 	int		i;
 
-	if (!paths)
-		return (NULL);
 	i = 0;
-	if (ft_strchr(cmd, '/') && access(cmd, X_OK) != -1)
+	if (!paths || (ft_strchr(cmd, '/') && !access(cmd, X_OK)))
 		return (ft_strdup(cmd));
 	while (paths[i])
 	{
@@ -82,6 +80,7 @@ int	ft_check_command(t_shell *mns, t_tkn *cont)
 		mns->pid = fork();
 	if (!mns->pid)
 	{
+		printf("command: %s\n", cmd);
 		execve(cmd, cont->str, mns->env);
 		perror("execve failed");
 		exit(EXIT_FAILURE);
