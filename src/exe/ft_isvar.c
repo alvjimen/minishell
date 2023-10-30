@@ -30,6 +30,9 @@ int	update_all(t_shell *mns, char *value)
 	mns->exp = ft_update_var(mns->exp, value);
 	mns->env = ft_update_var(mns->env, value);
 	mns->vars = ft_update_var(mns->vars, value);
+	mns->path = ft_get_path(mns->env);
+	if (!mns->path)
+		mns->path = ft_get_path(mns->vars);
 	free (value);
 	return (0);
 }
@@ -48,6 +51,8 @@ int	ft_isvar(t_shell *mns, t_tkn *cont)
 		if (clean_exp(mns, cont->str[i]))
 			return (update_all(mns, ft_strdup(cont->str[i])));
 		mns->vars = ft_update_var(mns->vars, cont->str[i]);
+		if (!mns->path)
+			mns->path = ft_get_path(mns->vars);
 		parts = ft_strbrk(cont->str[i], ft_chrpos(cont->str[i], '=', 0) + 1);
 		idx = ft_sarrcmp(mns->env, parts[0]);
 		if (idx != -1)
