@@ -6,7 +6,7 @@
 /*   By: alvjimen <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/05 19:01:13 by alvjimen          #+#    #+#             */
-/*   Updated: 2023/04/21 19:55:55 by alvjimen         ###   ########.fr       */
+/*   Updated: 2023/10/30 16:20:43 by alvjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "lxr.h"
@@ -35,8 +35,8 @@ int	ft_dquotes(t_lxr *lxr, size_t *counter)
 		}
 		else if (!lxr->str[lxr->pos + counter[0]])
 		{
-			ft_putstr_fd("Not close squotes\n", 1);
-			return (NOT_TOKEN);
+			ft_putstr_fd("Not close dquotes\n", 1);
+			return (FAILURE);
 		}
 	}
 	return (SUCCESS);

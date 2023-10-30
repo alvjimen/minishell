@@ -6,7 +6,7 @@
 /*   By: jvasquez <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/20 17:23:02 by jvasquez          #+#    #+#             */
-/*   Updated: 2023/04/07 22:29:08 by alvjimen         ###   ########.fr       */
+/*   Updated: 2023/10/30 15:58:02 by alvjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ char	**ft_sarrrmi(int index, char **arr)
 	char	**new_arr;
 
 	i = ft_sarrsize(arr);
-	if (index > i || index <= 0)
+	if (index > i || index < 0)
 		return (arr);
 	new_arr = malloc(sizeof(char *) * (i));
 	if (!new_arr || (!index && i == 1))
