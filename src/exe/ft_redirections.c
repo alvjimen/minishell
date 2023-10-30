@@ -59,12 +59,12 @@ void	ft_to_file(t_btree *root, t_tkn	*cont, t_shell *mns)
 	if (!mns->pid)
 	{
 		filename = ((t_tkn *)root->right->content)->value;
-		if (access(filename, W_OK))
-			ft_exitmsg("Error al escribir al fichero");
 		if (cont->operators == GREATER)
 			fd = open(filename, O_CREAT | O_WRONLY | O_TRUNC, 0644);
 		else
 			fd = open(filename, O_CREAT | O_WRONLY | O_APPEND, 0644);
+		if (fd == -1 || access(filename, W_OK))
+			ft_exitmsg("Error al escribir al fichero");
 		dup2(fd, STDOUT_FILENO);
 		close(fd);
 		executer(root->left, mns, mns->child++);
@@ -82,11 +82,9 @@ void	ft_from_file(t_btree *root, t_shell *mns)
 	if (!mns->pid)
 	{
 		filename = ((t_tkn *)root->right->content)->value;
-		if (access(filename, R_OK))
-			ft_exitmsg("Error al leer del fichero");
 		fd = open(filename, O_RDONLY, 0644);
-		if (fd == -1)
-			exit(EXIT_FAILURE);
+		if (fd == -1 || access(filename, R_OK))
+			ft_exitmsg("Error al leer del fichero");
 		dup2(fd, STDIN_FILENO);
 		close(fd);
 		if (!ft_strncmp(filename, ".hdtmp", 6))
