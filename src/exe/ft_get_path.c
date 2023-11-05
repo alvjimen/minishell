@@ -40,12 +40,9 @@ char	**ft_get_path(char **envp)
 // Change currrent directory.
 int	ft_cd(char *dir, t_shell *mns)
 {
-	char	*upath;
 	char	*newdir;
 
 	newdir = NULL;
-	upath = ft_strget_btwn(mns->path[0], 2, '/', '/');
-	upath = ft_strjoinfree("/Users/", upath, 1);
 	if (dir && !ft_strncmp(dir, "-", 2) && mns->opath)
 		newdir = ft_strdup(mns->opath);
 	else if (mns->opath)
@@ -53,15 +50,14 @@ int	ft_cd(char *dir, t_shell *mns)
 		free (mns->opath);
 		mns->opath = getcwd(NULL, 0);
 	}
-	if (dir && dir[0] == '~')
-		newdir = ft_strrep(dir, "~", upath);
-	else if (!dir)
-		newdir = ft_strdup(upath);
+	if (dir && dir[0] == '~' && mns->upath)
+		newdir = ft_strrep(dir, "~", mns->upath);
+	else if (!dir && mns->upath)
+		newdir = ft_strdup(mns->upath);
 	else if (ft_strncmp(dir, "-", 2))
 		newdir = ft_strdup(dir);
 	chdir(newdir);
 	free (newdir);
-	free (upath);
 	return (0);
 }
 

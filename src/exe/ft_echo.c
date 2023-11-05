@@ -19,8 +19,8 @@ static int	ft_isn(char	*str)
 	if (!str || str[0] != '-')
 		return (0);
 	i = 0;
-	while (str[i])
-		if (str[++i] != 'n')
+	while (str[++i])
+		if (str[i] != 'n')
 			return (0);
 	return (1);
 }
@@ -39,7 +39,10 @@ int	ft_echo(t_tkn	*content)
 	while (ft_isn(content->str[i]))
 		i++;
 	while (content->str[i])
-		printf("%s ", content->str[i++]);
+		if (content->str[i + 1])
+			printf("%s ", content->str[i++]);
+	else
+		printf("%s", content->str[i++]);
 	if (!ft_isn(content->str[1]))
 		printf("\n");
 	return (0);

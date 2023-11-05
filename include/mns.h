@@ -48,6 +48,7 @@ typedef struct s_shell
 	t_btree				*root;
 	char				**path;
 	char				*opath;
+	char				*upath;
 	char				**env;
 	char				**vars;
 	char				**exp;
@@ -119,5 +120,6 @@ int		clean_exp(t_shell *mns, char *str);
 int		ft_equaleval(char **sarr, char *str);
 int		ft_isdefined(t_shell *mns, char *str);
 int		ft_valid_identifier(char *str);
+char	*get_var_value(char **sarr, char *var);
 
 #endif

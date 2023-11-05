@@ -80,7 +80,6 @@ int	ft_check_command(t_shell *mns, t_tkn *cont)
 		mns->pid = fork();
 	if (!mns->pid)
 	{
-		printf("command: %s\n", cmd);
 		execve(cmd, cont->str, mns->env);
 		perror("execve failed");
 		exit(EXIT_FAILURE);

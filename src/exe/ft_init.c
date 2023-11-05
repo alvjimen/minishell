@@ -16,6 +16,7 @@
 void	init_minishell(t_shell *mns, char **envp)
 {
 	ft_bzero(mns, sizeof(t_shell));
+	mns->upath = get_var_value(envp, "HOME");
 	mns->vars = NULL;
 	mns->opath = getcwd(NULL, 0);
 	mns->exp = ft_sarrcpy(envp);
