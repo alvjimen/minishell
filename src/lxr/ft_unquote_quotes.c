@@ -43,13 +43,13 @@ static void	ft_unquote_quotes_regex_expand_regex(t_tkn *content,
 		t_quotes *quotes, t_lxr *lxr)
 {
 	content->regex = ft_regex_ls(quotes, lxr->str);
-	ft_destroy_quotes(&quotes);
 	free(lxr);
 	if (!content->regex)
 	{
 		content->token = ERROR;
 		return ;
 	}
+	ft_destroy_quotes(&quotes);
 	free(content->value);
 	content->value = ft_strdup(content->regex[0]);
 	if (!content->value)
