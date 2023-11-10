@@ -6,7 +6,7 @@
 /*   By: jvasquez <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/20 17:23:02 by jvasquez          #+#    #+#             */
-/*   Updated: 2023/11/10 17:03:40 by alvjimen         ###   ########.fr       */
+/*   Updated: 2023/11/10 17:21:30 by alvjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ char	**ft_sarrrmi(int index, char **arr)
 		return (arr);
 	new_arr = malloc(sizeof(char *) * (i));
 	if (!new_arr || (!index && i == 1))
-		return (ft_clean_exit(arr, new_arr));
+		return (free(new_arr), ft_clean_exit(arr, NULL));
 	i = -1;
 	j = 0;
 	while (arr[++i])
