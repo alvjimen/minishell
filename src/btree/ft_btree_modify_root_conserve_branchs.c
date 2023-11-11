@@ -6,7 +6,7 @@
 /*   By: alvjimen <alvjimen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/02 21:12:37 by alvjimen          #+#    #+#             */
-/*   Updated: 2023/06/18 15:26:44 by alvjimen         ###   ########.fr       */
+/*   Updated: 2023/11/11 16:38:46 by alvjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "btree.h"
@@ -103,6 +103,8 @@ void	ft_btree_modify_root_conserve_branchs_param(t_btree **root,
 		left = root[0]->left;
 		(*f)(root, param);
 	}
+	if (!root[0] && right)
+		(*f)(&right, param);
 	ft_set_root(root, &left, &right);
 	ft_set_branch(root, left, right);
 }
