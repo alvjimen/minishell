@@ -48,6 +48,7 @@ void	ft_exportprint(t_shell *mns)
 				printf("%s\"%s\"\n", parts[0], parts[1]);
 			else
 				printf("%s\"\"\n", parts[0]);
+			ft_sarrfree (&parts);
 		}
 		else
 			printf("%s\n", mns->exp[i]);

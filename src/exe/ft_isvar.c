@@ -30,6 +30,8 @@ int	update_all(t_shell *mns, char *value)
 	mns->exp = ft_update_var(mns->exp, value);
 	mns->env = ft_update_var(mns->env, value);
 	mns->vars = ft_update_var(mns->vars, value);
+	if (mns->path)
+		ft_sarrfree(&mns->path);
 	mns->path = ft_get_path(mns->env);
 	if (!mns->path)
 		mns->path = ft_get_path(mns->vars);
